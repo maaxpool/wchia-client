@@ -12,7 +12,11 @@ const options = {
       path: '/',
       name: 'Home',
       component: BlankView,
-      // redirect: '/explorer/blocks',
+      redirect: '/home',
+      children:[{
+        path: 'home',
+        component: () => import('@/pages/home')
+      }]
     },
     {
       path: '/auth',

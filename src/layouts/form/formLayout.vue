@@ -1,0 +1,92 @@
+<template>
+    <!-- :model="model" -->
+    <el-form :ref="domRef" label-width="labelWidth" :label-position="labelPosition">
+        <!-- <el-form-item label="名称">
+            <el-input  ></el-input>
+        </el-form-item> -->
+        <slot></slot>
+    </el-form>
+</template>
+
+<script>
+export default {
+    // props:['domRef', 'labelPosition']
+    props: {
+        domRef: {
+            default: '',
+            type: String
+        },
+        labelWidth: String,
+        labelPosition: {
+            default: 'left',
+            type: String
+        }
+    }
+}
+</script>
+
+<style scoped lang="scss">
+@import '@/style/custom';
+.el-form {
+    padding: 35px;
+    border-radius: 18px;
+    box-shadow: $--page-item-shodow-1;
+    background-color: $--color-white;
+}
+
+
+::v-deep .el-form-item {
+    &__label {
+        display: block;
+        font-size: 15px;
+        line-height: 20px;
+        color: $--color-black-1;
+        position: relative;
+        top: 0;
+        left: 0;
+    }
+
+    .top-append {
+        position: absolute;
+        top: 0;
+        right: 0;
+        line-height: inherit;
+    }
+
+    &__append {
+        position: absolute;
+        top: 50%;
+        right: 15px;
+        transform: translateY(-50%);
+        color: $--color-black-1;
+        z-index: 10;
+        &.handler {
+            cursor: pointer;
+        }
+    }
+}
+
+::v-deep .el-input {
+    &__inner {
+        background-color: #F8FFFA;
+    }
+}
+
+::v-deep .submit {
+    margin: 20px 0;
+    height: 47px;
+    display: block;
+    font-size: 18px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+::v-deep .extr-btn {
+    font-size: 18px;
+    color: $--color-primary;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+}
+
+</style>
