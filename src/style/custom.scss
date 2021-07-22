@@ -38,3 +38,8 @@ $--page-item-shodow-1: 0 0 22px 1px #E6EFFE;
 
 $--home-nav: #0D1A3D;
 
+
+@mixin displayFlex() {
+    display: -webkit-box;
+    display: flex;
+}

@@ -34,6 +34,17 @@ export default {
     background-color: $--color-white;
 }
 
+::v-deep .el-from-row {
+    @include displayFlex;
+    .el-form-item {
+        -webkit-box-flex: 1;
+        flex: 1;
+        margin-left: 15px;
+        &:first-child {
+            margin-left: 0;
+        }
+    }
+}
 
 ::v-deep .el-form-item {
     &__label {
@@ -70,6 +81,10 @@ export default {
     &__inner {
         background-color: #F8FFFA;
     }
+}
+
+::v-deep .el-select {
+    width: 100%;
 }
 
 ::v-deep .submit {

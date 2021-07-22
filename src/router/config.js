@@ -1,4 +1,5 @@
-import BlankView from '@/layouts/BlankView'
+import HomeView from '@/layouts/HomeView'
+import InnerView from '@/layouts/InnerView'
 
 // 路由配置
 const options = {
@@ -11,7 +12,7 @@ const options = {
     {
       path: '/',
       name: 'Home',
-      component: BlankView,
+      component: HomeView,
       redirect: '/home',
       children:[{
         path: 'home',
@@ -19,9 +20,17 @@ const options = {
       }]
     },
     {
-      path: '/auth',
-      name: '登录页',
-      component: () => import('@/pages/login'),
+      path: '/pages',
+      // name: 'SignUp',
+      component: InnerView,
+      children: [{
+        path: 'signup',
+        name: 'register',
+        component: () => import('@/pages/register'),
+        meta: {
+          bg: '#FAFAFA'
+        }
+      }]
       
     },
   ]

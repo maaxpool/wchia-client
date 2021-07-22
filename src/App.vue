@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :style="{backgroundColor: this.bg||'#FFFFFF'}">
     <router-view></router-view>
   </div>
 </template>
@@ -8,12 +8,16 @@
 export default {
   name: 'App',
   components: {},
-  created(){
-    
+  data(){
+    return {
+      bg: null
+    }
   },
   watch: {
-    $route() {
-      
+    $route(n) {
+      if(n.meta) {
+        this.bg = n.meta.bg
+      }
     }
   }
 }
@@ -50,6 +54,20 @@ ul, li, dl, dt, dd {
   margin: 0 auto;
   padding-left: 10px;
   padding-right: 10px;
+}
+
+a[href] {
+  -webkit-transition: all 0.25s;
+  transition: all 0.25s;
+  text-decoration: none;
+  &:visited {
+    color: inherit;
+  }
+
+  &:hover {
+    color: $--color-primary;  
+  }
+
 }
 
 </style>

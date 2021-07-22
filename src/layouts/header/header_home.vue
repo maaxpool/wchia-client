@@ -8,7 +8,7 @@
                 </ul>
 
                 <div class="append">
-                    <el-button class="" v-if="!isAuth" >注册</el-button>
+                    <el-button @click="goto('register')" class="" v-if="!isAuth" >注册</el-button>
                     <el-dropdown v-else>
                         <div class="el-dropdown-link">
                             <a class="avatar"></a>
@@ -44,6 +44,11 @@ export default {
                 name: '历史交易',
                 index: 4
             }]
+        }
+    },
+    methods: {
+        goto(pathName){
+            this.$router.push({name: pathName})
         }
     }
 }

@@ -98,31 +98,32 @@
                         </div>
                     </div>
                 </div>
-
-
-
-                <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+                <!-- @tab-click="handleClick" -->
+                <el-tabs v-model="activeName" type="card" >
                     <el-tab-pane label="用户管理" name="first">
                         <wxch-history-tb :tableData="tableData" />
-
                     </el-tab-pane>
-                    <el-tab-pane label="配置管理" name="second"></el-tab-pane>
+                    <el-tab-pane label="配置管理" name="second">
+                        <wxch-history-tb :tableData="tableData" />
+                    </el-tab-pane>
                 </el-tabs>
-
             </div>
         </div>
+
+        <page-footer />
 
     </div>
 </template>
 
 <script>
 import headerHomeBlock from '@/layouts/header/header_home_block.vue'
+import pageFooter from '@/layouts/footer'
 import formChargeWxch from '@/layouts/form/form_charge_wxch.vue'
 import formChargeXch from '@/layouts/form/form_charge_xch.vue'
 import wxchHistoryTb from '@/layouts/table/table_home.vue'
 export default {
     name: 'home',
-    components: {headerHomeBlock, formChargeWxch, formChargeXch, wxchHistoryTb},
+    components: {headerHomeBlock, formChargeWxch, formChargeXch, wxchHistoryTb, pageFooter},
     data(){
         return {
             activeName: 'first',
@@ -332,6 +333,12 @@ export default {
                     color: $--color-white;
                 }
             }
+
+            &__content {
+                overflow: visible;
+            }
+
+
         }
 
     }

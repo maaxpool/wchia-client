@@ -18,7 +18,7 @@ Vue.use(Element)
 
 // bootstrap({router, store, i18n, message: Vue.prototype.$message})
 
-console.log(router)
+// console.log(router)
 
 new Vue({
   router,
