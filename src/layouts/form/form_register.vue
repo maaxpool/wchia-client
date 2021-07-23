@@ -99,19 +99,36 @@ export default {
         }
     },
 
-    created(){
-        let $web3 = new Web3()
-        let accounts = $web3.eth.accounts
-        let instance = new $web3.eth.Contract()
-        console.log(accounts)
-        console.log(instance)
+    async created(){
+        // let instance = new Web3()
         
+        let web3Provider
+        if(window.ehtereum) {
+            console.log(1)
+            web3Provider = window.ehtereum
+            try {
+                await window.ehtereum.enable()
+            } catch (error) {
+                console.log('User denied account access')
+            }
+        } else if (window.web3) {
+            console.log(2)
+            web3Provider = window.web3.currentProvider
+        } else {
+            console.log(3)
+            web3Provider = new Web3.providers.HttpProvider('http://localhost:8080')
+        }
+
+        // web3Provider.enable()
+        console.log(web3Provider)
     },
     
     methods: {
         connectWalelt() {
-            console.log(123)
+            // console.log(123)
             // console.log(useWallet, UseWalletProvider)
+
+
         }
     }
 }
