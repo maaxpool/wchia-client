@@ -104,23 +104,27 @@ export default {
         
         let web3Provider
         if(window.ehtereum) {
-            console.log(1)
             web3Provider = window.ehtereum
-            try {
-                await window.ehtereum.enable()
-            } catch (error) {
-                console.log('User denied account access')
-            }
+            
         } else if (window.web3) {
-            console.log(2)
             web3Provider = window.web3.currentProvider
         } else {
-            console.log(3)
             web3Provider = new Web3.providers.HttpProvider('http://localhost:8080')
         }
 
         // web3Provider.enable()
-        console.log(web3Provider)
+        // console.log(web3Provider)
+        
+        try {
+            await web3Provider.enable()
+        } catch (error) {
+            console.log('User denied account access')
+        }
+
+        // console.log(web3Provider.isMetaMask)    // 是否安装 metamask
+        let isConnect = web3Provider.isConnected()
+        console.log(isConnect)
+
     },
     
     methods: {

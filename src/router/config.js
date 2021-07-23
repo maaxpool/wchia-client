@@ -30,8 +30,21 @@ const options = {
         meta: {
           bg: '#FAFAFA'
         }
+      }, {
+        path: 'account',
+        name: 'account',
+        component: () => import('@/pages/account'),
+        meta: {
+          bg: '#FAFAFA'
+        }
+      }, {
+        path: 'transDetail',
+        name: 'transDetail',
+        component: () => import('@/pages/transDetail'),
+        meta: {
+          bg: '#FAFAFA'
+        }
       }]
-      
     },
   ]
 }
