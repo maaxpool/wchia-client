@@ -1,37 +1,41 @@
 <template>
-    <formLayout domRef="chargeWXCH" :labelPosition="labelPosition" >
+    <formLayout domRef="chargeWXCH" :labelPosition="labelPosition" :rules="rules" >
         <el-form-item >
             <div class="cus-label" slot="label">
-                <span>发送 WXCH</span>
+                <span>{{$t('home.block4.item1Name')}}</span>
                 <div class="top-append">1 WXCH= 0.96 XCH</div>
             </div>
-            <el-input v-model="formData.name"></el-input>
+            <el-input v-model="formData.xchAmount"></el-input>
             <div class="el-form-item__append">XCH</div>
         </el-form-item>
 
-        <el-form-item >
+        <el-form-item prop="xchAmount" >
             <div class="cus-label" slot="label">
-                <span>兑换成 XCH</span>
+                <span>{{$t('home.block4.item2Name')}}</span>
             </div>
-            <el-input v-model="formData.name"></el-input>
+            <!-- <el-input v-model="formData.name"></el-input> -->
+            <div class="el-input">
+                <div class="el-input__inner block"></div>
+            </div>
             <div class="el-form-item__append">WXCH</div>
         </el-form-item>
 
+
         <el-form-item >
             <div class="cus-label" slot="label">
-                <span>XCH 地址</span>
+                <span>{{$t('home.block4.item3Name')}}</span>
             </div>
             <el-input v-model="formData.name"></el-input>
             <div class="el-form-item__append">WXCH</div>
         </el-form-item>
 
         <div class="desc">
-            手续费：0.04 %
+           {{$t('public.fee')}}:0.04 %
         </div>
 
-        <el-button class="submit" type="primary">换回XCH</el-button>
+        <el-button class="submit" type="primary" @click="submitForm" >{{$t('home.block4.btn1')}}</el-button>
 
-        <div class="extr-btn">取消</div>
+        <div class="extr-btn">{{$t('public.cancel')}}</div>
     </formLayout>
 </template>
 
@@ -43,8 +47,19 @@ export default {
         return {
             labelPosition: 'top',
             formData: {
-                name: '123'
+                xchAmount: '123'
+            },
+            rules: {
+                xchAmount: {require: '123', error: true}
             }
+        }
+    },
+    created(){
+        // console.log(this.rules)
+    },
+    methods: {
+        submitForm(){
+            
         }
     }
 }

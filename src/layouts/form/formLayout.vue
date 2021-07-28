@@ -1,6 +1,6 @@
 <template>
     <!-- :model="model" -->
-    <el-form :ref="domRef" label-width="labelWidth" :label-position="labelPosition">
+    <el-form :ref="domRef" label-width="labelWidth" :label-position="labelPosition" :rules="rules">
         <!-- <el-form-item label="名称">
             <el-input  ></el-input>
         </el-form-item> -->
@@ -17,10 +17,14 @@ export default {
             type: String
         },
         labelWidth: String,
+        rules: Object,
         labelPosition: {
             default: 'left',
             type: String
         }
+    },
+    mounted(){
+        console.log(this.rules, 123)
     }
 }
 </script>
@@ -80,6 +84,9 @@ export default {
 ::v-deep .el-input {
     &__inner {
         background-color: #F8FFFA;
+        &.block {
+            display: block;
+        }
     }
 }
 

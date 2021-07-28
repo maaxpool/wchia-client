@@ -3,24 +3,25 @@
         <div class="container">
             <div class="l-part">
                 <img class="logo" src="/img/logo_ft.png" />
-                <div class="desc">WXCH 是第一个以奇亚币 1:1<br />支持的 ERC20 代币。</div>
-                <div class="desc">如需帮助，请联系team@wxch.com</div>
+                <div class="desc">{{$t('footer.lpart.item1')}}</div>
+                <!-- <div class="desc">如需帮助，请联系team@wxch.com</div> -->
+                <div class="desc">{{$t('footer.lpart.item2', {email: 'team@wxch.com'})}}</div>
                 <el-dropdown>
                     <el-button>中文简体</el-button>
                     <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item>CN</el-dropdown-item>
-                        <el-dropdown-item>EN</el-dropdown-item>
+                        <el-dropdown-item>Englisth</el-dropdown-item>
+                        <el-dropdown-item>中文简体</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
             </div>
 
             <ul class="r-part">
-                <a href="/">About Broker</a>
-                <a>兑换WXCH</a>
-                <a>换回XCH</a>
-                <a>历史交易</a>
+                <a href="/">{{$t('navs.item1')}}</a>
+                <a>{{$t('navs.item2')}}</a>
+                <a>{{$t('navs.item3')}}</a>
+                <a>{{$t('navs.item4')}}</a>
                 <a class="connectus">
-                    <p>联系我们</p>
+                    <p>{{$t('navs.item5')}}</p>
                     <div class="connectus-tab">
                         <a class="item">
                             <img src="/img/icon_twitter.png" />

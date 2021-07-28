@@ -6,19 +6,21 @@ import {initRouter} from '@/router'
 import {initI18n} from '@/utils/i18n'
 import store from '@/store'
 
-// import bootstrap from '@/bootstrap'
+// import getLangOptions from '@/lang'
+
+
+import bootstrap from '@/bootstrap'
 import App from './App.vue'
 
 const router = initRouter()
-const i18n = initI18n()
+const i18n = initI18n('en')
 
 Vue.config.productionTip = false
 
 Vue.use(Element)
 
 // bootstrap({router, store, i18n, message: Vue.prototype.$message})
-
-// console.log(router)
+bootstrap({router, i18n})
 
 new Vue({
   router,

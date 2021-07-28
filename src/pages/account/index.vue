@@ -1,11 +1,11 @@
 <template>
     <div class="container">
-        <h2 class="page-title">个人设置</h2>
+        <h2 class="page-title">{{$t('account.pageTitle')}}</h2>
 
         <page-card class="page-inner">
             <div class="header" slot="header">
                 <div class="item">
-                    <label>交易时间: </label>
+                    <label>{{$t('account.subTitleItem1')}}: </label>
                     <span>2020-18-12</span>
                 </div>
             </div>
@@ -13,8 +13,8 @@
         </page-card>
 
         <div class="btn-group">
-            <el-button type="primary">Preserve</el-button>
-            <el-button type="primary" plain>Cancel</el-button>
+            <el-button type="primary">{{$t('account.btn1')}}</el-button>
+            <el-button type="primary" plain>{{$t('public.cancel')}}</el-button>
         </div>
     </div>    
 </template>

@@ -6,9 +6,10 @@ Vue.use(Router)
 
 const loginIgnore = {
   names: ['404'],
-  paths: ['/login'],
+  // paths: ['/login'],
   includes(route) {
-    return this.names.includes(route.name) || this.paths.includes(route.path)
+    // return this.names.includes(route.name) || this.paths.includes(route.path)
+    return this.names.includes(route.name)
   }
 }
 

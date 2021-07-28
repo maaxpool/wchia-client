@@ -4,15 +4,9 @@
         <div class="block block-1">
             <div class="container">
                 <div class="l-part">
-                    <h2>Transparency and security ensures trust</h2>
-                    <article>
-                        The greatest concern of moving assets across a chain via a bridge is trust built on top of security. 
-                        In order to establish such trust, we are taking the following measures: 1)to have a public audited smart
-                        contract and have the source code open to the public; 2) to be transparent with our services and our
-                        motivations and 3) to have multisig custodian services. By doing so, when you convert one XCH to WXCH,
-                        your proof of reserve is on-chain, there will be only one WXCH to be minted, and the WXCH will be burned
-                        when the XCH token is redeemed.</article>
-                    <el-button type="primary">Connect Wallet</el-button>
+                    <h2>{{$t('home.block1.title')}}</h2>
+                    <article>{{$t('home.block1.content')}}</article>
+                    <el-button type="primary"> {{$t('home.block1.button')}} </el-button>
                 </div>
                 <div class="r-part">
                     <!-- <div class="illustration"></div> -->
@@ -24,27 +18,27 @@
         <!-- block2 -->
         <div class="block block-2">
             <div class="container">
-                <headerHomeBlock title="About Broker" subTitle="您将看到Broker的基本信息，帮助您更好的进行交易。" />
+                <headerHomeBlock :title="$t('home.block2.title')" :subTitle="$t('home.block2.subTitle')" />
 
                 <el-row class="ctn">
                     <el-col>
                         <div class="top">
                             <img src="/img/block_2_1.png" alt=" " title=" " />
-                            <div class="desc">Broker’s Name</div>
+                            <div class="desc">{{$t('home.block2.item1Name')}}</div>
                         </div>
                         <div class="bottom">This is name</div>
                     </el-col>
                     <el-col>
                         <div class="top">
                             <img src="/img/block_2_2.png" alt=" " title=" " />
-                            <div class="desc">Broker’s Chia Wallet Address</div>
+                            <div class="desc">{{$t('home.block2.item2Name')}}</div>
                         </div>
                         <div class="bottom">xch1yycy4ehlnfsy6tqyyqmep9shpjcs89en6mhsx5cc0224ea92065qftefdj</div>
                     </el-col>
                     <el-col>
                         <div class="top">
                             <img src="/img/block_2_3.png" alt=" " title=" " />
-                            <div class="desc">Broker’s Ethereumaddress for WXCH</div>
+                            <div class="desc">{{$t('home.block2.item3Name')}}</div>
                         </div>
                         <div class="bottom">0x469ad638a0f12ab27a09127b98af2444a44c3661</div>
                     </el-col>
@@ -55,7 +49,7 @@
         <!-- block3 -->
         <div class="block block-3">
             <div class="container">
-                <headerHomeBlock title="兑换WXCH" subTitle="您可以把XCH兑换成WXCH，由此可以提高 Chia token 的流动性。" />
+                <headerHomeBlock :title="$t('home.block3.title')" :subTitle="$t('home.block3.subTitle')" />
                 <div class="inner">
                     <form-charge-wxch class="l-part"></form-charge-wxch>
                     <div class="r-part"><img src="/img/block_3_bg.png" /></div>
@@ -66,7 +60,7 @@
         <!-- block4 -->
         <div class="block block-4">
             <div class="container">
-                <headerHomeBlock title="换回XCH" subTitle="您可以随时把WXCH兑换回XCH到您注册的 Chia Wallet 中。" />
+                <headerHomeBlock :title="$t('home.block4.title')" :subTitle="$t('home.block4.subTitle')" />
                 <div class="inner">
                     <div class="l-part"><img src="/img/block_4_bg.png" /></div>
                     <form-charge-xch class="r-part"></form-charge-xch>
@@ -77,10 +71,10 @@
         <!-- block 5  -->
         <div class="block block-5">
             <div class="container">
-                <headerHomeBlock title="交易历史" />
+                <headerHomeBlock :title="$t('home.block5.title')" />
                 <div class="inner sum-board">
                     <div class="item">
-                        <h5>累计兑换 WXCH</h5>
+                        <h5>{{$t('home.block5.item1')}}</h5>
                         <div class="ctn">
                             <img src="/img/block_5_wxch.png" />
                             <div class="count">
@@ -89,7 +83,7 @@
                         </div>
                     </div>
                     <div class="item">
-                        <h5>累计换回 XCH</h5>
+                        <h5>{{$t('home.block5.item2')}}</h5>
                         <div class="ctn">
                             <img src="/img/block_5_xch.png" />
                             <div class="count">
@@ -100,13 +94,18 @@
                 </div>
                 <!-- @tab-click="handleClick" -->
                 <el-tabs v-model="activeName" type="card" >
-                    <el-tab-pane label="用户管理" name="first">
+                    <el-tab-pane :label="$t('home.block5.tab1')" name="first">
                         <wxch-history-tb :tableData="tableData" />
                     </el-tab-pane>
-                    <el-tab-pane label="配置管理" name="second">
+                    <el-tab-pane :label="$t('home.block5.tab2')" name="second">
                         <wxch-history-tb :tableData="tableData" />
                     </el-tab-pane>
                 </el-tabs>
+
+                <div class="pagation">
+                    <a class="prev disabled"></a>
+                    <a class="next"></a>
+                </div>
             </div>
         </div>
 
@@ -341,6 +340,39 @@ export default {
 
         }
 
+        .pagation {
+            margin: 36px 0 60px;
+            text-align: center;
+            a {
+                display: inline-block;
+                cursor: pointer;
+                width: 28px;
+                height: 28px;
+                margin: 0 10px;
+                background:  no-repeat center/100%;
+                opacity: 0.65;
+
+                &:hover {
+                    opacity: 0.8;
+                }
+                &:active {
+                    opacity: 1;
+                }
+
+                &.prev {
+                    background-image: url(/img/prev.png);
+                }
+
+                &.next {
+                    background-image: url(/img/next.png);
+                }
+
+                &.disabled {
+                    opacity: 0.2;
+                    cursor: default;
+                }
+            }
+        }
     }
 
 }

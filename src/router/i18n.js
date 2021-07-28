@@ -2,7 +2,7 @@ module.exports = {
   messages: {
     CN: {
     },
-    US: {
+    EN: {
     },
   }
 }

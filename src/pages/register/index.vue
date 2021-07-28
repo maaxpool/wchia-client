@@ -2,8 +2,8 @@
     <div class="container">
         <div class="inner" >
             <div class="l-part">
-                <h2 class="title">Create a WXCH account</h2>
-                <h5 class="sub-title">WXCH is the first ERC20 tokenbacked 1:1 with Chia</h5>
+                <h2 class="title">{{$t('register.pageTitle')}}</h2>
+                <h5 class="sub-title">{{$t('register.subTitle')}}</h5>
                 <form-register />
             </div>
             <div class="r-part">
@@ -16,7 +16,12 @@
 <script>
 import formRegister from '@/layouts/form/form_register.vue'
 export default {
-    components: {formRegister}
+    components: {formRegister},
+    data(){
+        return {
+            
+        }
+    }
 }
 </script>
 

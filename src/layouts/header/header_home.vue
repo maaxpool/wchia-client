@@ -8,14 +8,14 @@
                 </ul>
 
                 <div class="append">
-                    <el-button @click="goto('register')" class="" v-if="!isAuth" >注册</el-button>
+                    <el-button @click="goto('register')" class="" v-if="!isAuth" >{{$t('navs.btn1')}}</el-button>
                     <el-dropdown v-else>
                         <div class="el-dropdown-link">
                             <a class="avatar"></a>
                         </div>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item>个人设置</el-dropdown-item>
-                            <el-dropdown-item>退出登陆</el-dropdown-item>
+                            <el-dropdown-item>{{$t('navs.dropDownItem1')}}</el-dropdown-item>
+                            <el-dropdown-item>{{$t('navs.dropDownItem2')}}</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
                 </div>
@@ -32,16 +32,17 @@ export default {
         return {
             isAuth: false,
             navList:[{
-                name: 'About Broker',
+                // name: 'About Broker',
+                name: this.$t('navs.item1'),
                 index: 1,
             },{
-                name: '兑换WXCH',
+                name: this.$t('navs.item2'),
                 index: 2
             },{
-                name: '换回XCH',
+                name: this.$t('navs.item3'),
                 index: 3,
             },{
-                name: '历史交易',
+                name: this.$t('navs.item4'),
                 index: 4
             }]
         }
@@ -98,11 +99,12 @@ export default {
             li {
                 padding: 0 5px;
                 font-size: 18px;
-                margin-left: 40px;
+                margin-left: 20px;
                 color: $--color-white;
                 cursor: pointer;
                 // float: left;
                 opacity: 0.8;
+                white-space: nowrap;
                 &:hover {
                     opacity: 1;
                 }

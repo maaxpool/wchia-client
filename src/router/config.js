@@ -8,21 +8,23 @@ const options = {
       path: '*',
       name: '404',
       component: () => import('@/pages/exception/404'),
+
     },
+    
     {
       path: '/',
-      name: 'Home',
       component: HomeView,
       redirect: '/home',
       children:[{
+        name: 'home1',
         path: 'home',
         component: () => import('@/pages/home')
       }]
     },
     {
       path: '/pages',
-      // name: 'SignUp',
       component: InnerView,
+      redirect: '/404',
       children: [{
         path: 'signup',
         name: 'register',

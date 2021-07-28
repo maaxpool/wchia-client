@@ -4,6 +4,10 @@ const productionGzipExtensions = ['js', 'css']
 const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = {
+    publicPath: process.env.NODE_ENV === 'production' ? '/public/' : './',
+    productionSourceMap: false,
+    assetsDir: "assets",
+    lintOnSave: false,      // 禁用eslint
     configureWebpack: config => {
         if (isProd) {
                 config.plugins.push(new CompressionWebpackPlugin({
@@ -13,6 +17,6 @@ module.exports = {
                     minRatio: 0.8
                 }))
         }
-    }
+    },
 
 }

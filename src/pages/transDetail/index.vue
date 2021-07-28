@@ -1,19 +1,19 @@
 <template>
     <div class="container">
-        <h2 class="page-title">交易详情</h2>
+        <h2 class="page-title">{{$t('transDetail.pageTitle')}}</h2>
 
         <page-card class="page-inner">
             <div class="header" slot="header">
                 <div class="item">
-                    <label>交易时间: </label>
+                    <label>{{$t('transDetail.subTitleItem1')}}:</label>
                     <span>2020-18-12</span>
                 </div>
                 <div class="item">
-                <label>结果: </label>
+                <label>{{$t('transDetail.subTitleItem2')}}:</label>
                     <span>已完成</span>
                 </div>
                 <div class="item">
-                    <label>手续费: </label>
+                    <label>{{$t('transDetail.subTitleItem3')}}:</label>
                     <span>20.0000 XCH</span>
                 </div>
             </div>
@@ -37,36 +37,37 @@ export default {
     data(){
         return {
             dataList:[{
-                name: 'XCH发送地址',
+                // name: 'XCH发送地址',
+                name: this.$t('transDetail.item1Name'),
                 val: 'xch1yycy4ehlnfsy6tqyyqmep9shpjcs89en6mhsx5cc0224ea92065qftefdj'
             },{
-                name: 'XCH接收地址',
+                name: this.$t('transDetail.item2Name'),
                 val: 'xch1yycy4ehlnfsy6tqyyqmep9shpjcs89en6mhsx5cc0224ea92065qftefdj'
             },{
-                name: 'XCH数量',
+                name: this.$t('transDetail.item3Name'),
                 val: '4000.0000'
             },{
-                name: '状态',
+                name: this.$t('transDetail.item4Name'),
                 val: '已确认'
             },{
-                name: 'Chia transaction',
+                name: this.$t('transDetail.item5Name'),
                 val: '31fd625f1e88b1dff7b3c0f30f849a52709265fe577286898c3a30ea0df709e0',
                 ishandler: true,
                 full: true
             },{
-                name: 'WXCH发送地址',
+                name: this.$t('transDetail.item6Name'),
                 val: '0xf4124710aab2bfb0020d9c25b0f1bd7ec4e93cad'
             },{
-                name: 'WXCH接收地址',
+                name: this.$t('transDetail.item7Name'),
                 val: '0xf4124710aab2bfb0020d9c25b0f1bd7ec4e93cad'
             },{
-                name: 'WXCH数量',
+                name: this.$t('transDetail.item8Name'),
                 val: '3980.0000'
             },{
-                name: '状态',
+                name: this.$t('transDetail.item9Name'),
                 val: '已确认'
             },{
-                name: 'Ethereum transaction',
+                name: this.$t('transDetail.item10Name'),
                 val: '0xe6bcd55a4142a4506c847c9f03c413e820c6adfb0cebc77bc3bccc7538315ed4',
                 ishandler: true
             },]

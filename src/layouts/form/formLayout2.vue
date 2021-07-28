@@ -1,6 +1,6 @@
 <template>
     <!-- :model="model" -->
-    <el-form :ref="domRef" :label-width="labelWidth" :label-position="labelPosition">
+    <el-form :ref="domRef" :label-width="labelWidth" :label-position="labelPosition" :rules="rules" >
         <slot></slot>
     </el-form>
 </template>
@@ -19,7 +19,8 @@ export default {
         labelPosition: {
             default: 'left',
             type: String
-        }
+        },
+        rules: Object
     }
 }
 </script>
