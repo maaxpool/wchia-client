@@ -2,20 +2,7 @@
     <div class="header header-page">
         <div class="header-fixed-board">
             <div class="content">
-                <a class="logo"></a>
-
-                <!-- <div class="append">
-                    <el-button class="" v-if="!isAuth" >注册</el-button>
-                    <el-dropdown v-else>
-                        <div class="el-dropdown-link">
-                            <a class="avatar"></a>
-                        </div>
-                        <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item>个人设置</el-dropdown-item>
-                            <el-dropdown-item>退出登陆</el-dropdown-item>
-                        </el-dropdown-menu>
-                    </el-dropdown>
-                </div> -->
+                <a class="logo" @click="goTo('home')"></a>
             </div>
         </div>
     </div>
@@ -28,6 +15,11 @@ export default {
     data(){
         return {
             isAuth: false,
+        }
+    },
+    methods: {
+        goTo(pathName) {
+            this.$router.push({name: pathName})
         }
     }
 }

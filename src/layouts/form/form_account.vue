@@ -1,30 +1,34 @@
 <template>
     <formLayout domRef="chargeWXCH" :labelPosition="labelPosition" :labelWidth="labelWidth">
-
         <!-- user name -->
-        <div class="el-from-row">
+        <div class="el-from-row" v-if="user" >
             <el-form-item :label="$t('account.item1Name')" >
-                <div class="el-input__view">{{formData.name.first}}</div>
+                <div class="el-input__view">{{user.first_name}}</div>
             </el-form-item>
-            <el-form-item :label="$t('account.item1Name')" >
-                <div class="el-input__view">{{formData.name.last}}</div>
+            <el-form-item :label="$t('account.item2Name')" >
+                <div class="el-input__view">{{user.last_name}}</div>
             </el-form-item>
         </div>
 
         <!-- country -->
-        <div class="el-from-row">
+        <div class="el-from-row" v-if="user" >
             <el-form-item :label="$t('account.item3Name')" >
-                <div class="el-input__view">{{formData.country}}</div>
+                <div class="el-input__view">{{user.country}}</div>
             </el-form-item>
         </div>
 
         <!-- phone -->
         <div class="el-from-row phoneItem">
             <el-form-item :label="$t('account.item4Name')">
-                <div class="el-input__view"> + {{formData.location}}</div>
+                <!-- <div class="el-input__view"> + {{formData.phone_prefix}}</div> -->
+
+                <el-select class="phone_prefix" :placeholder="$t('public.placeholder2')"  v-model="formData.phone_prefix">
+                    <el-option v-for="(item, idx) in codeList" :key="'code_'+idx" 
+                        :label="`+ ${item}`" :value="idx"></el-option>
+                </el-select>
             </el-form-item>
             <el-form-item label-width="0">
-                <el-input v-model="formData.ohone" :placeholder="$t('public.placeholder1')" />
+                <el-input v-model="formData.phone" :placeholder="$t('public.placeholder1')" />
             </el-form-item>
         </div>
 
@@ -52,7 +56,7 @@
         <!-- zip -->
         <div class="el-from-row">
             <el-form-item :label="$t('account.item8Name')">
-                <el-input v-model="formData.zip" :placeholder="$t('public.placeholder1')" />
+                <el-input v-model="formData.zip_code" :placeholder="$t('public.placeholder1')" />
             </el-form-item>
         </div>
 
@@ -66,14 +70,14 @@
         <!-- Chia Wallet Address -->
         <div class="el-from-row">
             <el-form-item :label="$t('account.item10Name')">
-                <div class="el-input__view">{{formData.chia}}</div>
+                <div class="el-input__view">{{xch_address}}</div>
             </el-form-item>
         </div>
 
         <!-- ETH Wallet Address -->
         <div class="el-from-row">
             <el-form-item :label="$t('account.item11Name')">
-                <div class="el-input__view">{{formData.eth}}</div>
+                <div class="el-input__view">{{account}}</div>
             </el-form-item>
         </div>
 
@@ -81,34 +85,78 @@
 </template>
 
 <script>
+import formAccount from '@/layouts/form/form_account.vue'
 import formLayout from './formLayout2'
+import countrys from '@/temp/countrys'
 // import { useWallet, UseWalletProvider } from 'use-wallet'
+import {mapGetters} from 'vuex'
 export default {
     components: {formLayout},
+    computed: {
+        ...mapGetters('user', {
+            user: 'user',
+            xch_address: 'xch_address'
+        }),
+        ...mapGetters('ethereum', {
+            account: 'account',
+            eth_sign: 'eth_sign',
+            auth_msg: 'auth_msg'
+        }),
+    },
+    watch: {
+        user: {
+            handler(options) {
+                if (options) {
+                    this.formData = {
+                        phone: options['phone'],
+                        phone_prefix: options['phone_prefix'],
+                        address: options['address'],
+                        city: options['city'],
+                        state: options['state'],
+                        zip_code: options['zip_code'],
+                        email: options['email'],
+                    }
+                }
+            },
+            immediate: true,
+            deep: true
+        }
+    },
     data(){
         return {
             labelPosition: 'left',
             labelWidth: '206px',
+            codeList: countrys.map(item => item['code']),
             formData: {
-                name: {first: '123', last: '455'},
-                country: 'America',
-                phone: '12345',
-                location: '001',
-                address: '',
-                city: '',
-                state: '',
-                zip: '',
-                email: '',
-                chia: 'xch1yycy4ehlnfsy6tqyyqmep9shpjcs89en6mhsx5cc0224ea92065qftefdj',
-                eth: '0xf4124710aab2bfb0020d9c25b0f1bd7ec4e93cad'
+                phone: null,
+                phone_prefix: null,
+                address: null,
+                city: null,
+                state: null,
+                zip_code: null,
+                email: null,
             },
         }
     },
     methods: {
-        connectWalelt() {
-            // console.log(123)
-            // console.log(useWallet, UseWalletProvider)
+        submit() {
+            let options = {
+                ...this.formData,
+                eth_address: this.account,
+                eth_signature: this.eth_sign,
+                auth_msg: this.auth_msg
+            }
 
+            this.$http.put('/user', options)
+                .then(res => {
+                    if(res && res['success']) {
+                        let newData = Object.assign(this.user, this.formData)
+                        this.$store.commit('user/user', JSON.stringify(newData))
+                        this.$message(res['success'])
+                    }
+                }).catch(err => {
+                    console.log(err)
+                })
 
         }
     }
@@ -121,7 +169,12 @@ export default {
 .phoneItem {
     .el-form-item:first-child {
         flex: 0;
-        .el-input__view {
+        // .el-input__view {
+        //     width: 100px;
+        //     background-color: #F9F9F9;
+        //     text-align: center;
+        // }
+        .phone_prefix {
             width: 100px;
             background-color: #F9F9F9;
             text-align: center;

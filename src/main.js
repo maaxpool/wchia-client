@@ -5,8 +5,9 @@ import '@/style/element-variables.scss'
 import {initRouter} from '@/router'
 import {initI18n} from '@/utils/i18n'
 import store from '@/store'
-
+import Http from '@/utils/http'
 // import getLangOptions from '@/lang'
+import metamaskUtils from '@/utils/metaMaskUtils'
 
 
 import bootstrap from '@/bootstrap'
@@ -19,8 +20,10 @@ Vue.config.productionTip = false
 
 Vue.use(Element)
 
+Vue.prototype.$http = Http
+Vue.prototype.$metaMaskUtils = new metamaskUtils()
 // bootstrap({router, store, i18n, message: Vue.prototype.$message})
-bootstrap({router, i18n})
+bootstrap({router})
 
 new Vue({
   router,

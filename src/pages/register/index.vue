@@ -19,9 +19,8 @@ export default {
     components: {formRegister},
     data(){
         return {
-            
         }
-    }
+    },
 }
 </script>
 

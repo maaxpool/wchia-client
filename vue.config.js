@@ -19,4 +19,13 @@ module.exports = {
         }
     },
 
+    devServer: {
+        open: true,
+        proxy: {
+            '/rpc': {
+                target: process.env.VUE_APP_URL,
+                changeOrigin: true,         // 是否改变域名
+            }
+        }
+    }   
 }

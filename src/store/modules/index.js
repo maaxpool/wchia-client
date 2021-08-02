@@ -1,3 +1,4 @@
-import test from './test'
+import ethereum from './ethereum'
+import user from './user'
 
-export default {test}
+export default {user, ethereum}

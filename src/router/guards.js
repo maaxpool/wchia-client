@@ -1,7 +1,8 @@
 // import {hasAuthority} from '@/utils/authority-utils'
-import {loginIgnore} from '@/router/index'
+import {isAuthed} from '@/router/index'
 // import {checkAuthorization} from '@/utils/request'
 import NProgress from 'nprogress'
+import { checkAuthorization } from '../utils/authUtils'
 
 NProgress.configure({ showSpinner: false })
 
@@ -35,6 +36,15 @@ const loginGuard = (to, from, next, options) => {
   } else {
     next()
   } */
+  if (isAuthed.includes(to) && checkAuthorization()) {
+      try {
+        next('/home')
+      } catch (err) {
+        console.log(err)
+      }
+      return false
+  }
+
   next()
 }
 

@@ -9,12 +9,12 @@
                     <span>2020-18-12</span>
                 </div>
             </div>
-            <form-account></form-account>
+            <form-account ref="formAccount"></form-account>
         </page-card>
 
         <div class="btn-group">
-            <el-button type="primary">{{$t('account.btn1')}}</el-button>
-            <el-button type="primary" plain>{{$t('public.cancel')}}</el-button>
+            <el-button type="primary" @click="submit">{{$t('account.btn1')}}</el-button>
+            <!-- <el-button type="primary" plain>{{$t('public.cancel')}}</el-button> -->
         </div>
     </div>    
 </template>
@@ -24,7 +24,12 @@ import pageCard from '@/layouts/card'
 import formAccount from '@/layouts/form/form_account.vue'
 export default {
     name: 'account',
-    components: {pageCard, formAccount}
+    components: {pageCard, formAccount},
+    methods: {
+        submit(){
+            this.$refs['formAccount'].submit()
+        }
+    }
 }
 </script>
 

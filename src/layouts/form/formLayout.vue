@@ -1,6 +1,12 @@
 <template>
     <!-- :model="model" -->
-    <el-form :ref="domRef" label-width="labelWidth" :label-position="labelPosition" :rules="rules">
+    <el-form 
+        :model="model"
+        :ref="domRef" 
+        :label-width="labelWidth" 
+        :label-position="labelPosition" 
+        :rules="rules"
+    >
         <!-- <el-form-item label="名称">
             <el-input  ></el-input>
         </el-form-item> -->
@@ -12,6 +18,7 @@
 export default {
     // props:['domRef', 'labelPosition']
     props: {
+        model: Object,
         domRef: {
             default: '',
             type: String
@@ -23,8 +30,22 @@ export default {
             type: String
         }
     },
-    mounted(){
+    /* mounted(){
         console.log(this.rules, 123)
+    }, */
+    methods: {
+        validate(){
+            return new Promise((resolve, refuse) => {
+                this.$refs[this.domRef].validate((vail) => {
+                    console.log(vail)
+                    if(vail) {
+                        resolve()
+                    } else {
+                        this.$message('Please finish the account info.')
+                    }
+                })
+            })
+        },
     }
 }
 </script>
@@ -51,6 +72,10 @@ export default {
 }
 
 ::v-deep .el-form-item {
+    // &__content {
+    //     height: 40px;
+    // }
+
     &__label {
         display: block;
         font-size: 15px;
@@ -59,6 +84,9 @@ export default {
         position: relative;
         top: 0;
         left: 0;
+        &::before {
+            display: none;
+        }
     }
 
     .top-append {
@@ -77,16 +105,23 @@ export default {
         z-index: 10;
         &.handler {
             cursor: pointer;
+            &:hover{
+                color: $--color-primary;
+            }
         }
     }
 }
 
 ::v-deep .el-input {
-    &__inner {
-        background-color: #F8FFFA;
-        &.block {
+    &.block {
+        display: block;
+        .el-input__inner {
             display: block;
         }
+    }
+
+    &__inner {
+        background-color: #F8FFFA;
     }
 }
 

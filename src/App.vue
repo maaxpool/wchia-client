@@ -5,6 +5,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'App',
   components: {},
@@ -12,6 +13,8 @@ export default {
     return {
       bg: null
     }
+  },
+  created(){
   },
   watch: {
     $route(n) {

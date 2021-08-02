@@ -6,7 +6,7 @@
                 <div class="l-part">
                     <h2>{{$t('home.block1.title')}}</h2>
                     <article>{{$t('home.block1.content')}}</article>
-                    <el-button type="primary"> {{$t('home.block1.button')}} </el-button>
+                    <el-button type="primary" @click="connectWallet" v-if="!account||!eth_sign" > {{$t('home.block1.button')}} </el-button>
                 </div>
                 <div class="r-part">
                     <!-- <div class="illustration"></div> -->
@@ -115,14 +115,28 @@
 </template>
 
 <script>
+
 import headerHomeBlock from '@/layouts/header/header_home_block.vue'
 import pageFooter from '@/layouts/footer'
 import formChargeWxch from '@/layouts/form/form_charge_wxch.vue'
 import formChargeXch from '@/layouts/form/form_charge_xch.vue'
 import wxchHistoryTb from '@/layouts/table/table_home.vue'
+
+import {getUserInfo} from '@/utils/authUtils'
+import {mapGetters} from 'vuex'
 export default {
     name: 'home',
     components: {headerHomeBlock, formChargeWxch, formChargeXch, wxchHistoryTb, pageFooter},
+    computed: {
+        ...mapGetters('ethereum', {
+            account: 'account',
+            eth_sign: 'eth_sign'
+        }),
+        ...mapGetters('user', {
+            xch_address: 'xch_address'
+        })
+
+    },
     data(){
         return {
             activeName: 'first',
@@ -134,8 +148,15 @@ export default {
             }]
         }
     },
-    mounted(){
-        
+    watch: {
+        account(){
+            getUserInfo(this)
+        }
+    },
+    methods: {
+        connectWallet(){
+            this.$metaMaskUtils.ethSign()
+        },
     }
 }
 </script>

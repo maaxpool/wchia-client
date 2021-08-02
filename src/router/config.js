@@ -16,7 +16,7 @@ const options = {
       component: HomeView,
       redirect: '/home',
       children:[{
-        name: 'home1',
+        name: 'home',
         path: 'home',
         component: () => import('@/pages/home')
       }]

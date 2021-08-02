@@ -2,22 +2,14 @@
     <div class="header header-page">
         <div class="header-fixed-board">
             <div class="content">
-                <a class="logo"></a>
+                <a class="logo" @click="goto(home)"></a>
                 <ul class="navbar">
                     <li v-for="(item, index) in navList" :key="`nav_item_${index}`">{{item.name}}</li>
                 </ul>
 
                 <div class="append">
-                    <el-button @click="goto('register')" class="" v-if="!isAuth" >{{$t('navs.btn1')}}</el-button>
-                    <el-dropdown v-else>
-                        <div class="el-dropdown-link">
-                            <a class="avatar"></a>
-                        </div>
-                        <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item>{{$t('navs.dropDownItem1')}}</el-dropdown-item>
-                            <el-dropdown-item>{{$t('navs.dropDownItem2')}}</el-dropdown-item>
-                        </el-dropdown-menu>
-                    </el-dropdown>
+                    <el-button v-if="!user" @click="goto('register')"  >{{$t('navs.btn1')}}</el-button>
+                    <router-link v-else class="usrLogo" :to="{name: 'account'}" ></router-link>
                 </div>
             </div>
         </div>
@@ -25,9 +17,16 @@
 </template>
 
 <script >
+import {mapGetters} from 'vuex'
 export default {
     name: 'HeaderHome',
     i18n: require('./i18n'),
+    computed: {
+        ...mapGetters('user', {
+            xch_address: 'xch_address',
+            user: 'user'
+        }),
+    },
     data(){
         return {
             isAuth: false,
@@ -122,6 +121,14 @@ export default {
                 font-size: 22px;
                 border-radius: 9px;
                 padding: 0;
+            }
+
+            .usrLogo {
+                width: 40px;
+                height: 40px;
+                cursor: pointer;
+                display: block;
+                background: url(/img/user_logo.png) no-repeat center/100%;
             }
         }
 

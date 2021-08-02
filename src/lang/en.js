@@ -8,6 +8,11 @@ export default {
 
         placeholder1: 'Please enter',
         placeholder2: 'Please select',
+
+    },
+    msg: {
+        require: '{val} is required',
+        rational: 'please input the rational'
     },
     navs: {
         item1: 'About Broker',
