@@ -53,7 +53,7 @@ export default {
 }
 
 ::v-deep .el-form-item {
-    margin-bottom: 40px;
+    margin-bottom: 35px;
 
     &__label {
         display: block;
@@ -93,8 +93,6 @@ export default {
     &__view {
         height: 40px;
         line-height: 40px;
-        // padding-left: 15px;
-        // padding-right: 15px;
     }
 }
 

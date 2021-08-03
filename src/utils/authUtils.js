@@ -16,7 +16,7 @@ const getUserInfo = ($app) => {
             if (storage.getters['user/user'])
                 return false
 
-            $http.get('/user', {
+            $http('get_user', {
                 eth_address: storage.getters['ethereum/account'],
                 eth_signature:storage.getters['ethereum/eth_sign'],
                 auth_msg: String(storage.getters['ethereum/auth_msg'])
@@ -24,7 +24,6 @@ const getUserInfo = ($app) => {
                 if (res && res['success']) {
                     let data = res['msg']
                     storage.commit('user/user', data)
-                    storage.commit('user/xch_address', data['chia_address'])
                 }
                 
             }).catch(err => {

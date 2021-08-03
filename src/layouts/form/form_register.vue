@@ -180,7 +180,7 @@ export default {
                         "auth_msg": this.auth_msg
                     }
 
-                    this.$http.post('/user', options).then(res => {
+                    this.$http('register', options).then(res => {
                         if(res&&res['msg']) {
                             let data = res['msg']
                             this.$store.commit('user/xch_address', data['chia_address'])

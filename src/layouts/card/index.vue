@@ -2,8 +2,6 @@
     <el-card class="box-card">
         <div slot="header" class="clearfix">
             <slot name="header"></slot>
-            <!-- <span>卡片名称</span> -->
-            <!-- <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button> -->
         </div>
         <slot></slot>
     </el-card>
@@ -28,7 +26,7 @@ export default {
     }
 
     &__body {
-        padding: 50px;
+        padding: 40px 50px 65px;
     }
 }
 

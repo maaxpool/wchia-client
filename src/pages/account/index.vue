@@ -1,19 +1,23 @@
 <template>
-    <div class="container">
+<!-- v-loading="!loadingWatcher" -->
+    <div class="container" >
         <h2 class="page-title">{{$t('account.pageTitle')}}</h2>
-
-        <page-card class="page-inner">
+        
+        <page-card class="page-inner" v-loading="loadingWatcher.indexOf('modify_user') > -1" element-loading-background="rgba(255, 255, 255, 0.5)" >
             <div class="header" slot="header">
                 <div class="item">
                     <label>{{$t('account.subTitleItem1')}}: </label>
-                    <span>2020-18-12</span>
+                    <span>--</span>
                 </div>
             </div>
             <form-account ref="formAccount"></form-account>
         </page-card>
 
-        <div class="btn-group">
-            <el-button type="primary" @click="submit">{{$t('account.btn1')}}</el-button>
+        <div class="btn-group" >
+            <el-button type="primary" @click="submit" :disabled="modifyUserLoading">
+                <template v-if="!modifyUserLoading"> {{$t('account.btn1')}} </template>
+                <template v-else> Loading... </template>
+            </el-button>
             <!-- <el-button type="primary" plain>{{$t('public.cancel')}}</el-button> -->
         </div>
     </div>    
@@ -22,13 +26,24 @@
 <script>
 import pageCard from '@/layouts/card'
 import formAccount from '@/layouts/form/form_account.vue'
+import {mapGetters} from 'vuex'
 export default {
     name: 'account',
     components: {pageCard, formAccount},
+    computed: {
+        ...mapGetters('situation', {
+            loadingWatcher: 'loadingWatcher'
+        }),
+        modifyUserLoading() {
+            return this.loadingWatcher.indexOf('modify_user') > -1
+        }
+    },
     methods: {
         submit(){
+            if (this.modifyUserLoading)
+                return false
             this.$refs['formAccount'].submit()
-        }
+        },
     }
 }
 </script>
@@ -38,6 +53,7 @@ export default {
 .page-title {
     font-size: 22px;
     margin: 30px 0;
+    font-weight: 500;
 }
 
 .page-inner {

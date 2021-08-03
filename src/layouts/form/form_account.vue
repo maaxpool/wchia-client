@@ -1,5 +1,6 @@
 <template>
     <formLayout domRef="chargeWXCH" :labelPosition="labelPosition" :labelWidth="labelWidth">
+
         <!-- user name -->
         <div class="el-from-row" v-if="user" >
             <el-form-item :label="$t('account.item1Name')" >
@@ -70,7 +71,7 @@
         <!-- Chia Wallet Address -->
         <div class="el-from-row">
             <el-form-item :label="$t('account.item10Name')">
-                <div class="el-input__view">{{xch_address}}</div>
+                <div class="el-input__view">{{xch_address || user.chia_address}}</div>
             </el-form-item>
         </div>
 
@@ -125,7 +126,7 @@ export default {
     data(){
         return {
             labelPosition: 'left',
-            labelWidth: '206px',
+            labelWidth: '168px',
             codeList: countrys.map(item => item['code']),
             formData: {
                 phone: null,
@@ -147,7 +148,8 @@ export default {
                 auth_msg: this.auth_msg
             }
 
-            this.$http.put('/user', options)
+            console.log(this.eth_sign)
+            this.$http('modify_user', options)
                 .then(res => {
                     if(res && res['success']) {
                         let newData = Object.assign(this.user, this.formData)
@@ -155,7 +157,7 @@ export default {
                         this.$message(res['success'])
                     }
                 }).catch(err => {
-                    console.log(err)
+                    console.error(err)
                 })
 
         }
