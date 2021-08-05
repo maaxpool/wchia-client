@@ -16,7 +16,7 @@
         </div>
 
         <!-- block2 -->
-        <div class="block block-2">
+        <div id="Block_2" class="block block-2">
             <div class="container">
                 <headerHomeBlock :title="$t('home.block2.title')" :subTitle="$t('home.block2.subTitle')" />
 
@@ -47,7 +47,7 @@
         </div>
 
         <!-- block3 -->
-        <div class="block block-3">
+        <div id="Block_3" class="block block-3">
             <div class="container">
                 <headerHomeBlock :title="$t('home.block3.title')" :subTitle="$t('home.block3.subTitle')" />
                 <div class="inner">
@@ -58,7 +58,7 @@
         </div>
 
         <!-- block4 -->
-        <div class="block block-4">
+        <div id="Block_4" class="block block-4">
             <div class="container">
                 <headerHomeBlock :title="$t('home.block4.title')" :subTitle="$t('home.block4.subTitle')" />
                 <div class="inner">
@@ -69,7 +69,7 @@
         </div>
 
         <!-- block 5  -->
-        <div class="block block-5">
+        <div id="Block_5" class="block block-5">
             <div class="container">
                 <headerHomeBlock :title="$t('home.block5.title')" />
                 <div class="inner sum-board">
@@ -94,17 +94,22 @@
                 </div>
                 <!-- @tab-click="handleClick" -->
                 <el-tabs v-model="activeName" type="card" >
-                    <el-tab-pane :label="$t('home.block5.tab1')" name="first">
-                        <wxch-history-tb :tableData="tableData" />
+                    <el-tab-pane :class="{'no-data': !(table_wrap.list.length > 0)}" :label="$t('home.block5.tab1')" name="wrap">
+                        <!-- <wxch-history-tb :tableData="table_wrap.list" /> -->
+                        <wxch-history-tb v-if="table_wrap.list.length > 0" :tableData="table_wrap.list" />
+                        <no-data v-else />
                     </el-tab-pane>
-                    <el-tab-pane :label="$t('home.block5.tab2')" name="second">
-                        <wxch-history-tb :tableData="tableData" />
+                    <el-tab-pane :class="{'no-data': !(table_wrap.list.length > 0)}" :label="$t('home.block5.tab2')" name="unwrap">
+                        <wxch-history-tb v-if="table_unwrap.list.length > 0" :tableData="table_unwrap.list" />
+                        <no-data v-else />
                     </el-tab-pane>
                 </el-tabs>
 
-                <div class="pagation">
-                    <a class="prev disabled"></a>
-                    <a class="next"></a>
+                <!-- {{pagation}} -->
+                <div class="pagation" v-if="pagation.total > 10">
+                    <span>{{pagation.from}} ~ {{pagation.to}} of {{pagation.total}}</span>
+                    <a class="prev" :class="{disabled:(pagation.page==1)}" @click="turn(-1)"></a>
+                    <a class="next" :class="{disabled:(pagation.page >= pagation.last)}" @click="turn(1)"></a>
                 </div>
             </div>
         </div>
@@ -121,41 +126,95 @@ import pageFooter from '@/layouts/footer'
 import formChargeWxch from '@/layouts/form/form_charge_wxch.vue'
 import formChargeXch from '@/layouts/form/form_charge_xch.vue'
 import wxchHistoryTb from '@/layouts/table/table_home.vue'
+import noData from '@/layouts/nodata'
 
 import {getUserInfo} from '@/utils/authUtils'
 import {mapGetters} from 'vuex'
 export default {
     name: 'home',
-    components: {headerHomeBlock, formChargeWxch, formChargeXch, wxchHistoryTb, pageFooter},
+    components: {headerHomeBlock, formChargeWxch, formChargeXch, wxchHistoryTb, pageFooter, noData},
     computed: {
         ...mapGetters('ethereum', {
             account: 'account',
             eth_sign: 'eth_sign'
         }),
         ...mapGetters('user', {
-            xch_address: 'xch_address'
-        })
-
+            xch_address: 'xch_address',
+            user: 'user'
+        }),
+        pagation(){
+            let type_ = this.activeName,
+                cur = this['table_'+type_],
+                from = (cur['page'] - 1)*cur['size'] + 1,
+                to = (cur['page'])*cur['size'],
+                total = cur['total'],
+                last = cur['total']%cur['size']
+            
+            return {
+                from, to, total, last, page: cur['page']
+            }
+        }
     },
     data(){
         return {
-            activeName: 'first',
-            tableData:[{
-                date: 545645156,
-                amount: '56445.156456',
-                out: '4564e5f6w4f5w4f56ewf1e5wf',
-                in: 'efj2efij23fr4545f6734f56sdf',
-            }]
+            activeName: 'wrap',
+            size: 20,
+            page: 1,
+            table_wrap: {
+                page: 1,
+                size: 10,
+                total: 0,
+                list: []
+            },
+            table_unwrap: {
+                page: 1,
+                size: 10,
+                total: 0,
+                list: []
+            }
         }
     },
     watch: {
         account(){
             getUserInfo(this)
+        },
+        page(n){
+            this.getTranscationData()
         }
     },
+    mounted(){
+        this.getTranscationData()
+    },
     methods: {
-        connectWallet(){
+        async connectWallet(){
+            if(!this.account) {
+                await this.$metaMaskUtils.initlization()
+            }
+
             this.$metaMaskUtils.ethSign()
+        },
+        getTranscationData(){
+            if(!this.user) return false
+
+            let type_ = this.activeName
+            this.$http('transaction_list', {
+                type: this.activeName,
+                size: this['table_'+type_]['size'],
+                page: this['table_'+type_]['page']
+            }).then(res => {
+                if(res && res['success']) {
+                    let data = res['msg']
+                    this['table_'+type_]['total'] = data.total
+                    this['table_'+type_]['list'] = data.transactions
+                }
+            }).catch(err => {
+                console.log(err)
+            })
+        },
+        turn(page){
+            let type_ = this.activeName
+            this['table_'+type_]['page'] + page
+            this.getTranscationData()
         },
     }
 }
@@ -356,6 +415,15 @@ export default {
 
             &__content {
                 overflow: visible;
+                width: 100%;
+                .el-tab-pane {
+                    width: 100%;
+                    position: relative;
+                    background: $--color-white;
+                    &.no-data {
+                        min-height: 500px;
+                    }
+                }
             }
 
 
@@ -364,6 +432,13 @@ export default {
         .pagation {
             margin: 36px 0 60px;
             text-align: center;
+            line-break: 28px;
+            span {
+                line-height: inherit;
+                vertical-align: middle;
+                margin: 0 10px;
+                color: $--color-black-3;
+            }
             a {
                 display: inline-block;
                 cursor: pointer;
@@ -372,7 +447,7 @@ export default {
                 margin: 0 10px;
                 background:  no-repeat center/100%;
                 opacity: 0.65;
-
+                vertical-align: middle;
                 &:hover {
                     opacity: 0.8;
                 }

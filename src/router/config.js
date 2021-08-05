@@ -40,7 +40,7 @@ const options = {
           bg: '#FAFAFA'
         }
       }, {
-        path: 'transDetail',
+        path: 'transDetail/:id',
         name: 'transDetail',
         component: () => import('@/pages/transDetail'),
         meta: {

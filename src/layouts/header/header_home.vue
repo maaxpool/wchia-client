@@ -4,7 +4,11 @@
             <div class="content">
                 <a class="logo" @click="goto(home)"></a>
                 <ul class="navbar">
-                    <li v-for="(item, index) in navList" :key="`nav_item_${index}`">{{item.name}}</li>
+                    <li 
+                        v-for="(item, index) in navList" 
+                        :key="`nav_item_${index}`"
+                        @click="scroll('Block_'+(index+2))"
+                    >{{item.name}}</li>
                 </ul>
 
                 <div class="append">
@@ -18,6 +22,7 @@
 
 <script >
 import {mapGetters} from 'vuex'
+import domScroll from '@/utils/scroll'
 export default {
     name: 'HeaderHome',
     i18n: require('./i18n'),
@@ -49,7 +54,8 @@ export default {
     methods: {
         goto(pathName){
             this.$router.push({name: pathName})
-        }
+        },
+        scroll: domScroll
     }
 }
 </script>

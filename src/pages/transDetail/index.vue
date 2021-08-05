@@ -5,24 +5,26 @@
         <page-card class="page-inner">
             <div class="header" slot="header">
                 <div class="item">
-                    <label>{{$t('transDetail.subTitleItem1')}}:</label>
-                    <span>2020-18-12</span>
+                    <label>{{$t('transDetail.subTitleItem1')}}</label>
+                    <span>{{created_at}}</span>
                 </div>
-                <div class="item">
-                <label>{{$t('transDetail.subTitleItem2')}}:</label>
+                <!-- <div class="item">
+                    <label>{{$t('transDetail.subTitleItem2')}}:</label>
                     <span>已完成</span>
-                </div>
+                </div> -->
                 <div class="item">
-                    <label>{{$t('transDetail.subTitleItem3')}}:</label>
-                    <span>20.0000 XCH</span>
+                    <label>{{$t('transDetail.subTitleItem3')}}</label>
+                    <span>{{fee_amount}} XCH</span>
                 </div>
             </div>
-            <div class="content">
-                <div class="item" :class="{'full': item.full}" v-for="(item, idx) in dataList" :key="`trans_item_${idx}`">
-                    <label>{{item.name}}</label>
-                    <p>{{item.val}}</p>
-                </div>
-                  
+            <div class="content" v-loading="loadingWatcher.indexOf('transaction_detail') > -1">
+                <template v-if="dataList.length > 0" >
+                    <div class="item" :class="{'full': item.full}" v-for="(item, idx) in dataList" :key="`trans_item_${idx}`">
+                        <label>{{item.name}}</label>
+                        <p>{{item.val}}</p>
+                    </div>
+                </template>
+                <no-data v-else />
             </div>
         </page-card>
 
@@ -30,47 +32,64 @@
 </template>
 
 <script>
+import noData from '@/layouts/nodata'
 import pageCard from '@/layouts/card'
+
+import {mapGetters} from 'vuex'
 export default {
     name: 'transDetail',
-    components: {pageCard},
+    components: {pageCard, noData},
+    computed: {
+        ...mapGetters('situation', {
+            loadingWatcher: 'loadingWatcher'
+        }),
+        symbol(){
+            if (this.type == 'wrap') {
+                return 'WXCH'
+            } else if (this.type == 'unwrap') {
+                return 'XCH'
+            } else {
+                return ''
+            }
+        }
+    },
     data(){
         return {
-            dataList:[{
-                // name: 'XCH发送地址',
-                name: this.$t('transDetail.item1Name'),
-                val: 'xch1yycy4ehlnfsy6tqyyqmep9shpjcs89en6mhsx5cc0224ea92065qftefdj'
-            },{
-                name: this.$t('transDetail.item2Name'),
-                val: 'xch1yycy4ehlnfsy6tqyyqmep9shpjcs89en6mhsx5cc0224ea92065qftefdj'
-            },{
-                name: this.$t('transDetail.item3Name'),
-                val: '4000.0000'
-            },{
-                name: this.$t('transDetail.item4Name'),
-                val: '已确认'
-            },{
-                name: this.$t('transDetail.item5Name'),
-                val: '31fd625f1e88b1dff7b3c0f30f849a52709265fe577286898c3a30ea0df709e0',
-                ishandler: true,
-                full: true
-            },{
-                name: this.$t('transDetail.item6Name'),
-                val: '0xf4124710aab2bfb0020d9c25b0f1bd7ec4e93cad'
-            },{
-                name: this.$t('transDetail.item7Name'),
-                val: '0xf4124710aab2bfb0020d9c25b0f1bd7ec4e93cad'
-            },{
-                name: this.$t('transDetail.item8Name'),
-                val: '3980.0000'
-            },{
-                name: this.$t('transDetail.item9Name'),
-                val: '已确认'
-            },{
-                name: this.$t('transDetail.item10Name'),
-                val: '0xe6bcd55a4142a4506c847c9f03c413e820c6adfb0cebc77bc3bccc7538315ed4',
-                ishandler: true
-            },]
+            created_at: "--",
+            type: "",
+            fee_amount: "--",
+            dataList: {
+                sender_address: {name: this.$t('transDetail.item1Name') + this.symbol, val: ""},
+                receiver_address: {name:  this.$t('transDetail.item2Name'), val: ""},
+                amount: {name:this.$t('transDetail.item3Name'), val:""},
+                status: {name: this.$t('transDetail.item4Name'), val: ""},
+                chia_transaction_hash: {name: this.$t('transDetail.item5Name'), val: ""},
+                eth_transaction_hash: {name: this.$t('transDetail.item6Name'), val: ""},
+            }
+        }
+    },
+    mounted(){
+        this.getTransDetail()
+    },
+    methods: {
+        getTransDetail(){
+            if(this.$route.params) {
+                let id_ = this.$route.params.id
+                this.$http('transaction_detail', {id: id_})
+                    .then(res => {
+                        if (res) {
+                            let data = res['msg']
+                            this.created_at = data['created_at']
+                            this.type = data['type']
+                            this.fee_amount = data['fee_amount']
+                            for (key in this.dataList) {
+                                this.dataList[key]['val'] = data[key]
+                            }
+                        }
+                    }).catch(err => {
+                        console.log(err)
+                    })
+            }
         }
     }
 }
@@ -113,6 +132,9 @@ export default {
 
 .content {
     font-size: 15px;
+    width: 100%;
+    min-height: 300px;
+    position: relative;
     &::after {
         content: '';
         display: block;

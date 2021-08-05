@@ -8,7 +8,8 @@ export default {
 
         placeholder1: 'Please enter',
         placeholder2: 'Please select',
-
+        
+        nodata: 'No Data'
     },
     msg: {
         require: '{val} is required',
@@ -131,17 +132,17 @@ export default {
         subTitleItem2: 'Result',
         subTitleItem3: 'Fee:',
 
-        item1Name: 'sending address for XCH ',
-        item2Name: 'receiving address  for XCH ',
+        item1Name: 'sending address for',
+        item2Name: 'receiving address for',
         item3Name: 'Quantity for XCH',
         item4Name: 'Status',
         item5Name: 'Chia transaction',
-        item6Name: 'sending address for WXCH ',
-        item7Name: 'receiving address  for WXCH ',
-        item8Name: 'Quantity for WXCH',
-        item9Name: 'Status',
-        item10Name: 'Ethereum transaction',
-        item11Name: 'Check transaction',
+        // item6Name: 'sending address for WXCH ',
+        // item7Name: 'receiving address  for WXCH ',
+        // item8Name: 'Quantity for WXCH',
+        // item9Name: 'Status',
+        item6Name: 'Ethereum transaction',
+        // item11Name: 'Check transaction',
 
     }
     

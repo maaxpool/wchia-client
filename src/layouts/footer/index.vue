@@ -7,19 +7,19 @@
                 <!-- <div class="desc">如需帮助，请联系team@wxch.com</div> -->
                 <div class="desc">{{$t('footer.lpart.item2', {email: 'team@wxch.com'})}}</div>
                 <el-dropdown>
-                    <el-button>中文简体</el-button>
+                    <el-button>{{locale}}</el-button>
                     <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item>Englisth</el-dropdown-item>
-                        <el-dropdown-item>中文简体</el-dropdown-item>
+                        <el-dropdown-item @click="changeLang('en')" >Englisth</el-dropdown-item>
+                        <el-dropdown-item @click="changeLang('zh')" >中文简体</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
             </div>
 
             <ul class="r-part">
-                <a href="/">{{$t('navs.item1')}}</a>
-                <a>{{$t('navs.item2')}}</a>
-                <a>{{$t('navs.item3')}}</a>
-                <a>{{$t('navs.item4')}}</a>
+                <a @click="scroll('Block_2')" >{{$t('navs.item1')}}</a>
+                <a @click="scroll('Block_3')" >{{$t('navs.item2')}}</a>
+                <a @click="scroll('Block_4')" >{{$t('navs.item3')}}</a>
+                <a @click="scroll('Block_5')" >{{$t('navs.item4')}}</a>
                 <a class="connectus">
                     <p>{{$t('navs.item5')}}</p>
                     <div class="connectus-tab">
@@ -39,8 +39,21 @@
 </template>
 
 <script>
+import domScroll from '@/utils/scroll'
 export default {
-    name: 'pageFooter'
+    name: 'pageFooter',
+    computed: {
+        locale(){
+            return this.$i18n.locale == 'en' ? 'English' : '中文简体'
+        }
+    },
+    methods: {
+        scroll: domScroll,
+        changeLang(lang) {
+            console.log(lang)
+            this.$$i18n.locale = lang
+        }
+    }
 }
 </script>
 
@@ -84,6 +97,12 @@ export default {
             & > a {
                 display: block;
                 padding: 15px 0;
+                cursor: pointer;
+                -webkit-transition: all 0.25s;
+                transition: all 0.25s;
+                &:hover {
+                    color: $--color-primary;
+                }
             }
             
             .connectus {
@@ -109,6 +128,7 @@ export default {
                     line-height: 100%;
                     font-size: 12px;
                     display: block;
+                    color: $--color-white;
                     img {
                         width: 16px;
                         height: 16px;

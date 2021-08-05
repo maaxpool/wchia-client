@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
-import routesI18n from '@/router/i18n'
+// import routesI18n from '@/router/i18n'
 import getLangOptions from '@/lang'
 
 /**

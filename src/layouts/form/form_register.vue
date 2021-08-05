@@ -5,9 +5,9 @@
         domRef="register" 
         :labelPosition="labelPosition" 
         :rules="rules"
+        v-loading="formLoader"
     >
         <!-- eth address -->
-        <!-- prop="ethAddress" -->
         <el-form-item  >
             <div class="cus-label" slot="label">
                 <span>{{$t('register.item1Name')}}</span>
@@ -92,8 +92,10 @@
 // import metamaskUtils from '@/utils/metaMaskUtils'
 
 import formLayout from './formLayout'
-import {rational} from '@/utils/rules'
 import countrys from '@/temp/countrys'
+
+import {rational} from '@/utils/rules'
+import {getUserInfo} from '@/utils/authUtils'
 
 import {mapGetters} from 'vuex'
 // import { useWallet, UseWalletProvider } from 'use-wallet'
@@ -105,6 +107,12 @@ export default {
             eth_sign: 'eth_sign',
             auth_msg: 'auth_msg'
         }),
+        ...mapGetters('situation', {
+            loadingWatcher: 'loadingWatcher'
+        }),
+        formLoader(){
+            return this.loadingWatcher.indexOf('get_user') > -1 || this.loadingWatcher.indexOf('register') > -1
+        }
     },
     data(){
         return {
@@ -180,10 +188,11 @@ export default {
                         "auth_msg": this.auth_msg
                     }
 
-                    this.$http('register', options).then(res => {
+                    this.$http('register', options).then(async res => {
                         if(res&&res['msg']) {
                             let data = res['msg']
                             this.$store.commit('user/xch_address', data['chia_address'])
+                            await getUserInfo(this)
                             this.$nextTick(() => {
                                 this.$router.push({name: 'home'})
                             })

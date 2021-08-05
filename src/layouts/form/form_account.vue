@@ -21,8 +21,6 @@
         <!-- phone -->
         <div class="el-from-row phoneItem">
             <el-form-item :label="$t('account.item4Name')">
-                <!-- <div class="el-input__view"> + {{formData.phone_prefix}}</div> -->
-
                 <el-select class="phone_prefix" :placeholder="$t('public.placeholder2')"  v-model="formData.phone_prefix">
                     <el-option v-for="(item, idx) in codeList" :key="'code_'+idx" 
                         :label="`+ ${item}`" :value="idx"></el-option>
@@ -71,7 +69,7 @@
         <!-- Chia Wallet Address -->
         <div class="el-from-row">
             <el-form-item :label="$t('account.item10Name')">
-                <div class="el-input__view">{{xch_address || user.chia_address}}</div>
+                <div class="el-input__view">{{xch_address}}</div>
             </el-form-item>
         </div>
 
@@ -140,7 +138,11 @@ export default {
         }
     },
     methods: {
-        submit() {
+        async submit() {
+            if (! (this.eth_sign && this.auth_msg) ) {
+                await this.$metaMaskUtils.ethSign()
+            }             
+
             let options = {
                 ...this.formData,
                 eth_address: this.account,
@@ -148,17 +150,17 @@ export default {
                 auth_msg: this.auth_msg
             }
 
-            console.log(this.eth_sign)
             this.$http('modify_user', options)
                 .then(res => {
                     if(res && res['success']) {
                         let newData = Object.assign(this.user, this.formData)
                         this.$store.commit('user/user', JSON.stringify(newData))
-                        this.$message(res['success'])
+                        this.$message('Submit successed')
                     }
-                }).catch(err => {
-                    console.error(err)
                 })
+                // .catch(err => {
+                //     console.error(err)
+                // })
 
         }
     }
@@ -171,11 +173,6 @@ export default {
 .phoneItem {
     .el-form-item:first-child {
         flex: 0;
-        // .el-input__view {
-        //     width: 100px;
-        //     background-color: #F9F9F9;
-        //     text-align: center;
-        // }
         .phone_prefix {
             width: 100px;
             background-color: #F9F9F9;

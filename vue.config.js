@@ -4,7 +4,7 @@ const productionGzipExtensions = ['js', 'css']
 const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = {
-    publicPath: process.env.NODE_ENV === 'production' ? '/public/' : './',
+    publicPath: process.env.NODE_ENV === 'production' ? '/' : './',
     productionSourceMap: false,
     assetsDir: "assets",
     lintOnSave: false,      // 禁用eslint

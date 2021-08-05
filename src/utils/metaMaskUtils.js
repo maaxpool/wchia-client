@@ -32,7 +32,7 @@ function metamaskUtils (options) {
 }
 
 metamaskUtils.prototype.initlization = async function(){
-
+    
     /* 检测是否安装钱包 */
     this.web3Provider = await detectEthereumProvider()
     storage.commit('ethereum/provide', this.web3Provider)
@@ -46,7 +46,6 @@ metamaskUtils.prototype.initlization = async function(){
         } catch (err) {
             this.showError(err)
         }
-
         // this.ethSign()
 
     } else {
@@ -84,7 +83,6 @@ metamaskUtils.prototype.networkChanged = async function(){
     });
 }
 
-/* eth 签名 */
 metamaskUtils.prototype.ethSign = function(){
     const msg = authMsg(this.account);
 

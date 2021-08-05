@@ -1,13 +1,12 @@
 <template>
-    <el-table :data="tableData" style="width: 100%">
-      <el-table-column prop="date" align="center" :label="$t('home.block5.cell1')" width="120"></el-table-column>
+    <el-table :data="tableData" style="width: 100%" :empty-text="$t('public.nodata')">
+      <el-table-column prop="created_at" align="center" :label="$t('home.block5.cell1')" width="140"></el-table-column>
       <el-table-column prop="amount" :label="$t('home.block5.cell2')"  width="120"></el-table-column>
-      <el-table-column prop="out" :label="$t('home.block5.cell3')" width="240"></el-table-column>
-      <el-table-column prop="in" :label="$t('home.block5.cell4')" width="240"></el-table-column>
+      <el-table-column prop="sender_address" :label="$t('home.block5.cell3')" width="240"></el-table-column>
+      <el-table-column prop="receiver_address" :label="$t('home.block5.cell4')" width="240"></el-table-column>
       <el-table-column :label="$t('home.block5.cell5')" align="center" >
-        <!-- slot-scope="scope" -->
-        <template >
-          <span>等待中</span>
+        <template slot-scope="scope" >
+          <span>{{scope.row.status}}</span>
         </template>
       </el-table-column>
       <el-table-column label="" align="center" >
@@ -15,6 +14,8 @@
           <el-button type="text" size="small" @click="gotoCheck(scope.row)">{{$t('home.block5.tbHandler')}}</el-button>
         </template>
       </el-table-column>
+
+      <el-skeleton />
     </el-table>
 </template>
 
@@ -23,7 +24,7 @@ export default {
     props: ['tableData'],
     methods: {
       gotoCheck(row){
-        console.log(row)
+        console.log(row.id)
       }
     }
 }
@@ -38,6 +39,12 @@ export default {
   box-shadow: $--page-item-shodow-1;
   .el-button {
     font-size: inherit;
+  }
+
+  ::v-deep th {
+    & > .cell {
+      word-break: break-word;
+    }
   }
 }
 </style>

@@ -7,9 +7,12 @@ export default {
     },
     getters: {
         xch_address: state => {
-            // state.xch_address||jsCookie.get('xch_address')
             let xch_address_ = state.xch_address||jsCookie.get('xch_address')
-            let usr_ = state.user||JSON.parse(jsCookie.get('user'))
+            let usr_ = state.user
+            if (jsCookie.get('user')) {
+                usr_ = JSON.parse(jsCookie.get('user'))
+            }
+
             if(xch_address_) {
                 return xch_address_
             } else if (usr_) {
@@ -20,7 +23,12 @@ export default {
             if (!state.user && jsCookie.get('user'))
                 state.user = JSON.parse(jsCookie.get('user'))
             
-            return typeof state.user == 'string'?JSON.parse(state.user):state.user
+            if (typeof state.user == 'string') {
+                return JSON.parse(state.user)
+            } else {
+                return state.user
+            }
+            // return typeof state.user == 'string'?JSON.parse(state.user):state.user
         }
     },
     mutations: {
@@ -29,7 +37,8 @@ export default {
             state.xch_address = xch_address
         },
         user (state, user) {
-            jsCookie.set('user', user, {expires: 1})
+            console.log(user, 'store')
+            jsCookie.set('user', JSON.stringify(user), {expires: 1})
             if (user['chia_address']) {
                 jsCookie.set('xch_address', user['chia_address'], {expires: 1})
                 state.xch_address = user['chia_address']
