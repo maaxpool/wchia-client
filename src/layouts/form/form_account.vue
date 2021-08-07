@@ -21,7 +21,7 @@
         <!-- phone -->
         <div class="el-from-row phoneItem">
             <el-form-item :label="$t('account.item4Name')">
-                <el-select class="phone_prefix" :placeholder="$t('public.placeholder2')"  v-model="formData.phone_prefix">
+                <el-select filterable class="phone_prefix" :placeholder="$t('public.placeholder2')"  v-model="formData.phone_prefix">
                     <el-option v-for="(item, idx) in codeList" :key="'code_'+idx" 
                         :label="`+ ${item}`" :value="idx"></el-option>
                 </el-select>

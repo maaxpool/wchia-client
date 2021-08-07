@@ -45,7 +45,7 @@
         <!-- phone -->
         <div class="el-from-row phoneItem" >
             <el-form-item :label="$t('register.item5Name')" class="local-code">
-                <el-select :placeholder="$t('public.placeholder2')"  v-model="formData.phone_prefix">
+                <el-select :placeholder="$t('public.placeholder2')"  v-model="formData.phone_prefix" filterable >
                     <el-option 
                         v-for="(item, idx) in codeList" :key="'code_'+idx" 
                         :label="`+ ${item}`" :value="idx"></el-option>
@@ -163,12 +163,20 @@ export default {
                 .then(() => {
                     this.formData.ethAddress = this.account
                     if(!this.account) {
-                        this.$message('Please Connect the metamask')
+                        this.$message({
+                            showClose: true,
+                            message: 'Please Connect the metamask',
+                            type: 'error'
+                        })    
                         return false
                     }
 
                     if(!this.isChecked) {
-                        this.$message('Please agree the protocol')
+                        this.$message({
+                            showClose: true,
+                            message: 'Please agree the protocol',
+                            type: 'error'
+                        })  
                         return false
                     }
 

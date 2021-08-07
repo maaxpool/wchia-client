@@ -2,7 +2,7 @@ import detectEthereumProvider from '@metamask/detect-provider'
 import storage from '@/store/index'
 import {Message} from 'element-ui'
 // import { resolve } from 'core-js/fn/promise'
-
+import jsCookie from 'js-cookie'
 
 
 function metamaskUtils (options) {
@@ -11,7 +11,13 @@ function metamaskUtils (options) {
     this.initlization()
 
     let option = {
-        onChainChanged: () => { return },
+        onChainChanged: () => { 
+            var keys=document.cookie.match(/[^ =;]+(?=\=)/g);
+            keys.forEach(item => {
+                jsCookie.remove(item)
+            })
+            window.location.reload()
+        },
         onDisconnect: (err) => { return },
     }
 
@@ -46,16 +52,19 @@ metamaskUtils.prototype.initlization = async function(){
         } catch (err) {
             this.showError(err)
         }
-        // this.ethSign()
-
+        
     } else {
         console.error('Please install MetaMask!')
-        Message('Please install MetaMask!')
+        Message({
+            showClose: true,
+            message: 'Please install MetaMask!',
+            type: 'error'
+        })
     }
 
 }
 
-metamaskUtils.prototype.getNetworkVersion = async function(netwrokID){
+metamaskUtils.prototype.getNetworkVersion = async function(){
     // ethereum.networkVersion
     const chainId = await ethereum.request({
         method: 'eth_chainId',
@@ -67,6 +76,25 @@ metamaskUtils.prototype.getNetworkVersion = async function(netwrokID){
 
     return { chainId, networkId }
 }
+
+metamaskUtils.prototype.networkCheck = async function() {
+    let usr_options = await this.getNetworkVersion()
+    if (usr_options.networkId != 3) {
+        let msg_ = `
+            Current network ${usr_options.networkId} not supported, 
+            Please switch to one of the following: Rposten
+        `
+        Message({
+            showClose: true,
+            message: msg_,
+            type: 'error'
+        })
+        console.error(msg_)
+        return false
+    }
+    return true
+}
+
 
 metamaskUtils.prototype.networkChanged = async function(){
     ethereum.on('chainChanged', () => {
@@ -85,8 +113,10 @@ metamaskUtils.prototype.networkChanged = async function(){
 
 metamaskUtils.prototype.ethSign = function(){
     const msg = authMsg(this.account);
-
     return new Promise(async (resolve, refuce) => {
+        let check_ = await this.networkCheck()
+        if (!check_) return false
+
         if (storage.getters['ethereum/eth_sign']) {
             resolve(storage.getters['ethereum/eth_sign'])
             return false
@@ -109,7 +139,12 @@ metamaskUtils.prototype.ethSign = function(){
 
 
 metamaskUtils.prototype.showError = function(err) {
-    Message(JSON.stringify(err['message']||err))
+    Message({
+        showClose: true,
+        message: JSON.stringify(err['message']||err),
+        type: 'error'
+    })
+    
     console.error(err)
 }
 

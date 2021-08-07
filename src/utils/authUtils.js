@@ -7,8 +7,6 @@ const checkAuthorization = () => {
 }
 
 const getUserInfo = ($app) => {
-  //  let uu = storage.getters('user/user')
-  //  console.log(storage.getters('user/user'))
     if ($app) {
       $app.$metaMaskUtils.ethSign()
         .then(() => {

@@ -41,7 +41,11 @@ export default {
                     if(vail) {
                         resolve()
                     } else {
-                        this.$message('Please finish the account info.')
+                        this.$message({
+                            showClose: true,
+                            message: 'Please finish the account info.',
+                            type: 'error'
+                        }) 
                     }
                 })
             })

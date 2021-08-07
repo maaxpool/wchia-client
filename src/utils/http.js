@@ -53,7 +53,9 @@ const httpHandler = {
               reject(data)
         }).catch(err => {
             store.commit('situation/loadingWatcher', {nameArr:[name], type: 0})
-
+            // for(let i in err) {
+            //   console.log(i, err[i])
+            // }
             reject(err)
         })
     })

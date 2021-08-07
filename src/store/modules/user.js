@@ -37,7 +37,6 @@ export default {
             state.xch_address = xch_address
         },
         user (state, user) {
-            console.log(user, 'store')
             jsCookie.set('user', JSON.stringify(user), {expires: 1})
             if (user['chia_address']) {
                 jsCookie.set('xch_address', user['chia_address'], {expires: 1})

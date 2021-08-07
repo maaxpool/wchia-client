@@ -28,7 +28,7 @@ export default {
     footer: {
         lpart: {
             item1: 'WXCH is the first ERC20 tokenbacked 1:1 with Chia',
-            item2: 'If you need help, please contact {email}'
+            item2: 'If you need help, please contact'
         },
         rpart: {
             item1: ''

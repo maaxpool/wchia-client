@@ -63,6 +63,7 @@ a[href] {
   -webkit-transition: all 0.25s;
   transition: all 0.25s;
   text-decoration: none;
+  color: inherit;
   &:visited {
     color: inherit;
   }

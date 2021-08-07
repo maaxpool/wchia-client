@@ -5,7 +5,10 @@
                 <img class="logo" src="/img/logo_ft.png" />
                 <div class="desc">{{$t('footer.lpart.item1')}}</div>
                 <!-- <div class="desc">如需帮助，请联系team@wxch.com</div> -->
-                <div class="desc">{{$t('footer.lpart.item2', {email: 'team@wxch.com'})}}</div>
+                <div class="desc">
+                    <span>{{$t('footer.lpart.item2')}}</span>
+                    <a class="link" href="mailto:team@wxch.com">team@wxch.com</a>
+                </div>
                 <el-dropdown>
                     <el-button>{{locale}}</el-button>
                     <el-dropdown-menu slot="dropdown">
@@ -82,6 +85,9 @@ export default {
 
             .desc {
                 margin-bottom: 30px;
+                a {
+                    margin:0 5px;
+                }
             }
 
             .el-dropdown {
