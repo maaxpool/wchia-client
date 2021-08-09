@@ -1,12 +1,11 @@
 import {initRouter} from '@/router'
-function domScroll(domID) {
-    // console.log($router)
-    let $router = initRouter()
-    console.log($router)
-
+function domScroll($app, domID) {
+    $app.$router.push({name:'home'})
     let dom = document.querySelector('#' + domID)
-    let top = dom.offsetTop
-    document.documentElement.scrollTop = top
+    if (dom) {
+        let top = dom.offsetTop
+        document.documentElement.scrollTop = top
+    }
 }
 
 export default domScroll

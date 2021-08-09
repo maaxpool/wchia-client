@@ -8,7 +8,7 @@
                         v-for="(item, index) in navList" 
                         :key="`nav_item_${index}`"
                         @click="scroll('Block_'+(index+2))"
-                    >{{item.name}}</li>
+                    >{{$t('navs.item'+(index+1))}}</li>
                 </ul>
 
                 <div class="append">
@@ -36,17 +36,12 @@ export default {
         return {
             isAuth: false,
             navList:[{
-                // name: 'About Broker',
-                name: this.$t('navs.item1'),
                 index: 1,
             },{
-                name: this.$t('navs.item2'),
                 index: 2
             },{
-                name: this.$t('navs.item3'),
                 index: 3,
             },{
-                name: this.$t('navs.item4'),
                 index: 4
             }]
         }
@@ -55,7 +50,9 @@ export default {
         goto(pathName){
             this.$router.push({name: pathName})
         },
-        scroll: domScroll
+        scroll (domID) {
+            domScroll(this, domID)
+        }
     }
 }
 </script>

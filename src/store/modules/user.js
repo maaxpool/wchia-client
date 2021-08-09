@@ -3,7 +3,9 @@ export default {
     namespaced: true,
     state: {
         "user": null,
-        "xch_address": null
+        "xch_address": null,
+        "wxch_balance": 0,
+        "xch_balance": 0,
     },
     getters: {
         xch_address: state => {
@@ -29,6 +31,9 @@ export default {
                 return state.user
             }
             // return typeof state.user == 'string'?JSON.parse(state.user):state.user
+        },
+        balance: state => {
+            return {wxch_balance: state.wxch_balance, xch_balance: state.xch_balance}
         }
     },
     mutations: {
@@ -44,6 +49,10 @@ export default {
             }
 
             state.user = user
+        },
+        balance (state, {wrap_amount, unwrap_amount}) {
+            state.wxch_balance = wrap_amount
+            state.xch_balance = unwrap_amount
         }
     }
   }

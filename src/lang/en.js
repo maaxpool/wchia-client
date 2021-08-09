@@ -1,12 +1,11 @@
 export default {
-    test: "123",
     public: {
         fee: 'fee',
         send: 'send',
         cancel: 'Cancel',
         item1Name: 'Check transaction',
 
-        placeholder1: 'Please enter',
+        placeholder1: 'Please input',
         placeholder2: 'Please select',
         
         nodata: 'No Data'
@@ -17,9 +16,9 @@ export default {
     },
     navs: {
         item1: 'About Broker',
-        item2: 'Redeem WXCH now',
-        item3: 'Exchange to XCH',
-        item4: 'Transform Data',
+        item2: 'Exhange WXCH',
+        item3: 'Exhange XCH',
+        item4: 'Historical transaction',
         item5: 'Connect Us',
         btn1: 'Sign Up',
         dropDownItem1: 'setting',
@@ -72,15 +71,15 @@ export default {
             btn1: 'Exchange back to XCH',
         },
         block5: {
-            title: 'Transform Data',
+            title: 'Historical transaction',
             item1: 'Cumulative exchange WXCH',
             item2: 'Cumulative exchange XCH',
             tab1: 'Exchange WXCH',
             tab2: 'Exchange XCH',
             cell1: 'Transaction Time',
             cell2: 'Quantity for XCH',
-            cell3: 'sending address for XCH ',
-            cell4: 'receiving address  for XCH ',
+            cell3: 'sending address for XCH',
+            cell4: 'receiving address for XCH',
             cell5: 'Result',
             tbHandler: 'Check details',
         }
@@ -137,13 +136,7 @@ export default {
         item3Name: 'Quantity for XCH',
         item4Name: 'Status',
         item5Name: 'Chia transaction',
-        // item6Name: 'sending address for WXCH ',
-        // item7Name: 'receiving address  for WXCH ',
-        // item8Name: 'Quantity for WXCH',
-        // item9Name: 'Status',
-        item6Name: 'Ethereum transaction',
-        // item11Name: 'Check transaction',
-
+        item6Name: 'Ethereum transaction'
     }
     
 }

@@ -12,22 +12,25 @@ function metamaskUtils (options) {
 
     let option = {
         onChainChanged: () => { 
-            var keys=document.cookie.match(/[^ =;]+(?=\=)/g);
-            keys.forEach(item => {
-                jsCookie.remove(item)
-            })
+            if(document.cookie) {
+                var keys=document.cookie.match(/[^ =;]+(?=\=)/g);
+                keys.forEach(item => {
+                    jsCookie.remove(item)
+                })
+            }
             window.location.reload()
         },
-        onDisconnect: (err) => { return },
+        onDisconnect: (err) => { 
+            return
+         },
     }
 
     if (options)
         Object.assign(option, options)
 
     if (window.ethereum) {
-        /* 钱包网络改变 */
         ethereum.on('chainChanged', option['onChainChanged'])
-        /* 钱包断开连接 */
+        ethereum.on('accountsChanged', option['onChainChanged'])
         ethereum.on('disconnect', (err) => {
             option.onDisconnect(err)
             console.error(err)
@@ -93,6 +96,13 @@ metamaskUtils.prototype.networkCheck = async function() {
         return false
     }
     return true
+}
+
+metamaskUtils.prototype.signCheck = async function() {
+    if(Boolean(storage.getters['ethereum/eth_sign']) != false && Boolean(storage.getters['ethereum/auth_msg']))
+        return true
+    else
+        return false
 }
 
 

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Element from 'element-ui'
+import jsCookie from 'js-cookie'
 import '@/style/element-variables.scss'
 
 import {initRouter} from '@/router'
@@ -14,7 +15,7 @@ import bootstrap from '@/bootstrap'
 import App from './App.vue'
 
 const router = initRouter()
-const i18n = initI18n('en')
+const i18n = initI18n(jsCookie.get('lang')?jsCookie.get('lang'):'en')
 
 Vue.config.productionTip = false
 

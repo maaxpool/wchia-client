@@ -9,11 +9,11 @@
                     <span>{{$t('footer.lpart.item2')}}</span>
                     <a class="link" href="mailto:team@wxch.com">team@wxch.com</a>
                 </div>
-                <el-dropdown>
+                <el-dropdown @command="changeLang" >
                     <el-button>{{locale}}</el-button>
                     <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item @click="changeLang('en')" >Englisth</el-dropdown-item>
-                        <el-dropdown-item @click="changeLang('zh')" >中文简体</el-dropdown-item>
+                        <el-dropdown-item command="en" >Englisth</el-dropdown-item>
+                        <el-dropdown-item command="zh" >中文简体</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
             </div>
@@ -43,6 +43,7 @@
 
 <script>
 import domScroll from '@/utils/scroll'
+import jsCookie from 'js-cookie'
 export default {
     name: 'pageFooter',
     computed: {
@@ -51,10 +52,12 @@ export default {
         }
     },
     methods: {
-        scroll: domScroll,
+        scroll(domID) {
+            domScroll(this, domID)
+        },
         changeLang(lang) {
-            console.log(lang)
-            this.$$i18n.locale = lang
+            jsCookie.set('lang', lang)
+            this.$i18n.locale = lang
         }
     }
 }

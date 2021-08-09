@@ -3,7 +3,7 @@
         <div class="l-part">
             <h2>{{$t('home.block1.title')}}</h2>
             <article>{{$t('home.block1.content')}}</article>
-            <el-button type="primary" @click="connectWallet" v-if="!account||!eth_sign" > {{$t('home.block1.button')}} </el-button>
+            <el-button type="primary" @click="connectWallet" v-if="!user||!eth_sign" > {{$t('home.block1.button')}} </el-button>
         </div>
         <div class="r-part">
             <!-- <div class="illustration"></div> -->
@@ -15,6 +15,7 @@
 
 <script>
 import {mapGetters} from 'vuex'
+import {getUserInfo} from '@/utils/authUtils'
 export default {
      computed: {
         ...mapGetters('ethereum', {
@@ -22,7 +23,6 @@ export default {
             eth_sign: 'eth_sign'
         }),
         ...mapGetters('user', {
-            xch_address: 'xch_address',
             user: 'user'
         }),
     },
@@ -32,7 +32,8 @@ export default {
                 await this.$metaMaskUtils.initlization()
             }
 
-            this.$metaMaskUtils.ethSign()
+            getUserInfo(this)
+            // this.$metaMaskUtils.ethSign()
         },
     }
 }

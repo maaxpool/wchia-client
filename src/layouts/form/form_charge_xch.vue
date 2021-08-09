@@ -4,7 +4,9 @@
         ref="formLayout" 
         domRef="chargeWXCH" 
         :labelPosition="labelPosition" 
-        :rules="rules" >
+        :rules="rules" 
+        v-loading="loadingWatcher.indexOf('unwrap') > -1"    
+    >
 
         <!-- wxch -->
         <el-form-item prop="wxchAmount" >
@@ -35,7 +37,7 @@
         </el-form-item>
 
         <div class="desc">
-           {{$t('public.fee')}}: {{fee}} %
+           {{$t('public.fee')}}: {{fee*100}} %
         </div>
 
         <el-button class="submit" type="primary" @click="submitForm" >{{$t('home.block4.btn1')}}</el-button>
@@ -46,15 +48,31 @@
 <script>
 import formLayout from './formLayout'
 import {rational} from '@/utils/rules'
+import {authorizationCheck, getUserInfo, getBalance} from '@/utils/authUtils'
+import {mapGetters} from 'vuex'
+
+
 export default {
     components: {formLayout},
     computed: {
+        ...mapGetters('ethereum', {
+            account: 'account',
+            eth_sign: 'eth_sign',
+            auth_msg: 'auth_msg'
+        }),
         xchAmount(){
             return (1 - this.fee)*parseFloat(this.formData.wxchAmount) || 0
-        }
+        },
+        ...mapGetters('situation', {
+            loadingWatcher: 'loadingWatcher'
+        }),
     },
     data(){
         const wxchAmountVaily = (rule, val, callback) => {
+            if(!val > 0) {
+                callback(new Error('Please provide effective options'))
+            }
+
             if(!rational(val)) {
                 callback(new Error(this.$t('msg.rational')))
             }
@@ -63,7 +81,7 @@ export default {
 
         return {
             labelPosition: 'top',
-            fee: 0.04,
+            fee: 0.005,
             formData: {
                 wxchAmount: 0,
                 xchAddress: ''
@@ -79,12 +97,50 @@ export default {
             }
         }
     },
-    created(){
-        // console.log(this.rules)
-    },
     methods: {
-        submitForm(){
+        async submitForm(){
+            if (! authorizationCheck() )
+                await getUserInfo(this)
+            
             this.$refs['formLayout'].validate()
+                .then(async () => {
+
+                    const options = {
+                        "unwrap_amount": parseFloat(this.formData.wxchAmount),
+                        "chia_address": this.formData.xchAddress,
+                        "eth_address": this.account,
+                        "eth_signature": this.eth_sign,
+                        "auth_msg": this.auth_msg
+                    }
+                    
+                    this.$http('unwrap', options)
+                        .then(res => {
+                            if (res && res['success']) {
+                                getBalance()
+                                
+                                this.$message({
+                                    showClose: true,
+                                    message: "Transform successed",
+                                    type: 'success'
+                                })
+                                this.fromClean()
+                            }
+                        }).catch(err => {
+                            if (err && err.response) {
+                                let msg = err.response.data.err_msg
+                                this.$message({
+                                    showClose: true,
+                                    message: msg,
+                                    type: 'error'
+                                })                                
+                            }
+                        })
+
+                })
+        },
+        fromClean() {
+            this.formData.wxchAmount = 0
+            this.formData.xchAddress = ''
         }
     }
 }

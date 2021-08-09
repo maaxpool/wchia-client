@@ -3,6 +3,7 @@ import InnerView from '@/layouts/InnerView'
 
 // 路由配置
 const options = {
+  // mode: 'history',
   routes: [
     {
       path: '*',
@@ -10,7 +11,6 @@ const options = {
       component: () => import('@/pages/exception/404'),
 
     },
-    
     {
       path: '/',
       component: HomeView,

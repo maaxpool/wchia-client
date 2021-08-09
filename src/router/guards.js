@@ -1,8 +1,8 @@
 // import {hasAuthority} from '@/utils/authority-utils'
 import {isAuthed} from '@/router/index'
-// import {checkAuthorization} from '@/utils/request'
+// import {authorizationCheck} from '@/utils/request'
 import NProgress from 'nprogress'
-import { checkAuthorization } from '../utils/authUtils'
+import { authorizationCheck } from '../utils/authUtils'
 
 NProgress.configure({ showSpinner: false })
 
@@ -27,16 +27,7 @@ const progressStart = (to, from, next) => {
  * @param options
  */
 const loginGuard = (to, from, next, options) => {
-  // const {message} = options
-  // if (!loginIgnore.includes(to) && !checkAuthorization()) {
-
-  /* if (!loginIgnore.includes(to)) { //
-    // message.warning('Auth was lost, please sign in again')
-    next({name: 'register'})
-  } else {
-    next()
-  } */
-  if (isAuthed.includes(to) && checkAuthorization()) {
+  if (isAuthed.includes(to) && authorizationCheck()) {
       try {
         next('/home')
       } catch (err) {

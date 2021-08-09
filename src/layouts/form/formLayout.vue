@@ -43,7 +43,7 @@ export default {
                     } else {
                         this.$message({
                             showClose: true,
-                            message: 'Please finish the account info.',
+                            message: 'Please finish the form info.',
                             type: 'error'
                         }) 
                     }

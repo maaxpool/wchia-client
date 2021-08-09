@@ -4,7 +4,9 @@
         ref="formLayout" 
         domRef="chargeWXCH" 
         :labelPosition="labelPosition" 
-        :rules="rules" >
+        :rules="rules" 
+        v-loading="loadingWatcher.indexOf('wrap') > -1" 
+    >
 
         <el-form-item prop="xchAmount" >
             <div class="cus-label" slot="label">
@@ -43,6 +45,8 @@
 <script>
 import formLayout from './formLayout'
 import {rational} from '@/utils/rules'
+import {authorizationCheck, getUserInfo, getBalance} from '@/utils/authUtils'
+
 import {mapGetters} from 'vuex'
 
 export default {
@@ -55,7 +59,10 @@ export default {
         }),
         wxchAmount(){
             return (1 - this.fee)*parseFloat(this.formData.xchAmount) || 0
-        }
+        },
+        ...mapGetters('situation', {
+            loadingWatcher: 'loadingWatcher'
+        }),
     },
     data(){
         const xchAmountVaily = (rule, val, callback) => {
@@ -84,7 +91,10 @@ export default {
         }
     },
     methods: {
-        submitForm(){
+        async submitForm(){
+            if (! authorizationCheck() )
+                await getUserInfo(this)
+            
             this.$refs['formLayout'].validate()
                 .then(async () => {
                     if (! (this.eth_sign && this.auth_msg) ) {
@@ -100,7 +110,16 @@ export default {
 
                     this.$http('wrap', options)
                         .then(res => {
-                            console.log(res)
+                            if (res && res['success']) {
+                                getBalance()
+
+                                this.$message({
+                                    showClose: true,
+                                    message: "Transform successed",
+                                    type: 'success'
+                                })
+                                this.fromClean()
+                            }
                         }).catch(err => {
                             if (err && err.response) {
                                 let msg = err.response.data.err_msg
@@ -113,8 +132,9 @@ export default {
                         })
                     
                 })
-                // .catch(err => {
-                // })
+        },
+        fromClean() {
+            this.formData.xchAmount = 0
         }
     }
 }

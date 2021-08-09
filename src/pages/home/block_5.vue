@@ -7,7 +7,7 @@
                 <div class="ctn">
                     <img src="/img/block_5_wxch.png" />
                     <div class="count">
-                        196878.0966 WXCH ≈ $ 389678098.9877
+                        {{balance.wxch_balance}} WXCH
                     </div>
                 </div>
             </div>
@@ -16,7 +16,7 @@
                 <div class="ctn">
                     <img src="/img/block_5_xch.png" />
                     <div class="count">
-                        196878.0966 WXCH ≈ $ 389678098.9877
+                        {{balance.xch_balance}} XCH
                     </div>
                 </div>
             </div>
@@ -53,13 +53,13 @@ import {mapGetters} from 'vuex'
 export default {
     components: {headerHomeBlock, wxchHistoryTb, noData },
     computed: {
-        // ...mapGetters('ethereum', {
-        //     account: 'account',
-        //     eth_sign: 'eth_sign'
-        // }),
         ...mapGetters('user', {
             xch_address: 'xch_address',
-            user: 'user'
+            user: 'user',
+            balance: 'balance',
+        }),
+        ...mapGetters('ethereum', {
+            account: 'account',
         }),
         pagation(){
             let type_ = this.activeName,
@@ -90,7 +90,7 @@ export default {
                 size: 10,
                 total: 0,
                 list: []
-            }
+            },
         }
     },
     watch: {
