@@ -8,7 +8,8 @@ export default {
         placeholder1: 'Please input',
         placeholder2: 'Please select',
         
-        nodata: 'No Data'
+        nodata: 'No Data',
+        check: "Check Details"
     },
     msg: {
         require: '{val} is required',

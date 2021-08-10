@@ -50,7 +50,7 @@ const getUserInfo = ($app) => {
 
 const getBalance = async () => {
     try {
-        console.log(storage.getters['ethereum/account'])
+        // console.log(storage.getters['ethereum/account'])
         let res = await $http('transaction_stat', {eth_address: storage.getters['ethereum/account']}),
             {wrap_amount, unwrap_amount} = res['msg']
         storage.commit('user/balance', {wrap_amount, unwrap_amount})

@@ -1,6 +1,8 @@
 <template>
   <div id="app" :style="{backgroundColor: this.bg||'#FFFFFF'}">
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 
@@ -63,13 +65,13 @@ a[href] {
   -webkit-transition: all 0.25s;
   transition: all 0.25s;
   text-decoration: none;
-  color: inherit;
+  color: $--color-primary !important;
   &:visited {
-    color: inherit;
+    color: $--color-primary-light-3 !important;
   }
 
   &:hover {
-    color: $--color-primary;  
+    color: $--color-primary-light-5 !important;  
   }
 
 }

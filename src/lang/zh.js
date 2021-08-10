@@ -63,7 +63,7 @@ export default {
         },
         block4: {
             title: '兑换成XCH',
-            subTitle: '您可以随时把WXCH兑换回XCH到的奇亚币钱包中。',
+            subTitle: '您可以随时把 WXCH 兑换回 XCH 到您的奇亚地址。',
             item1Name: '发送WXCH',
             item2Name: '兑换成XCH',
             item3Name: 'XCH 接收地址',

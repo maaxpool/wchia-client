@@ -85,7 +85,7 @@ export default {
         align-items: center;
 
         & > .logo {
-            width: 175px;
+            width: 180px;
             height: 60px;
             display: block;
             background: url('/img/logo.png') no-repeat center/cover;

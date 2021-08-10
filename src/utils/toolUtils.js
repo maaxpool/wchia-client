@@ -8,4 +8,8 @@ const removeArrTarget = (tagArr, arr2) => {
     return tagArr
 }
 
-export {mergeArray, removeArrTarget}
+const timeStrFormart = (timeStr) => {
+    return timeStr.slice(0, 19).replace(/[A-Z]/g, ' ')
+}
+
+export {mergeArray, removeArrTarget, timeStrFormart}

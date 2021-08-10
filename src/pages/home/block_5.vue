@@ -23,14 +23,17 @@
         </div>
         <!-- @tab-click="handleClick" -->
         <el-tabs v-model="activeName" type="card" >
-            <el-tab-pane :class="{'no-data': !(table_wrap.list.length > 0)}" :label="$t('home.block5.tab1')" name="wrap">
-                <!-- <wxch-history-tb :tableData="table_wrap.list" /> -->
+            <!-- :class="{'no-data': !(table_wrap.list.length > 0)}" -->
+            <el-tab-pane  :label="$t('home.block5.tab1')" name="wrap">
                 <wxch-history-tb v-if="table_wrap.list.length > 0" :tableData="table_wrap.list" />
-                <no-data v-else />
+                <el-skeleton v-if="table_wrap.list.length == 0 && table_wrap.total !== 0" animated />
+                <no-data v-if="table_wrap.total === 0" />
             </el-tab-pane>
-            <el-tab-pane :class="{'no-data': !(table_wrap.list.length > 0)}" :label="$t('home.block5.tab2')" name="unwrap">
+            <!-- :class="{'no-data': !(table_wrap.list.length > 0)}"  -->
+            <el-tab-pane :label="$t('home.block5.tab2')" name="unwrap">
                 <wxch-history-tb v-if="table_unwrap.list.length > 0" :tableData="table_unwrap.list" />
-                <no-data v-else />
+                <el-skeleton v-if="table_unwrap.list.length == 0 && table_unwrap.total !== 0" animated />
+                <no-data v-if="table_unwrap.total === 0" />
             </el-tab-pane>
         </el-tabs>
 
@@ -82,31 +85,36 @@ export default {
             table_wrap: {
                 page: 1,
                 size: 10,
-                total: 0,
+                total: null,
                 list: []
             },
             table_unwrap: {
                 page: 1,
                 size: 10,
-                total: 0,
+                total: null,
                 list: []
             },
         }
     },
     watch: {
-        page(n){
+        page(){
+            this.getTranscationData()
+        },
+        activeName(){
+            this.getTranscationData()
+        },
+        account(){
             this.getTranscationData()
         }
-    },
-    mounted(){
-        this.getTranscationData()
     },
     methods: {
         getTranscationData(){
             if(!this.user) return false
 
             let type_ = this.activeName
+            this['table_'+type_]['list'] = []
             this.$http('transaction_list', {
+                eth_address: this.account,
                 type: this.activeName,
                 size: this['table_'+type_]['size'],
                 page: this['table_'+type_]['page']
@@ -202,8 +210,10 @@ export default {
     }
 
     &__content {
-        overflow: visible;
+        overflow: hidden;
         width: 100%;
+        border-radius: 18px;
+        box-shadow: $--page-item-shodow-1;
         .el-tab-pane {
             width: 100%;
             position: relative;
@@ -212,6 +222,10 @@ export default {
                 min-height: 500px;
             }
         }
+    }
+
+    .el-skeleton {
+        padding: 40px;
     }
 }
 

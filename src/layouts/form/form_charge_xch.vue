@@ -7,7 +7,6 @@
         :rules="rules" 
         v-loading="loadingWatcher.indexOf('unwrap') > -1"    
     >
-
         <!-- wxch -->
         <el-form-item prop="wxchAmount" >
             <div class="cus-label" slot="label">
