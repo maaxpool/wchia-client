@@ -74,7 +74,7 @@ export default {
     },
     watch: {
         conf(n) {
-            this.fee = (n.unwrap_fee_ratio/100)
+            this.fee = n.unwrap_fee_ratio
         }
     },
     data(){
