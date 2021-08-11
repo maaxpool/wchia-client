@@ -10,7 +10,7 @@
                 </div>
                 <div class="item">
                     <label>{{$t('transDetail.subTitleItem3')}}</label>
-                    <span>{{fee_amount | floatStr}} XCH</span>
+                    <span>{{fee_amount | floatStr}} {{symbol.sender_address}}</span>
                 </div>
             </div>
             <div class="content" v-loading="loadingWatcher.indexOf('transaction_detail') > -1">
@@ -51,14 +51,14 @@ export default {
         ...mapGetters('situation', {
             loadingWatcher: 'loadingWatcher'
         }),
-        /* symbol(){
+        symbol(){
             if (this.type && typeof this.type == 'string') {
                 let s = this.type.indexOf('un') > -1?1:0
                 return {sender_address: s==0?'WXCH':'XCH', receiver_address: s==1?'WXCH':'XCH'}
             } else {
                 return {}
             }
-        } */
+        }
     },
     data(){
         return {
