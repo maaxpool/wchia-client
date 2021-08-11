@@ -50,7 +50,6 @@ export default {
         //     eth_sign: 'eth_sign'
         // }),
         ...mapGetters('user', {
-            xch_address: 'xch_address',
             user: 'user'
         }),
         

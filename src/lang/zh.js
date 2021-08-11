@@ -8,7 +8,8 @@ export default {
         placeholder1: '请输入',
         placeholder2: '请选择',
         
-        nodata: '没有数据'
+        nodata: '没有数据',
+        minimunQuantity: '最小兑换数量'
     },
     msg: {
         require: '{val} 是必须的',
@@ -77,9 +78,9 @@ export default {
             tab1: '兑换成 WXCH',
             tab2: '兑换成XCH',
             cell1: '交易时间',
-            cell2: 'XCH数量',
-            cell3: 'XCH发送地址',
-            cell4: 'XCH接收地址',
+            cell2: '数量',
+            cell3: '发送地址',
+            cell4: '接收地址',
             cell5: '结果',
             tbHandler: '查看详情',
         }
@@ -109,7 +110,7 @@ export default {
     },
     account: {
         pageTitle: '账号设置',
-        subTitleItem1: '交易时间',
+        subTitleItem1: '注册时间',
         item1Name: '名',
         item2Name: '姓',
         item3Name: '国家',
@@ -131,9 +132,9 @@ export default {
         subTitleItem2: '结果',
         subTitleItem3: '手续费',
 
-        item1Name: 'XCH发送地址',
-        item2Name: 'XCH接收地址',
-        item3Name: 'XCH数量',
+        item1Name: '发送地址',
+        item2Name: '接收地址',
+        item3Name: 'XCH 数量',
         item4Name: '状态',
         item5Name: '奇亚交易',
         item6Name: '以太坊交易'

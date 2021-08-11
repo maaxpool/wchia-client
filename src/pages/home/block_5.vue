@@ -53,11 +53,11 @@ import noData from '@/layouts/nodata'
 import headerHomeBlock from '@/layouts/header/header_home_block.vue'
 
 import {mapGetters} from 'vuex'
+import {getBalance} from '@/utils/authUtils'
 export default {
     components: {headerHomeBlock, wxchHistoryTb, noData },
     computed: {
         ...mapGetters('user', {
-            xch_address: 'xch_address',
             user: 'user',
             balance: 'balance',
         }),
@@ -105,6 +105,11 @@ export default {
         },
         account(){
             this.getTranscationData()
+            getBalance()
+        },
+        user(){
+            this.getTranscationData()
+            getBalance()
         }
     },
     methods: {
@@ -166,6 +171,7 @@ export default {
     .ctn {
         display: -webkit-box;
         display: flex;
+        align-items: center;
         img {
             width: 60px;
             height: 60px;

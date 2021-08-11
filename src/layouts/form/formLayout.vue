@@ -118,14 +118,29 @@ export default {
 
 ::v-deep .el-input {
     &.block {
-        display: block;
         .el-input__inner {
-            display: block;
+            color: $--color-black-3;
+            border-color: $--color-form-controller-bg;
+        }
+    }
+
+    &-group {
+
+        &__append, &__prepend {
+            background-color: $--color-form-controller-bg;
+            border-color: $--color-form-controller-bg;
         }
     }
 
     &__inner {
-        background-color: #F8FFFA;
+        background-color: $--color-form-controller-bg;
+        border-color: $--color-form-controller-bg;
+        &:hover {
+            border-color: #C0C4CC;
+        }
+        &:focus {
+            border-color: $--color-primary;
+        }
     }
 }
 

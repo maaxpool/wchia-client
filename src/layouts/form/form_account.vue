@@ -69,7 +69,7 @@
         <!-- Chia Wallet Address -->
         <div class="el-from-row">
             <el-form-item :label="$t('account.item10Name')">
-                <div class="el-input__view">{{xch_address}}</div>
+                <div class="el-input__view">{{user.chia_address}}</div>
             </el-form-item>
         </div>
 
@@ -94,7 +94,6 @@ export default {
     computed: {
         ...mapGetters('user', {
             user: 'user',
-            xch_address: 'xch_address'
         }),
         ...mapGetters('ethereum', {
             account: 'account',

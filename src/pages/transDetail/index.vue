@@ -16,7 +16,10 @@
             <div class="content" v-loading="loadingWatcher.indexOf('transaction_detail') > -1">
                 <template v-if="isLoaded" >
                     <div class="item" :class="{'full': item.full}" v-for="(item, idx) in dataList" :key="`trans_item_${idx}`">
-                        <label>{{item.name}}</label>
+                        <label>
+                            <!-- {{$t(item.name, {symbol: symbol[idx]})}} -->
+                            {{$t(item.name)}}
+                        </label>
                         <div>
                             <p>{{item.val}}</p>
                             <a v-if="item.handler && item.val" :href="item.handler.link+item.val">{{$t(item.handler.txt)}}</a>
@@ -48,15 +51,14 @@ export default {
         ...mapGetters('situation', {
             loadingWatcher: 'loadingWatcher'
         }),
-        symbol(){
-            if (this.type == 'wrap') {
-                return 'WXCH'
-            } else if (this.type == 'unwrap') {
-                return 'XCH'
+        /* symbol(){
+            if (this.type && typeof this.type == 'string') {
+                let s = this.type.indexOf('un') > -1?1:0
+                return {sender_address: s==0?'WXCH':'XCH', receiver_address: s==1?'WXCH':'XCH'}
             } else {
-                return ''
+                return {}
             }
-        }
+        } */
     },
     data(){
         return {
@@ -65,11 +67,11 @@ export default {
             fee_amount: "--",
             isLoaded: false,
             dataList: {
-                sender_address: {name: this.$t('transDetail.item1Name') + this.symbol, val: ""},
-                receiver_address: {name:  this.$t('transDetail.item2Name'), val: ""},
-                amount: {name:this.$t('transDetail.item3Name'), val:""},
-                status: {name: this.$t('transDetail.item4Name'), val: ""},
-                chia_transaction_hash: {name: this.$t('transDetail.item5Name'), val: "", 
+                sender_address: {name:'transDetail.item1Name', val: ""},
+                receiver_address: {name: 'transDetail.item2Name', val: ""},
+                amount: {name: 'transDetail.item3Name', val:""},
+                status: {name:'transDetail.item4Name', val: ""},
+                chia_transaction_hash: {name:'transDetail.item5Name', val: "", 
                     handler:{link:'https://www.chiaexplorer.com/blockchain/block/', txt: 'public.check'}},
                 // eth_transaction_hash: {name: this.$t('transDetail.item6Name'), val: ""},
             }

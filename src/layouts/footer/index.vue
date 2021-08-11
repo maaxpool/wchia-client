@@ -7,7 +7,7 @@
                 <!-- <div class="desc">如需帮助，请联系team@wxch.com</div> -->
                 <div class="desc">
                     <span>{{$t('footer.lpart.item2')}}</span>
-                    <a class="link" href="mailto:team@wxch.com">team@wxch.com</a>
+                    <a class="link" :href="`mailto:${conf.email}`">{{conf.email}}</a>
                 </div>
                 <el-dropdown @command="changeLang" >
                     <el-button>{{locale}}</el-button>
@@ -44,9 +44,13 @@
 <script>
 import domScroll from '@/utils/scroll'
 import jsCookie from 'js-cookie'
+import {mapGetters} from 'vuex'
 export default {
     name: 'pageFooter',
     computed: {
+        ...mapGetters('user', {
+            conf: 'conf'
+        }),
         locale(){
             return this.$i18n.locale == 'en' ? 'English' : '中文简体'
         }

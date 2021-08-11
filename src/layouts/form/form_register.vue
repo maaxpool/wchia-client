@@ -12,12 +12,12 @@
             <div class="cus-label" slot="label">
                 <span>{{$t('register.item1Name')}}</span>
             </div>
-            <div class="el-input block">
+            <div class="el-input el-input-group el-input-group--append block">
                 <div class="el-input__inner ">
                     <span v-if="account&&eth_sign">{{account}}</span>
                 </div>
+                <div class="el-form-item__append handler" v-if="!account||!eth_sign"  @click="connectWalelt">{{$t('register.item1Unit')}}</div>
             </div>
-            <div class="el-form-item__append handler" v-if="!account||!eth_sign"  @click="connectWalelt">{{$t('register.item1Unit')}}</div>
         </el-form-item>
 
         <!-- country -->
@@ -199,7 +199,6 @@ export default {
                     this.$http('register', options).then(async res => {
                         if(res&&res['msg']) {
                             let data = res['msg']
-                            this.$store.commit('user/xch_address', data['chia_address'])
                             await getUserInfo(this)
                             this.$nextTick(() => {
                                 this.$router.push({name: 'home'})

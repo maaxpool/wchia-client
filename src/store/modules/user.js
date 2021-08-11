@@ -2,24 +2,15 @@ import jsCookie from 'js-cookie'
 export default {
     namespaced: true,
     state: {
+        "conf": null,
         "user": null,
-        "xch_address": null,
         "wxch_balance": 0,
         "xch_balance": 0,
     },
     getters: {
-        xch_address: state => {
-            let xch_address_ = state.xch_address||jsCookie.get('xch_address')
-            let usr_ = state.user
-            if (jsCookie.get('user')) {
-                usr_ = JSON.parse(jsCookie.get('user'))
-            }
-
-            if(xch_address_) {
-                return xch_address_
-            } else if (usr_) {
-                return usr_['chia_address']
-            }
+        conf: state => {
+            console.log(JSON.parse(jsCookie.get('conf')))
+            return state.conf || JSON.parse(jsCookie.get('conf'))
         },
         user: state => {
             if (!state.user && jsCookie.get('user'))
@@ -37,17 +28,12 @@ export default {
         }
     },
     mutations: {
-        xch_address (state, xch_address) {
-            jsCookie.set('xch_address', xch_address, {expires: 1})
-            state.xch_address = xch_address
-        },
+        conf(state, conf) {
+            jsCookie.set('conf', JSON.stringify(conf))
+            state.conf = conf
+        },     
         user (state, user) {
             jsCookie.set('user', JSON.stringify(user), {expires: 1})
-            if (user['chia_address']) {
-                jsCookie.set('xch_address', user['chia_address'], {expires: 1})
-                state.xch_address = user['chia_address']
-            }
-
             state.user = user
         },
         balance (state, {wrap_amount, unwrap_amount}) {

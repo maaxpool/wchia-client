@@ -28,7 +28,6 @@ export default {
     i18n: require('./i18n'),
     computed: {
         ...mapGetters('user', {
-            xch_address: 'xch_address',
             user: 'user'
         }),
     },

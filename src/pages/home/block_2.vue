@@ -8,21 +8,21 @@
                     <img src="/img/block_2_1.png" alt=" " title=" " />
                     <div class="desc">{{$t('home.block2.item1Name')}}</div>
                 </div>
-                <div class="bottom">This is name</div>
+                <div class="bottom">{{conf.name}}</div>
             </el-col>
             <el-col>
                 <div class="top">
                     <img src="/img/block_2_2.png" alt=" " title=" " />
                     <div class="desc">{{$t('home.block2.item2Name')}}</div>
                 </div>
-                <div class="bottom">xch1yycy4ehlnfsy6tqyyqmep9shpjcs89en6mhsx5cc0224ea92065qftefdj</div>
+                <div class="bottom">{{conf.chia_address}}</div>
             </el-col>
             <el-col>
                 <div class="top">
                     <img src="/img/block_2_3.png" alt=" " title=" " />
                     <div class="desc">{{$t('home.block2.item3Name')}}</div>
                 </div>
-                <div class="bottom">0x469ad638a0f12ab27a09127b98af2444a44c3661</div>
+                <div class="bottom">{{conf.eth_address}}</div>
             </el-col>
         </el-row>
     </div>
@@ -30,8 +30,14 @@
 
 <script>
 import headerHomeBlock from '@/layouts/header/header_home_block.vue'
+import {mapGetters} from 'vuex'
 export default {
-    components: {headerHomeBlock}
+    components: {headerHomeBlock},
+    computed: {
+        ...mapGetters('user', {
+            conf: 'conf'
+        }),
+    },
 }
 </script>
 

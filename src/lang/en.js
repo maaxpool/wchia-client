@@ -9,7 +9,8 @@ export default {
         placeholder2: 'Please select',
         
         nodata: 'No Data',
-        check: "Check Details"
+        check: "Check Details",
+        minimunQuantity: 'Minimum exchange'
     },
     msg: {
         require: '{val} is required',
@@ -78,9 +79,9 @@ export default {
             tab1: 'Exchange WXCH',
             tab2: 'Exchange XCH',
             cell1: 'Transaction Time',
-            cell2: 'Quantity for XCH',
-            cell3: 'sending address for XCH',
-            cell4: 'receiving address for XCH',
+            cell2: 'Quantity',
+            cell3: 'sending address',
+            cell4: 'receiving address',
             cell5: 'Result',
             tbHandler: 'Check details',
         }
@@ -132,8 +133,8 @@ export default {
         subTitleItem2: 'Result',
         subTitleItem3: 'Fee:',
 
-        item1Name: 'sending address for',
-        item2Name: 'receiving address for',
+        item1Name: 'sending address',
+        item2Name: 'receiving address',
         item3Name: 'Quantity for XCH',
         item4Name: 'Status',
         item5Name: 'Chia transaction',

@@ -2,9 +2,21 @@ import storage from '@/store/index'
 import $http from '@/utils/http'
 
 import {Message} from 'element-ui'
+import store from '@/store'
 
 const authorizationCheck = () => {
   return storage.getters['user/user']
+}
+
+const getConfigure = async () => {
+    try {
+        let res = await $http('get_configure')
+        if(res && res['success']) {
+            store.commit('user/conf', res['msg'])
+        }
+    } catch (err) {
+        console.error(err)
+    } 
 }
 
 const getUserInfo = ($app) => {
@@ -13,7 +25,7 @@ const getUserInfo = ($app) => {
             console.error('Can not catch the $app')
             refuse()
         }
-        getBalance()
+        // getBalance()
 
         $app.$metaMaskUtils.ethSign()
             .then(() => {
@@ -24,7 +36,7 @@ const getUserInfo = ($app) => {
                 
                 $http('get_user', {
                     eth_address: storage.getters['ethereum/account'],
-                    eth_signature:storage.getters['ethereum/eth_sign'],
+                    eth_signature: storage.getters['ethereum/eth_sign'],
                     auth_msg: String(storage.getters['ethereum/auth_msg'])
                 }).then(res => {
                     if (res && res['success']) {
@@ -49,15 +61,19 @@ const getUserInfo = ($app) => {
 }
 
 const getBalance = async () => {
+    if(!authorizationCheck()) return false
     try {
-        // console.log(storage.getters['ethereum/account'])
-        let res = await $http('transaction_stat', {eth_address: storage.getters['ethereum/account']}),
-            {wrap_amount, unwrap_amount} = res['msg']
-        storage.commit('user/balance', {wrap_amount, unwrap_amount})
+        let res = await $http('balance', {
+                eth_address: storage.getters['ethereum/account'],
+                eth_signature: storage.getters['ethereum/eth_sign'],
+                auth_msg: String(storage.getters['ethereum/auth_msg']),
+            }),
+            {wxch_amount, xch_amount} = res['msg']
+        storage.commit('user/balance', {wrap_amount: wxch_amount, unwrap_amount: xch_amount})
     } catch (err) {
         console.error(err)
     }
 }
 
 
-export {authorizationCheck, getUserInfo, getBalance}
+export {authorizationCheck, getUserInfo, getBalance, getConfigure}

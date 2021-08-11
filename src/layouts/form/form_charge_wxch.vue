@@ -10,21 +10,24 @@
 
         <el-form-item prop="xchAmount" >
             <div class="cus-label" slot="label">
-                <span>{{$t('home.block3.item1Name')}}</span>
+                <span>{{$t('home.block3.item1Name')}}({{$t('public.minimunQuantity')}}: {{conf.minimal_exchange_decimals}}XCH)</span>
                 <div class="top-append">1 XCH= {{1-fee}} WXCH</div>
             </div>
-            <el-input v-model="formData.xchAmount"></el-input>
-            <div class="el-form-item__append">XCH</div>
+            <el-input v-model="formData.xchAmount">
+                <template slot="append">XCH</template>
+            </el-input>
+                <!-- <div class="el-form-item__append">XCH</div> -->
         </el-form-item>
 
         <el-form-item >
             <div class="cus-label" slot="label">
                 <span>{{$t('home.block3.item2Name')}}</span>
             </div>
-            <div class="el-input block">
+            <!-- block -->
+            <div class="el-input el-input-group el-input-group--append block">
                 <div class="el-input__inner ">{{wxchAmount}}</div>
+                <div class="el-input-group__append">WXCH</div>
             </div>
-            <div class="el-form-item__append">WXCH</div>
         </el-form-item>
 
         <div class="desc">
@@ -46,12 +49,14 @@
 import formLayout from './formLayout'
 import {rational} from '@/utils/rules'
 import {authorizationCheck, getUserInfo, getBalance} from '@/utils/authUtils'
-
 import {mapGetters} from 'vuex'
 
 export default {
     components: {formLayout},
     computed: {
+        ...mapGetters('user', {
+            conf: 'conf'
+        }),
         ...mapGetters('ethereum', {
             account: 'account',
             eth_sign: 'eth_sign',
@@ -63,6 +68,11 @@ export default {
         ...mapGetters('situation', {
             loadingWatcher: 'loadingWatcher'
         }),
+    },
+    watch: {
+        conf(n) {
+            this.fee = (n.wrap_fee_ratio/100)
+        }
     },
     data(){
         const xchAmountVaily = (rule, val, callback) => {
@@ -78,7 +88,7 @@ export default {
 
         return {
             labelPosition: 'top',
-            fee: 0.005,
+            fee: 0,
             formData: {
                 xchAmount: 0,
             },

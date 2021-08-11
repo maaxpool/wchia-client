@@ -7,7 +7,7 @@
 </template>
 
 <script>
-
+import {getConfigure} from '@/utils/authUtils'
 export default {
   name: 'App',
   components: {},
@@ -17,6 +17,8 @@ export default {
     }
   },
   created(){
+    // console.log(getConfigure)
+    getConfigure()
   },
   watch: {
     $route(n) {

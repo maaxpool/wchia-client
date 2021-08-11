@@ -10,21 +10,24 @@
         <!-- wxch -->
         <el-form-item prop="wxchAmount" >
             <div class="cus-label" slot="label">
-                <span>{{$t('home.block4.item1Name')}}</span>
+                <span>{{$t('home.block4.item1Name')}}({{$t('public.minimunQuantity')}}: {{conf.minimal_exchange_decimals}}WXCH)</span>
                 <div class="top-append">1 WXCH= {{1 - fee}} XCH</div>
             </div>
-            <el-input v-model="formData.wxchAmount"></el-input>
-            <div class="el-form-item__append">WXCH</div>
+            <el-input v-model="formData.wxchAmount">
+                <template slot="append">WXCH</template>
+            </el-input>
+            <!-- <div class="el-form-item__append">WXCH</div> -->
         </el-form-item>
 
         <el-form-item >
             <div class="cus-label" slot="label">
                 <span>{{$t('home.block4.item2Name')}}</span>
             </div>
-            <div class="el-input block">
+            <div class="el-input el-input-group el-input-group--append block">
                 <div class="el-input__inner ">{{xchAmount}}</div>
+                <div class="el-input-group__append">XCH</div>
             </div>
-            <div class="el-form-item__append">XCH</div>
+            <!-- <div class="el-form-item__append">XCH</div> -->
         </el-form-item>
 
 
@@ -54,6 +57,9 @@ import {mapGetters} from 'vuex'
 export default {
     components: {formLayout},
     computed: {
+        ...mapGetters('user', {
+            conf: 'conf'
+        }),
         ...mapGetters('ethereum', {
             account: 'account',
             eth_sign: 'eth_sign',
@@ -65,6 +71,11 @@ export default {
         ...mapGetters('situation', {
             loadingWatcher: 'loadingWatcher'
         }),
+    },
+    watch: {
+        conf(n) {
+            this.fee = (n.unwrap_fee_ratio/100)
+        }
     },
     data(){
         const wxchAmountVaily = (rule, val, callback) => {
@@ -80,7 +91,7 @@ export default {
 
         return {
             labelPosition: 'top',
-            fee: 0.005,
+            fee: 0,
             formData: {
                 wxchAmount: 0,
                 xchAddress: ''
@@ -106,8 +117,8 @@ export default {
 
                     const options = {
                         "unwrap_amount": parseFloat(this.formData.wxchAmount),
-                        "chia_address": this.formData.xchAddress,
-                        "eth_address": this.account,
+                        "chia_address": this.formData.xchAddress.replace(/\s/g, ''),
+                        "eth_address": this.account.replace(/\s/g, ''),
                         "eth_signature": this.eth_sign,
                         "auth_msg": this.auth_msg
                     }

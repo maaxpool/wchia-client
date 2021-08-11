@@ -7,9 +7,6 @@ $--color-black-1: rgba($--color-black, 0.8);
 $--color-black-2: rgba($--color-black, 0.6);
 $--color-black-3: rgba($--color-black, 0.4);
 $--color-black-4: rgba($--color-black, 0.2);
-// $--color-black-2: #000000 !default;
-// $--color-black-3: #000000 !default;
-// $--color-black-4: #000000 !default;
 
 
 $--color-primary-light-1: mix($--color-white, $--color-primary, 10%) !default; /* 53a8ff */
@@ -33,11 +30,11 @@ $--color-info: #909399 !default;
 
 
 $--page-width: 1000px;
-
 $--page-item-shodow-1: 0 0 22px 1px #E6EFFE;
-
 $--home-nav: #0D1A3D;
 
+
+$--color-form-controller-bg:#F3F4F9;
 
 @mixin displayFlex() {
     display: -webkit-box;
