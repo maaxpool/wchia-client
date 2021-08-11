@@ -77,7 +77,7 @@ export default {
             }
         }
     },
-    mounted(){
+    activated(){
         this.getTransDetail()
     },
     methods: {
