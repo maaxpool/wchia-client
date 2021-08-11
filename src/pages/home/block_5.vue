@@ -110,11 +110,18 @@ export default {
         user(){
             this.getTranscationData()
             getBalance()
+        },
+        balance: {
+            handler() {
+                this.getTranscationData()
+            },
+            immediate: true,
+            deep: true
         }
     },
     methods: {
         getTranscationData(){
-            if(!this.user) return false
+            if(!this.account || !this.user) return false
 
             let type_ = this.activeName
             this['table_'+type_]['list'] = []

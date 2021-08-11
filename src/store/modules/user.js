@@ -9,8 +9,12 @@ export default {
     },
     getters: {
         conf: state => {
-            console.log(JSON.parse(jsCookie.get('conf')))
-            return state.conf || JSON.parse(jsCookie.get('conf'))
+            let conf_
+            if (jsCookie.get('conf'))
+                conf_ = JSON.parse(jsCookie.get('conf'))
+            else
+                conf_ = state.conf || {}
+            return conf_
         },
         user: state => {
             if (!state.user && jsCookie.get('user'))
@@ -29,7 +33,7 @@ export default {
     },
     mutations: {
         conf(state, conf) {
-            jsCookie.set('conf', JSON.stringify(conf))
+            jsCookie.set('conf', JSON.stringify(conf), {expires: 1})
             state.conf = conf
         },     
         user (state, user) {
