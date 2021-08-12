@@ -9,6 +9,7 @@ export default {
         placeholder2: '请选择',
         
         nodata: '没有数据',
+        check: "查看交易",
         minimunQuantity: '最小兑换数量'
     },
     msg: {

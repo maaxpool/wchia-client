@@ -18,8 +18,8 @@ export default {
     },
     navs: {
         item1: 'About Broker',
-        item2: 'Exhange WXCH',
-        item3: 'Exhange XCH',
+        item2: 'Exchange WXCH',
+        item3: 'Exchange XCH',
         item4: 'Historical transaction',
         item5: 'Connect Us',
         btn1: 'Sign Up',
@@ -55,7 +55,7 @@ export default {
             item3Desc: '',
         },
         block3: {
-            title: 'Redeem WXCH now',
+            title: 'EXCHANGE WXCH',
             subTitle: 'You can convert XCH to WXCH, which can increase the liquidity of Chia token.',
             item1Name: 'Send XCH',
             item2Name: 'Exchange WXCH',
@@ -64,7 +64,7 @@ export default {
             btn1: 'Redeem WXCH now',
         },
         block4: {
-            title: 'Exchange to XCH',
+            title: 'EXCHANGE XCH',
             subTitle: 'You can exchange WXCH back to XCH to your Chia Wallet at any time.',
             item1Name: 'Send WXCH',
             item2Name: 'Exchange XCH',
@@ -80,8 +80,8 @@ export default {
             tab2: 'Exchange XCH',
             cell1: 'Transaction Time',
             cell2: 'Quantity',
-            cell3: 'sending address',
-            cell4: 'receiving address',
+            cell3: 'Sending address',
+            cell4: 'Receiving address',
             cell5: 'Result',
             tbHandler: 'Check details',
         }
@@ -133,8 +133,8 @@ export default {
         subTitleItem2: 'Result',
         subTitleItem3: 'Fee:',
 
-        item1Name: 'sending address',
-        item2Name: 'receiving address',
+        item1Name: 'Sending address',
+        item2Name: 'Receiving address',
         item3Name: 'Quantity',
         item4Name: 'Status',
         item5Name: 'Transaction Hash',

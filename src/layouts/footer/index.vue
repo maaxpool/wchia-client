@@ -23,7 +23,7 @@
                 <a @click="scroll('Block_3')" >{{$t('navs.item2')}}</a>
                 <a @click="scroll('Block_4')" >{{$t('navs.item3')}}</a>
                 <a @click="scroll('Block_5')" >{{$t('navs.item4')}}</a>
-                <a class="connectus">
+                <!-- <a class="connectus">
                     <p>{{$t('navs.item5')}}</p>
                     <div class="connectus-tab">
                         <a class="item">
@@ -35,7 +35,7 @@
                             <span>Facebook</span>
                         </a>
                     </div>
-                </a>
+                </a> -->
             </ul>
         </div>
     </div>
