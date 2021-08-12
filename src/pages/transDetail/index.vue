@@ -15,7 +15,7 @@
             </div>
             <div class="content" v-loading="loadingWatcher.indexOf('transaction_detail') > -1">
                 <template v-if="isLoaded" >
-                    <div class="item" :class="{'full': item.full}" v-for="(item, idx) in dataList" :key="`trans_item_${idx}`">
+                    <div class="item" :class="{'full': item.full}" v-for="(item, idx) in dataList" :key="`trans_item_${idx}`" v-if="item.val">
                         <label>
                             <!-- {{$t(item.name, {symbol: symbol[idx]})}} -->
                             {{$t(item.name)}}
@@ -58,7 +58,7 @@ export default {
             } else {
                 return {}
             }
-        }
+        },
     },
     data(){
         return {
@@ -73,6 +73,8 @@ export default {
                 status: {name:'transDetail.item4Name', val: ""},
                 chia_transaction_hash: {name:'transDetail.item5Name', val: "", 
                     handler:{link:'https://www.chiaexplorer.com/blockchain/block/', txt: 'public.check'}},
+                eth_transaction_hash: {name:'transDetail.item5Name', val: "", 
+                    handler:{link:'https://ropsten.etherscan.io/tx/', txt: 'public.check'}},
                 // eth_transaction_hash: {name: this.$t('transDetail.item6Name'), val: ""},
             }
         }

@@ -11,7 +11,7 @@
         <el-form-item prop="wxchAmount" >
             <div class="cus-label" slot="label">
                 <span>{{$t('home.block4.item1Name')}}({{$t('public.minimunQuantity')}}: {{conf.minimal_exchange_decimals}}WXCH)</span>
-                <div class="top-append">1 WXCH= {{1 - fee}} XCH</div>
+                <div class="top-append">1 WXCH= {{1 - (conf.unwrap_fee_ratio/100)}} XCH</div>
             </div>
             <el-input v-model="formData.wxchAmount">
                 <template slot="append">WXCH</template>
@@ -39,7 +39,7 @@
         </el-form-item>
 
         <div class="desc">
-           {{$t('public.fee')}}: {{fee*100}} %
+           {{$t('public.fee')}}: {{conf.unwrap_fee_ratio}} %
         </div>
 
         <el-button class="submit" type="primary" @click="submitForm" >{{$t('home.block4.btn1')}}</el-button>
@@ -66,16 +66,11 @@ export default {
             auth_msg: 'auth_msg'
         }),
         xchAmount(){
-            return (1 - this.fee)*parseFloat(this.formData.wxchAmount) || 0
+            return (1 - (this.conf.unwrap_fee_ratio/100 || 0))*parseFloat(this.formData.wxchAmount) || 0
         },
         ...mapGetters('situation', {
             loadingWatcher: 'loadingWatcher'
         }),
-    },
-    watch: {
-        conf(n) {
-            this.fee = n.unwrap_fee_ratio
-        }
     },
     data(){
         const wxchAmountVaily = (rule, val, callback) => {
@@ -91,7 +86,6 @@ export default {
 
         return {
             labelPosition: 'top',
-            fee: 0,
             formData: {
                 wxchAmount: 0,
                 xchAddress: ''
