@@ -22,7 +22,7 @@
             </div>
         </div>
         <!-- @tab-click="handleClick" -->
-        <el-tabs v-model="activeName" type="card" >
+        <el-tabs v-model="activeName" type="card" v-loading="this.loadingWatcher.indexOf('transaction_list') > -1">
             <!-- :class="{'no-data': !(table_wrap.list.length > 0)}" -->
             <el-tab-pane  :label="$t('home.block5.tab1')" name="wrap">
                 <wxch-history-tb v-if="table_wrap.list.length > 0" :tableData="table_wrap.list" />
@@ -68,6 +68,9 @@ export default {
         ...mapGetters('ethereum', {
             account: 'account',
         }),
+        ...mapGetters('situation', {
+            loadingWatcher: 'loadingWatcher'
+        }),
         pagation(){
             let type_ = this.activeName,
                 cur = this['table_'+type_],
@@ -107,21 +110,20 @@ export default {
         activeName(){
             this.getTranscationData()
         },
-        account(){
-            this.getTranscationData()
-            getBalance()
-        },
         user(){
-            this.getTranscationData()
             getBalance()
         },
         balance: {
-            handler() {
-                this.getTranscationData()
+            handler(n, o) {
+                if (o && n.state_init) this.getTranscationData()
             },
             immediate: true,
             deep: true
         }
+    },
+    async activated(){
+        await this.$metaMaskUtils.initlization()
+        getBalance()
     },
     methods: {
         getTranscationData(){

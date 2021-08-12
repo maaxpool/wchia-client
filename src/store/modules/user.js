@@ -7,7 +7,8 @@ export default {
         "wxch_balance": 0,
         "xch_balance": 0,
         "wrap_amount": 0,
-        "unwrap_amount": 0
+        "unwrap_amount": 0,
+        "state_init": false
     },
     getters: {
         conf: state => {
@@ -30,9 +31,9 @@ export default {
             // return typeof state.user == 'string'?JSON.parse(state.user):state.user
         },
         balance: state => {
-            let {wxch_balance, xch_balance, wrap_amount, unwrap_amount} = state
+            let {wxch_balance, xch_balance, wrap_amount, unwrap_amount, state_init} = state
             // return {wxch_balance: state.wxch_balance, xch_balance: state.xch_balance}
-            return {wxch_balance, xch_balance, wrap_amount, unwrap_amount}
+            return {wxch_balance, xch_balance, wrap_amount, unwrap_amount, state_init}
         }
     },
     mutations: {
@@ -51,6 +52,7 @@ export default {
         comulative (state, {wrap_amount, unwrap_amount}) {
             state.wrap_amount = wrap_amount
             state.unwrap_amount = unwrap_amount
+            state.state_init = true
         }
     }
   }

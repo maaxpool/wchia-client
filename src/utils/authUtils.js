@@ -31,7 +31,7 @@ const getUserInfo = ($app) => {
             .then(() => {
                 // console.log(storage.getters['user/user'])
 
-                if (authorizationCheck())
+                if (authorizationCheck() || !storage.getters['ethereum/account'])
                     return false
                 
                 $http('get_user', {
@@ -61,7 +61,8 @@ const getUserInfo = ($app) => {
 }
 
 const getBalance = async () => {
-    if(!authorizationCheck()) return false
+    if(!authorizationCheck() || !storage.getters['ethereum/account']) return false
+
     try {
         let res_balance = await $http('balance', {
                 eth_address: storage.getters['ethereum/account'],
@@ -69,6 +70,7 @@ const getBalance = async () => {
                 auth_msg: String(storage.getters['ethereum/auth_msg']),
             }),
             {wxch_amount, xch_amount} = res_balance['msg']
+
         storage.commit('user/balance', {wxch_amount,xch_amount})
 
 
