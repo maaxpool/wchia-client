@@ -1,6 +1,6 @@
 export default {
     public: {
-        fee: 'fee',
+        fee: 'Fee',
         send: 'send',
         cancel: 'Cancel',
         item1Name: 'Check transaction',
