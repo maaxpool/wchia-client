@@ -7,7 +7,7 @@
                 <div class="ctn">
                     <img src="/img/block_5_wxch.png" />
                     <div class="count">
-                        {{balance.wxch_balance}} WXCH
+                        {{balance.wrap_amount | floatStr}} WXCH
                     </div>
                 </div>
             </div>
@@ -16,7 +16,7 @@
                 <div class="ctn">
                     <img src="/img/block_5_xch.png" />
                     <div class="count">
-                        {{balance.xch_balance}} XCH
+                        {{balance.unwrap_amount | floatStr}} XCH
                     </div>
                 </div>
             </div>
@@ -53,9 +53,13 @@ import noData from '@/layouts/nodata'
 import headerHomeBlock from '@/layouts/header/header_home_block.vue'
 
 import {mapGetters} from 'vuex'
+import {cmpl} from '@/utils/floatOperation'
 import {getBalance} from '@/utils/authUtils'
 export default {
     components: {headerHomeBlock, wxchHistoryTb, noData },
+    filters: {
+        floatStr: num => cmpl(num, 6)
+    },
     computed: {
         ...mapGetters('user', {
             user: 'user',
@@ -134,6 +138,9 @@ export default {
                 if(res && res['success']) {
                     let data = res['msg']
                     this['table_'+type_]['total'] = data.total
+                    for (let i in data.transactions) {
+                        data.transactions[i]['amount'] = cmpl(data.transactions[i]['amount'], 6)
+                    }
                     this['table_'+type_]['list'] = data.transactions
                 }
             }).catch(err => {

@@ -49,6 +49,7 @@
 import formLayout from './formLayout'
 import {rational} from '@/utils/rules'
 import {authorizationCheck, getUserInfo, getBalance} from '@/utils/authUtils'
+import {mul, cmpl} from '@/utils/floatOperation'
 import {mapGetters} from 'vuex'
 
 export default {
@@ -63,7 +64,7 @@ export default {
             auth_msg: 'auth_msg'
         }),
         wxchAmount(){
-            return (1 - (this.conf.unwrap_fee_ratio/100 ||0))*parseFloat(this.formData.xchAmount) || 0
+            return mul(1-(this.conf.unwrap_fee_ratio/100 ||0),parseFloat(this.formData.xchAmount)).toFixed(6)
         },
         ...mapGetters('situation', {
             loadingWatcher: 'loadingWatcher'

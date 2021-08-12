@@ -15,7 +15,7 @@
             </div>
             <div class="content" v-loading="loadingWatcher.indexOf('transaction_detail') > -1">
                 <template v-if="isLoaded" >
-                    <div class="item" :class="{'full': item.full}" v-for="(item, idx) in dataList" :key="`trans_item_${idx}`" v-if="item.val">
+                    <div class="item" :class="{'full': item.full}" v-for="(item, idx) in dataList" :key="`trans_item_${idx}`" v-if="item.val" >
                         <label>
                             <!-- {{$t(item.name, {symbol: symbol[idx]})}} -->
                             {{$t(item.name)}}
@@ -96,6 +96,9 @@ export default {
                             this.fee_amount = data['fee_amount']
                             for (let keys in obj) {
                                 obj[keys]['val'] = data[keys]
+                                if(keys == 'amount') {
+                                    obj[keys]['val'] = cmpl(data[keys], 6)
+                                }
                             }
                             this.isLoaded = true
                             this.dataList = {...obj}

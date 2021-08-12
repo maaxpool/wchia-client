@@ -63,17 +63,25 @@ const getUserInfo = ($app) => {
 const getBalance = async () => {
     if(!authorizationCheck()) return false
     try {
-        let res = await $http('balance', {
+        let res_balance = await $http('balance', {
                 eth_address: storage.getters['ethereum/account'],
                 eth_signature: storage.getters['ethereum/eth_sign'],
                 auth_msg: String(storage.getters['ethereum/auth_msg']),
             }),
-            {wxch_amount, xch_amount} = res['msg']
-        storage.commit('user/balance', {wrap_amount: wxch_amount, unwrap_amount: xch_amount})
+            {wxch_amount, xch_amount} = res_balance['msg']
+        storage.commit('user/balance', {wxch_amount,xch_amount})
+
+
+        let res_transaction_stat = await $http('transaction_stat', {
+                eth_address: storage.getters['ethereum/account'],
+            }),
+            {wrap_amount, unwrap_amount} = res_transaction_stat['msg']
+        storage.commit('user/comulative', {wrap_amount, unwrap_amount})
     } catch (err) {
         console.error(err)
     }
 }
+
 
 
 export {authorizationCheck, getUserInfo, getBalance, getConfigure}

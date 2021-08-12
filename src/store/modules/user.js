@@ -6,6 +6,8 @@ export default {
         "user": null,
         "wxch_balance": 0,
         "xch_balance": 0,
+        "wrap_amount": 0,
+        "unwrap_amount": 0
     },
     getters: {
         conf: state => {
@@ -28,7 +30,9 @@ export default {
             // return typeof state.user == 'string'?JSON.parse(state.user):state.user
         },
         balance: state => {
-            return {wxch_balance: state.wxch_balance, xch_balance: state.xch_balance}
+            let {wxch_balance, xch_balance, wrap_amount, unwrap_amount} = state
+            // return {wxch_balance: state.wxch_balance, xch_balance: state.xch_balance}
+            return {wxch_balance, xch_balance, wrap_amount, unwrap_amount}
         }
     },
     mutations: {
@@ -40,9 +44,13 @@ export default {
             jsCookie.set('user', JSON.stringify(user), {expires: 1})
             state.user = user
         },
-        balance (state, {wrap_amount, unwrap_amount}) {
-            state.wxch_balance = wrap_amount
-            state.xch_balance = unwrap_amount
+        balance (state, {wxch_amount, xch_amount}) {
+            state.wxch_balance = wxch_amount
+            state.xch_balance = xch_amount
+        },
+        comulative (state, {wrap_amount, unwrap_amount}) {
+            state.wrap_amount = wrap_amount
+            state.unwrap_amount = unwrap_amount
         }
     }
   }

@@ -11,7 +11,7 @@
         <el-form-item prop="wxchAmount" >
             <div class="cus-label" slot="label">
                 <span>{{$t('home.block4.item1Name')}}({{$t('public.minimunQuantity')}}: {{conf.minimal_exchange_decimals}}WXCH)</span>
-                <div class="top-append">1 WXCH= {{1 - (conf.unwrap_fee_ratio/100)}} XCH</div>
+                <div class="top-append">1 WXCH= {{1-(conf.wrap_fee_ratio/100)}} XCH</div>
             </div>
             <el-input v-model="formData.wxchAmount">
                 <template slot="append">WXCH</template>
@@ -39,7 +39,7 @@
         </el-form-item>
 
         <div class="desc">
-           {{$t('public.fee')}}: {{conf.unwrap_fee_ratio}} %
+           {{$t('public.fee')}}: {{conf.wrap_fee_ratio}} %
         </div>
 
         <el-button class="submit" type="primary" @click="submitForm" >{{$t('home.block4.btn1')}}</el-button>
@@ -51,8 +51,8 @@
 import formLayout from './formLayout'
 import {rational} from '@/utils/rules'
 import {authorizationCheck, getUserInfo, getBalance} from '@/utils/authUtils'
+import {mul, cmpl} from '@/utils/floatOperation'
 import {mapGetters} from 'vuex'
-
 
 export default {
     components: {formLayout},
@@ -66,7 +66,8 @@ export default {
             auth_msg: 'auth_msg'
         }),
         xchAmount(){
-            return (1 - (this.conf.unwrap_fee_ratio/100 || 0))*parseFloat(this.formData.wxchAmount) || 0
+            // return (1 - (this.conf.unwrap_fee_ratio/100 || 0))*parseFloat(this.formData.wxchAmount).toFixed(6) || 0
+            return mul(1-(this.conf.wrap_fee_ratio/100 ||0),parseFloat(this.formData.wxchAmount)).toFixed(6)
         },
         ...mapGetters('situation', {
             loadingWatcher: 'loadingWatcher'

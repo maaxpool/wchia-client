@@ -1,5 +1,5 @@
 const add = (a, b) => {
-    var _this = this
+    
     var c, d, e
     try {
       c = a.toString().split('.')[1].length
@@ -11,11 +11,10 @@ const add = (a, b) => {
     } catch (f) {
       d = 0
     }
-    return e = Math.pow(10, Math.max(c, d)), (_this.mul(a, e) + mul(b, e)) / e
+    return e = Math.pow(10, Math.max(c, d)), (mul(a, e) + mul(b, e)) / e
   }
 
 const sub = (a, b) => {
-    var _this = this
     var c, d, e
     try {
       c = a.toString().split('.')[1].length
@@ -27,14 +26,13 @@ const sub = (a, b) => {
     } catch (f) {
       d = 0
     }
-    return e = Math.pow(10, Math.max(c, d)), (_this.mul(a, e) - _this.mul(b, e)) / e
+    return e = Math.pow(10, Math.max(c, d)), (mul(a, e) - mul(b, e)) / e
   }
 
 const mul = (a, b) => {
-    var _this = this
     var c = 0,
-      d = a.toString(),
-      e = b.toString()
+      d = typeof a == 'number'? a.toString():a,
+      e = typeof b == 'number'? b.toString():b
     try {
       c += d.split('.')[1].length
     } catch (f) {
@@ -47,7 +45,7 @@ const mul = (a, b) => {
   }
 
 const div = (a, b) => {
-    var _this = this
+    
     var c, d, e = 0,
       f = 0
     try {
@@ -58,7 +56,7 @@ const div = (a, b) => {
       f = b.toString().split('.')[1].length
     } catch (g) {
     }
-    return c = Number(a.toString().replace('.', '')), d = Number(b.toString().replace('.', '')), _this.mul(c / d, Math.pow(10, f - e))
+    return c = Number(a.toString().replace('.', '')), d = Number(b.toString().replace('.', '')), mul(c / d, Math.pow(10, f - e))
   }
 
 const res = (a, e) => {
