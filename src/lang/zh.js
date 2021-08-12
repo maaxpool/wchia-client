@@ -134,10 +134,10 @@ export default {
 
         item1Name: '发送地址',
         item2Name: '接收地址',
-        item3Name: 'XCH 数量',
+        item3Name: '数量',
         item4Name: '状态',
-        item5Name: '奇亚交易',
-        item6Name: '以太坊交易'
+        item5Name: '交易哈希',
+        // item6Name: '以太坊交易'
     }
     
 }

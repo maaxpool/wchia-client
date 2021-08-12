@@ -135,9 +135,10 @@ export default {
 
         item1Name: 'sending address',
         item2Name: 'receiving address',
-        item3Name: 'Quantity for XCH',
+        item3Name: 'Quantity',
         item4Name: 'Status',
-        item5Name: 'Chia transaction',
+        item5Name: 'Transaction Hash',
+        // item5Name: 'Chia transaction',
         item6Name: 'Ethereum transaction'
     }
     
