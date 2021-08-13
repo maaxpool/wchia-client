@@ -1,27 +1,38 @@
-# wxch
-
-## Project setup
+# Wchia-client
+<br/>
+       
+## Build Step
+---
 ```
+// Install dependency
 npm install
-```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
+// Build for development
 npm run build
+
+// Build production
+npm run build:prod
 ```
 
-### Lints and fixes files
+Package file path: ./dist/*
+
+## Server configure
+Nginx
 ```
-npm run lint
+server {
+	listen 80;
+	server_name server_name;
+  	root /data/apps/dist;
+
+	location / {
+        index index.html index.htm;
+		try_files $uri $uri/ @router;
+    }
+
+	location /rpc {
+	       proxy_pass	api_host;       # http://143.198.64.14:4600
+	       proxy_redirect	default;
+	}
+}
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-
-
-1420
