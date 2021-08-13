@@ -111,7 +111,8 @@ export default {
     },
     account: {
         pageTitle: '账号设置',
-        subTitleItem1: '注册时间',
+        subTitleItem1: 'WXCH 资产',
+        subTitleItem2: 'XCH 资产',
         item1Name: '名',
         item2Name: '姓',
         item3Name: '国家',
