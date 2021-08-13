@@ -21,6 +21,7 @@ Vue.config.productionTip = false
 
 console.log(123)
 console.log(process.env.VUE_APP_URL)
+console.log(process.env.VUE_APP_TEST)
 
 Vue.use(Element)
 
