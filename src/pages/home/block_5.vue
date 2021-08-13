@@ -123,8 +123,11 @@ export default {
     },
     async activated(){
         await this.$metaMaskUtils.initlization()
-        getBalance()
-    },
+        if (!this.balance.state_init)
+            getBalance()
+        else
+            this.getTranscationData()
+    },  
     methods: {
         getTranscationData(){
             if(!this.account || !this.user) return false

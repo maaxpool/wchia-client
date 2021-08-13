@@ -72,9 +72,9 @@ export default {
                 amount: {name: 'transDetail.item3Name', val:""},
                 status: {name:'transDetail.item4Name', val: ""},
                 chia_transaction_hash: {name:'transDetail.item5Name', val: "", 
-                    handler:{link:'https://www.chiaexplorer.com/blockchain/block/', txt: 'public.check'}},
+                    handler:{link: process.env.VUE_APP_CHIA_URL, txt: 'public.check'}},
                 eth_transaction_hash: {name:'transDetail.item5Name', val: "", 
-                    handler:{link:'https://ropsten.etherscan.io/tx/', txt: 'public.check'}},
+                    handler:{link: process.env.VUE_APP_ETH_URL, txt: 'public.check'}},
                 // eth_transaction_hash: {name: this.$t('transDetail.item6Name'), val: ""},
             }
         }

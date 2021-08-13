@@ -111,7 +111,8 @@ export default {
     },
     account: {
         pageTitle: 'Account',
-        subTitleItem1: 'Registration time',
+        subTitleItem1: 'Balance of WXCH',
+        subTitleItem2: 'Balance of XCH',
         item1Name: 'First name',
         item2Name: 'Last name',
         item3Name: 'Country',

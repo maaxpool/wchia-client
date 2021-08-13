@@ -7,10 +7,10 @@
 // Install dependency
 npm install
 
-// Build for development
-npm run build
+// Build for test station
+npm run build:test
 
-// Build production
+// Build for production
 npm run build:prod
 ```
 

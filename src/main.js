@@ -15,13 +15,11 @@ import bootstrap from '@/bootstrap'
 import App from './App.vue'
 
 const router = initRouter()
-const i18n = initI18n(jsCookie.get('lang')?jsCookie.get('lang'):'en')
+const i18n = initI18n(jsCookie.get('lang')?jsCookie.get('lang'):process.env.VUE_APP_LANG)
 
 Vue.config.productionTip = false
 
-console.log(123)
-console.log(process.env.VUE_APP_URL)
-console.log(process.env.VUE_APP_TEST)
+console.log(process.env)
 
 Vue.use(Element)
 
