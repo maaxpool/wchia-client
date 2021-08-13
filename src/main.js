@@ -19,6 +19,9 @@ const i18n = initI18n(jsCookie.get('lang')?jsCookie.get('lang'):'en')
 
 Vue.config.productionTip = false
 
+console.log(123)
+console.log(process.env.VUE_APP_URL)
+
 Vue.use(Element)
 
 Vue.prototype.$http = c_http
