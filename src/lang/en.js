@@ -84,6 +84,14 @@ export default {
             cell4: 'Receiving address',
             cell5: 'Result',
             tbHandler: 'Check details',
+            status: {
+                created: 'created',
+                xch_transferred: 'xch_transferred',
+                wxch_transferring: 'wxch_transferring',
+                finished: 'finished',
+                closed: 'closed',
+                error: 'error'
+            }
         }
     },
     register: {

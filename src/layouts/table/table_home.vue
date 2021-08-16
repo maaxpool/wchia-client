@@ -10,7 +10,7 @@
       <el-table-column prop="receiver_address" :label="$t('home.block5.cell4')" width="240"></el-table-column>
       <el-table-column :label="$t('home.block5.cell5')" align="center" >
         <template slot-scope="scope" >
-          <span>{{scope.row.status}}</span>
+          <span>{{$t('block5.status.'+scope.row.status)}}</span>
         </template>
       </el-table-column>
       <el-table-column label="" align="center" >

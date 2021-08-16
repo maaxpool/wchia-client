@@ -84,6 +84,14 @@ export default {
             cell4: '接收地址',
             cell5: '结果',
             tbHandler: '查看详情',
+            status: {
+                created: '已创建',
+                xch_transferred: 'XCH已接收',
+                wxch_transferring: 'WXCH发送中',
+                finished: '已完成',
+                closed: '已关闭',
+                error: '交易异常'
+            }
         }
     },
     register: {
