@@ -81,7 +81,6 @@
             <el-input v-model="formData.email" :placeholder="$t('public.placeholder1')" ></el-input>
         </el-form-item>
 
-        
         <el-checkbox v-model="isChecked" :label="$t('register.extrItem1')" name="type" style="margin-bottom:40px"></el-checkbox>
 
         <el-button class="submit" type="primary" @click="submitForm">{{$t('register.btn1')}}</el-button>
