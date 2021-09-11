@@ -82,10 +82,10 @@ metamaskUtils.prototype.getNetworkVersion = async function(){
 
 metamaskUtils.prototype.networkCheck = async function() {
     let usr_options = await this.getNetworkVersion()
-    if (usr_options.networkId != 3) {
+    if (usr_options.networkId != 1) {
         let msg_ = `
             Current network ${usr_options.networkId} not supported, 
-            Please switch to one of the following: Rposten
+            Please switch to Ethereum Mainnet.
         `
         Message({
             showClose: true,
