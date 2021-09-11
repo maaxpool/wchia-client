@@ -1,5 +1,5 @@
 [[redirects]]
   from = "/rpc/*"
-  to = "http://143.198.64.14:4600/rpc/:splat"
+  to = "http://wxch-be.maxipool.net/rpc/:splat"
   status = 200
   force = true
