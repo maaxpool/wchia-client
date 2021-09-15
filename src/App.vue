@@ -1,16 +1,26 @@
 <template>
   <div id="app" :style="{backgroundColor: this.bg||'#FFFFFF'}">
+    <header-inner v-if="$route.meta.header == 'inner'"></header-inner>
+    <!-- ="$route.meta.header == 'home'" -->
+    <header-home v-else></header-home>
+
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
+
+    <page-footer />
   </div>
 </template>
 
 <script>
+import headerHome from '@/layouts/header/header_home.vue'
+import headerInner from '@/layouts/header/header_inner.vue'
+import pageFooter from '@/layouts/footer'
+
 import {getConfigure} from '@/utils/authUtils'
 export default {
   name: 'App',
-  components: {},
+  components: {headerHome, headerInner, pageFooter},
   data(){
     return {
       bg: null

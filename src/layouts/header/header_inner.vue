@@ -11,7 +11,6 @@
 <script >
 export default {
     name: 'HeaderHome',
-    i18n: require('./i18n'),
     data(){
         return {
             isAuth: false,

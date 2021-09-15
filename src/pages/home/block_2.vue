@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import headerHomeBlock from '@/layouts/header/header_home_block.vue'
+import headerHomeBlock from '@/layouts/header/sub_hd_home_block.vue'
 import {mapGetters} from 'vuex'
 export default {
     components: {headerHomeBlock},

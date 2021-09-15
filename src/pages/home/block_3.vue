@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import headerHomeBlock from '@/layouts/header/header_home_block.vue'
+import headerHomeBlock from '@/layouts/header/sub_hd_home_block.vue'
 import formChargeWxch from '@/layouts/form/form_charge_wxch.vue'
 export default {
     components: {headerHomeBlock, formChargeWxch}

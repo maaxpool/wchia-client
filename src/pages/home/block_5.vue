@@ -50,7 +50,7 @@
 <script>
 import wxchHistoryTb from '@/layouts/table/table_home.vue'
 import noData from '@/layouts/nodata'
-import headerHomeBlock from '@/layouts/header/header_home_block.vue'
+import headerHomeBlock from '@/layouts/header/sub_hd_home_block.vue'
 
 import {mapGetters} from 'vuex'
 import {cmpl} from '@/utils/floatOperation'

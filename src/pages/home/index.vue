@@ -1,5 +1,5 @@
 <template>
-    <div class="page">
+    <div class="page-body">
         <div class="block block-1">
             <block-1 />
         </div>
@@ -24,16 +24,10 @@
             <block-5 />
         </div>
 
-        <page-footer />
-
     </div>
 </template>
 
 <script>
-
-
-import pageFooter from '@/layouts/footer'
-
 import block1 from './block_1'
 import block2 from './block_2'
 import block3 from './block_3'
@@ -41,9 +35,12 @@ import block4 from './block_4'
 import block5 from './block_5'
 
 import {mapGetters} from 'vuex'
+
+import axios from 'axios'
+
 export default {
     name: 'home',
-    components: {pageFooter, block1, block2, block3, block4, block5},
+    components: {block1, block2, block3, block4, block5},
     computed: {
         // ...mapGetters('ethereum', {
         //     account: 'account',
@@ -54,6 +51,10 @@ export default {
         }),
         
     },
+    created(){
+        console.log(axios)
+        axios.post('https://maxipool-dashboard.netlify.app/api/farmer/getFarmInfo').then(res => console.log(res))
+    }
 }
 </script>
 
