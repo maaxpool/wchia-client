@@ -37,7 +37,6 @@ export default {
         validate(){
             return new Promise((resolve, refuse) => {
                 this.$refs[this.domRef].validate((vail) => {
-                    console.log(vail)
                     if(vail) {
                         resolve()
                     } else {

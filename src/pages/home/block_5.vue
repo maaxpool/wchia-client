@@ -23,13 +23,11 @@
         </div>
         <!-- @tab-click="handleClick" -->
         <el-tabs v-model="activeName" type="card" v-loading="this.loadingWatcher.indexOf('transaction_list') > -1">
-            <!-- :class="{'no-data': !(table_wrap.list.length > 0)}" -->
             <el-tab-pane  :label="$t('home.block5.tab1')" name="wrap">
                 <wxch-history-tb v-if="table_wrap.list.length > 0" :tableData="table_wrap.list" />
                 <el-skeleton v-if="table_wrap.list.length == 0 && table_wrap.total !== 0" animated />
                 <no-data v-if="table_wrap.total === 0" />
             </el-tab-pane>
-            <!-- :class="{'no-data': !(table_wrap.list.length > 0)}"  -->
             <el-tab-pane :label="$t('home.block5.tab2')" name="unwrap">
                 <wxch-history-tb v-if="table_unwrap.list.length > 0" :tableData="table_unwrap.list" />
                 <el-skeleton v-if="table_unwrap.list.length == 0 && table_unwrap.total !== 0" animated />
@@ -84,6 +82,11 @@ export default {
             }
         }
     },
+    created() {
+        this.$globalBus.$on('TRANSCATION_TAB', (active) => {
+            this.activeName = active
+        })
+    },
     data(){
         return {
             activeName: 'wrap',
@@ -115,19 +118,15 @@ export default {
         },
         balance: {
             handler(n, o) {
-                if (o && n.state_init) this.getTranscationData()
+                if (o && n.state_init) 
+                    this.getTranscationData()
+                else 
+                    getBalance()
             },
             immediate: true,
             deep: true
         }
     },
-    async activated(){
-        await this.$metaMaskUtils.initlization()
-        if (!this.balance.state_init)
-            getBalance()
-        else
-            this.getTranscationData()
-    },  
     methods: {
         getTranscationData(){
             if(!this.account || !this.user) return false
