@@ -1,11 +1,12 @@
 <template>
+    <!-- XCH to WXCH -->
     <formLayout 
         :model="formData"
         ref="formLayout" 
         domRef="chargeWXCH" 
         :labelPosition="labelPosition" 
         :rules="rules" 
-        v-loading="loadingWatcher.indexOf('unwrap') > -1"    
+        v-loading="isLoading"    
     >
         <!-- wxch -->
         <el-form-item prop="wxchAmount" >
@@ -42,8 +43,7 @@
            {{$t('public.fee')}}: {{conf.wrap_fee_ratio}} %
         </div>
 
-        <el-button class="submit" type="primary" @click="submitForm" >{{$t('home.block4.btn1')}}</el-button>
-        <!-- <div class="extr-btn">{{$t('public.cancel')}}</div> -->
+        <el-button class="submit" type="primary" @click="submitForm" :disabled="!this.account" >{{$t('home.block4.btn1')}}</el-button>
     </formLayout>
 </template>
 
@@ -86,6 +86,7 @@ export default {
         }
 
         return {
+            isLoading: false,
             labelPosition: 'top',
             formData: {
                 wxchAmount: 0,
@@ -102,14 +103,19 @@ export default {
             }
         }
     },
+    created() {
+    },
     methods: {
         async submitForm(){
+            if (this.isLoading)
+                return false
+
             if (! authorizationCheck() )
                 await getUserInfo(this)
             
             this.$refs['formLayout'].validate()
                 .then(async () => {
-
+                    this.isLoading = true
                     const options = {
                         "unwrap_amount": parseFloat(this.formData.wxchAmount),
                         "chia_address": this.formData.xchAddress.replace(/\s/g, ''),
@@ -117,29 +123,33 @@ export default {
                         "eth_signature": this.eth_sign,
                         "auth_msg": this.auth_msg
                     }
-                    
-                    this.$http('unwrap', options)
-                        .then(res => {
-                            if (res && res['success']) {
-                                getBalance()
-                                
-                                this.$message({
-                                    showClose: true,
-                                    message: "Transform successed",
-                                    type: 'success'
-                                })
-                                this.fromClean()
-                            }
-                        }).catch(err => {
-                            if (err && err.response) {
-                                let msg = err.response.data.err_msg
-                                this.$message({
-                                    showClose: true,
-                                    message: msg,
-                                    type: 'error'
-                                })                                
-                            }
-                        })
+                    try {
+                        let res = await this.$metaMaskUtils.contractApprove(this.conf.eth_address, options.unwrap_amount)
+                        console.log('contract handle finshed:', res)
+                    } catch (err) {
+                        this.isLoading = false
+                        console.error(err)
+                        // this.$message({  showClose: true, message: err, type: 'error'  })
+                    }
+                        this.$http('unwrap', options)
+                            .then(res => {
+                                if (res && res['success']) {
+                                    this.isLoading = false
+                                    
+                                    domScroll(this, 'Block_5')
+                                    this.$globalBus.$emit('TRANSCATION_TAB', 'unwrap');
+                                    getBalance()
+
+                                    this.$message({
+                                        showClose: true,
+                                        message: "Request submitted",
+                                        type: 'success'
+                                    })
+                                    this.fromClean()
+                                }
+                            }).catch(err => {
+                                this.isLoading = false
+                            })
 
                 })
         },

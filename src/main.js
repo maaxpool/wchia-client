@@ -23,6 +23,7 @@ Vue.use(Element)
 
 Vue.prototype.$http = c_http
 Vue.prototype.$metaMaskUtils = new metamaskUtils()
+Vue.prototype.$globalBus = new Vue()
 // bootstrap({router, store, i18n, message: Vue.prototype.$message})
 bootstrap({router})
 
