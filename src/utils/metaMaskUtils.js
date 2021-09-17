@@ -2,13 +2,22 @@ import detectEthereumProvider from '@metamask/detect-provider'
 import storage from '@/store/index'
 import {Message} from 'element-ui'
 // import { resolve } from 'core-js/fn/promise'
+import {repston_hstAbi, repston_hstBytecode} from '@/temp/abi_repsten'
+
 import jsCookie from 'js-cookie'
+
+import Web3 from 'web3'
+import { ethers } from 'ethers';
 
 
 function metamaskUtils (options) {
+    this.default = {
+        network: process.env.VUE_APP_NETWORK
+    }
     this.web3Provider
     this.account
     this.initlization()
+    
 
     let option = {
         onChainChanged: () => { 
@@ -41,11 +50,10 @@ function metamaskUtils (options) {
 }
 
 metamaskUtils.prototype.initlization = async function(){
-    
     /* 检测是否安装钱包 */
     this.web3Provider = await detectEthereumProvider()
-    storage.commit('ethereum/provide', this.web3Provider)
-    
+
+    // storage.commit('ethereum/provide', this.web3Provider)
     if (this.web3Provider) {
         /* 连接钱包，eth_requestAccounts  */
         try {
@@ -64,7 +72,7 @@ metamaskUtils.prototype.initlization = async function(){
             type: 'error'
         })
     }
-
+    // this.contractApprove('0x2f318C334780961FB129D2a6c30D0763d9a5C970', 7)
 }
 
 metamaskUtils.prototype.getNetworkVersion = async function(){
@@ -82,7 +90,7 @@ metamaskUtils.prototype.getNetworkVersion = async function(){
 
 metamaskUtils.prototype.networkCheck = async function() {
     let usr_options = await this.getNetworkVersion()
-    if (usr_options.networkId != 1) {
+    if (usr_options.networkId != this.default.network) {
         let msg_ = `
             Current network ${usr_options.networkId} not supported, 
             Please switch to Ethereum Mainnet.
@@ -108,7 +116,6 @@ metamaskUtils.prototype.signCheck = async function() {
 
 metamaskUtils.prototype.networkChanged = async function(){
     ethereum.on('chainChanged', () => {
-
         ethereum.request({
             method: 'eth_getBlockByNumber',
             params: ['latest', false],
@@ -145,6 +152,7 @@ metamaskUtils.prototype.ethSign = function(){
             refuce(err)
         }
     })
+
 }
 
 
@@ -154,8 +162,20 @@ metamaskUtils.prototype.showError = function(err) {
         message: JSON.stringify(err['message']||err),
         type: 'error'
     })
-    
     console.error(err)
+}
+
+
+metamaskUtils.prototype.contractApprove = async function(address, amount) {
+    const web3 = new Web3(window.ethereum)
+    const contract_address = process.env.VUE_APP_CONTRACT
+    let contract = new web3.eth.Contract(repston_hstAbi, contract_address)
+    return contract.methods.approve(
+        address,
+        amount*(1000000000000),
+    ).send({
+        from: this.account
+    })
 }
 
 

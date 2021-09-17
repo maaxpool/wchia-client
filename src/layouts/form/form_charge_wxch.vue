@@ -38,7 +38,7 @@
             <div class="val">{{account}}</div>
         </div>
 
-        <el-button class="submit" type="primary" @click="submitForm" >{{$t('home.block3.btn1')}}</el-button>
+        <el-button class="submit" type="primary" @click="submitForm" :disabled="!this.account" >{{$t('home.block3.btn1')}}</el-button>
 
         <!-- <div class="extr-btn">{{$t('home.block3.btn2')}}</div> -->
         <!-- <div class="extr-btn">{{$t('public.cancel')}}</div> -->
@@ -52,6 +52,7 @@ import {authorizationCheck, getUserInfo, getBalance} from '@/utils/authUtils'
 import {mul, cmpl} from '@/utils/floatOperation'
 import {mapGetters} from 'vuex'
 
+import domScroll from '@/utils/scroll'
 export default {
     components: {formLayout},
     computed: {
@@ -116,11 +117,14 @@ export default {
                     this.$http('wrap', options)
                         .then(res => {
                             if (res && res['success']) {
+
+                                domScroll(this, 'Block_5')
+                                this.$globalBus.$emit('TRANSCATION_TAB', 'wrap');
                                 getBalance()
 
                                 this.$message({
                                     showClose: true,
-                                    message: "Transform successed",
+                                    message: "Request submitted",
                                     type: 'success'
                                 })
                                 this.fromClean()
