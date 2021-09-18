@@ -107,8 +107,8 @@ export default {
                 created: 'created',
                 xch_transferred: 'xch transferred',
                 xch_transferring: 'xch transferring',
-                wxch_transferred: 'wxch_transferred',
-                wxch_transferring: 'wxch_transferring',
+                wxch_transferred: 'wxch transferred',
+                wxch_transferring: 'wxch transferring',
                 finished: 'finished',
                 closed: 'closed',
                 error: 'error'
