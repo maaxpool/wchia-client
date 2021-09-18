@@ -3,8 +3,8 @@
         <headerHomeBlock :title="$t('home.block4.title')" :subTitle="$t('home.block4.subTitle')" />
         <div class="inner">
             <div class="l-part">
-                <img src="/img/block_4_bg.png"  v-if="!user" />
-                <cus-time-line v-else :lines="linesData"></cus-time-line>
+                <!-- <img src="/img/block_4_bg.png"  v-if="!user" /> -->
+                <cus-time-line :lines="linesData"></cus-time-line>
             </div>
             <form-charge-xch class="r-part"></form-charge-xch>
         </div>

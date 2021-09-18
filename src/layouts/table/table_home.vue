@@ -10,7 +10,20 @@
       <el-table-column prop="receiver_address" :label="$t('home.block5.cell4')" width="240"></el-table-column>
       <el-table-column :label="$t('home.block5.cell5')" align="center" >
         <template slot-scope="scope" >
-          <span>{{$t('home.block5.status.'+scope.row.status)}}</span>
+          <template v-if="scope.row.status.toLowerCase() == 'error'">
+            <el-popover
+              placement="bottom"
+              trigger="hover">
+              <p style="text-align: center">{{scope.row.err_msg}}sladkf</p>
+              <span style="color:#eb8900;cursor:default;" slot="reference">
+                {{$t('home.block5.status.'+scope.row.status)}}
+                <i class="el-icon-warning"></i>
+                </span>
+            </el-popover>
+          </template>
+          <template v-else>
+            <span>{{$t('home.block5.status.'+scope.row.status)}}</span>
+          </template>
         </template>
       </el-table-column>
       <el-table-column label="" align="center" >

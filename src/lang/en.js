@@ -1,6 +1,7 @@
 export default {
     public: {
         fee: 'Fee',
+        feeAmount: 'Fee Amount',
         send: 'send',
         cancel: 'Cancel',
         item1Name: 'Check transaction',
@@ -10,7 +11,8 @@ export default {
         
         nodata: 'No Data',
         check: "Check Details",
-        minimunQuantity: 'Minimum exchange'
+        minimunQuantity: 'Minimum exchange',
+        detail: 'Details'
     },
     msg: {
         require: '{val} is required',
@@ -41,7 +43,7 @@ export default {
     home: {
         block1: {
             title: 'Transparency and security ensures trust',
-            content: 'The greatest concern of moving assets across a chain via a bridge is trust built on top of security.  In order to establish such trust, we are taking the following measures: 1)to have a public audited smartcontract and have the source code open to the public; 2) to be transparent with our services and ourmotivations and 3) to have multisig custodian services. By doing so, when you convert one XCH to WXCH,your proof of reserve is on-chain, there will be only one WXCH to be minted, and the WXCH will be burnedwhen the XCH token is redeemed.',
+            content: 'The greatest concern of moving assets across a chain via a bridge is trust built on top of security.  In order to establish such trust, we are taking the following measures: 1)to have a public audited smart contract and have the source code open to the public; 2) to be transparent with our services and ourmotivations and 3) to have multisig custodian services. By doing so, when you convert one XCH to WXCH, your proof of reserve is on-chain, there will be only one WXCH to be minted, and the WXCH will be burned when the XCH token is redeemed.',
             button: 'Connect Wallet'
         },
         block2: {
@@ -165,9 +167,8 @@ export default {
         item2Name: 'Receiving address',
         item3Name: 'Quantity',
         item4Name: 'Status',
-        item5Name: 'Transaction Hash',
-        // item5Name: 'Chia transaction',
-        item6Name: 'Ethereum transaction'
+        item5NameChia: 'Chia Transaction Hash',
+        item5NameEth: 'Eth Transaction Hash'
     }
     
 }

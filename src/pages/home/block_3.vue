@@ -4,8 +4,8 @@
         <div class="inner">
             <form-charge-wxch class="l-part"></form-charge-wxch>
             <div class="r-part">
-                <img src="/img/block_3_bg.png" v-if="!user" />
-                <cus-time-line v-else :lines="linesData"></cus-time-line>
+                <!-- <img src="/img/block_3_bg.png" v-if="!user" /> -->
+                <cus-time-line :lines="linesData"></cus-time-line>
             </div>
         </div>
     </div>
@@ -27,14 +27,14 @@ export default {
     watch: {
         'user': {
             handler(n, o) {
-                this.linesData[0]['content'][1]['txt'] = n.chia_address
+                this.linesData[0]['content'][1]['txt'] = n?n.chia_address:'--'
             },
             immediate: true,
             deep: true
         },
         'conf': {
             handler(n, o) {
-                this.linesData[3]['content'][2]['txt'] = n.eth_address
+                this.linesData[3]['content'][2]['txt'] = n?n.eth_address:'--'
             },
             immediate: true,
             deep: true
@@ -49,7 +49,7 @@ export default {
                     style: '',
                     type: 'String'
                 },{
-                    txt: '',
+                    txt: '--',
                     style: {color: '#000'},
                     type: 'Object'
                 }],
@@ -87,7 +87,7 @@ export default {
                     style: '',
                     type: 'String'
                 },{
-                    txt: '',
+                    txt: '--',
                     style: {color: '#000'},
                     type: 'Object'
                 },],
