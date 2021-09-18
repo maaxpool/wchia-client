@@ -1,6 +1,7 @@
 export default {
     public: {
-        fee: '手续费',
+        fee: '手续费率',
+        feeAmount: '手续费',
         send: '发送',
         cancel: '取消',
         item1Name: '查看交易',
@@ -10,7 +11,8 @@ export default {
         
         nodata: '没有数据',
         check: "查看交易",
-        minimunQuantity: '最小兑换数量'
+        minimunQuantity: '最小兑换数量',
+        detail: '详情'
     },
     msg: {
         require: '{val} 是必须的',
@@ -166,7 +168,8 @@ export default {
         item2Name: '接收地址',
         item3Name: '数量',
         item4Name: '状态',
-        item5Name: '交易哈希',
+        item5NameChia: 'Chia 交易哈希',
+        item5NameEth: 'Eth 交易哈希',
         // item6Name: '以太坊交易'
     }
     

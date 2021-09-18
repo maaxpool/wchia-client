@@ -5,6 +5,7 @@
         ref="formLayout" 
         domRef="chargeWXCH" 
         :labelPosition="labelPosition" 
+        :element-loading-text="step"
         :rules="rules" 
         v-loading="isLoading"    
     >
@@ -42,6 +43,9 @@
         <div class="desc">
            {{$t('public.fee')}}: {{conf.wrap_fee_ratio}} %
         </div>
+        <div class="desc">
+           {{$t('public.feeAmount')}}: {{feeAmount}}
+        </div>
 
         <el-button class="submit" type="primary" @click="submitForm" :disabled="!this.account" >{{$t('home.block4.btn1')}}</el-button>
     </formLayout>
@@ -69,6 +73,9 @@ export default {
             // return (1 - (this.conf.unwrap_fee_ratio/100 || 0))*parseFloat(this.formData.wxchAmount).toFixed(6) || 0
             return mul(1-(this.conf.wrap_fee_ratio/100 ||0),parseFloat(this.formData.wxchAmount)).toFixed(6)
         },
+        feeAmount(){
+            return mul(this.conf.wrap_fee_ratio/100, parseFloat(this.formData.wxchAmount)).toFixed(6)
+        },
         ...mapGetters('situation', {
             loadingWatcher: 'loadingWatcher'
         }),
@@ -85,9 +92,17 @@ export default {
             callback()
         }
 
+        const wxchAdderss = (rule, val, callback) => {
+           if(val.indexOf('xch') < 0) {
+               callback(new Error('This Address is illegal'))
+           }
+           callback()
+        }
+
         return {
             isLoading: false,
             labelPosition: 'top',
+            step: '',
             formData: {
                 wxchAmount: 0,
                 xchAddress: ''
@@ -99,6 +114,7 @@ export default {
                 ],
                 xchAddress: [
                     {required: true, message: this.$t('msg.require', {val: this.$t('home.block4.item3Name')}), trigger:'change'},
+                    {validator: wxchAdderss, trigger: 'blur'}
                 ]
             }
         }
@@ -115,6 +131,7 @@ export default {
             
             this.$refs['formLayout'].validate()
                 .then(async () => {
+                    let approveRes
                     this.isLoading = true
                     const options = {
                         "unwrap_amount": parseFloat(this.formData.wxchAmount),
@@ -123,39 +140,52 @@ export default {
                         "eth_signature": this.eth_sign,
                         "auth_msg": this.auth_msg
                     }
+                    this.step = "Connecting to the wallet..."
                     try {
-                        let res = await this.$metaMaskUtils.contractApprove(this.conf.eth_address, options.unwrap_amount)
-                        console.log('contract handle finshed:', res)
+                        approveRes = await this.$metaMaskUtils.contractApprove(this.conf.eth_address, options.unwrap_amount)
+                        this.step = "Waiting for contract approving..."
+                        
+                        console.log('contract handle finshed:', approveRes)
                     } catch (err) {
                         this.isLoading = false
+                        this.$message({  showClose: true, message: err, type: 'error'  })
                         console.error(err)
-                        // this.$message({  showClose: true, message: err, type: 'error'  })
                     }
-                        this.$http('unwrap', options)
-                            .then(res => {
-                                if (res && res['success']) {
-                                    this.isLoading = false
-                                    
-                                    domScroll(this, 'Block_5')
-                                    this.$globalBus.$emit('TRANSCATION_TAB', 'unwrap');
-                                    getBalance()
-
-                                    this.$message({
-                                        showClose: true,
-                                        message: "Request submitted",
-                                        type: 'success'
-                                    })
-                                    this.fromClean()
-                                }
-                            }).catch(err => {
+                    
+                    if(!approveRes) return false
+                    this.step = "Request submitting..."
+                    this.$http('unwrap', options)
+                        .then(res => {
+                            if (res && res['success']) {
                                 this.isLoading = false
+                                // domScroll(this, 'Block_5')
+                                // this.$globalBus.$emit('TRANSCATION_TAB', 'unwrap');
+                                getBalance()
+                                this.$message({
+                                    showClose: true,
+                                    message: "Request submitted",
+                                    type: 'success'
+                                })
+                                this.fromClean()
+                                this.gotoCheck(res.msg.id)
+                            }
+                        }).catch(err => {
+                            this.isLoading = false
+                            this.$message({
+                                showClose: true,
+                                message: err.response.data.err_msg || err,
+                                type: 'error'
                             })
+                        })
 
                 })
         },
         fromClean() {
             this.formData.wxchAmount = 0
             this.formData.xchAddress = ''
+        },
+        gotoCheck(id){
+            this.$router.push({name: 'transDetail', params:{id: id}})
         }
     }
 }

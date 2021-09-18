@@ -34,6 +34,9 @@
             {{$t('public.fee')}}: {{conf.unwrap_fee_ratio}} %
         </div>
         <div class="desc">
+           {{$t('public.feeAmount')}}: {{feeAmount}}
+        </div>
+        <div class="desc">
             <div class="name">{{$t('home.block3.item4Name')}}:</div>
             <div class="val">{{account}}</div>
         </div>
@@ -66,6 +69,9 @@ export default {
         }),
         wxchAmount(){
             return mul(1-(this.conf.unwrap_fee_ratio/100 ||0),parseFloat(this.formData.xchAmount)).toFixed(6)
+        },
+        feeAmount(){
+            return mul(this.conf.unwrap_fee_ratio/100, parseFloat(this.formData.xchAmount)).toFixed(6)
         },
         ...mapGetters('situation', {
             loadingWatcher: 'loadingWatcher'
@@ -118,8 +124,8 @@ export default {
                         .then(res => {
                             if (res && res['success']) {
 
-                                domScroll(this, 'Block_5')
-                                this.$globalBus.$emit('TRANSCATION_TAB', 'wrap');
+                                // domScroll(this, 'Block_5')
+                                // this.$globalBus.$emit('TRANSCATION_TAB', 'wrap');
                                 getBalance()
 
                                 this.$message({
@@ -128,6 +134,7 @@ export default {
                                     type: 'success'
                                 })
                                 this.fromClean()
+                                this.gotoCheck(res.msg.id)
                             }
                         }).catch(err => {
                             if (err && err.response) {
@@ -144,6 +151,9 @@ export default {
         },
         fromClean() {
             this.formData.xchAmount = 0
+        },
+        gotoCheck(id){
+            this.$router.push({name: 'transDetail', params:{id: id}})
         }
     }
 }
