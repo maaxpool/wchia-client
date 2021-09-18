@@ -11,7 +11,7 @@
           :timestamp="item.timestamp">
           <!-- {{item.content}} -->
           <div class="inner">
-            <h4 class="hd">{{ $t(item.title) }}</h4>
+            <h4 class="hd">{{index+1}})  {{ $t(item.title) }}</h4>
             <div class="bd" >
               <!-- :style="ctn.style" -->
               <div v-for="(ctnItem, cidx) in item.content" :key="cidx+'_ctn'" :style="ctnItem.style">

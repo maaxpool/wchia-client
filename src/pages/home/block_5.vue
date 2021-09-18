@@ -22,7 +22,7 @@
             </div>
         </div>
         <!-- @tab-click="handleClick" -->
-        <el-tabs v-model="activeName" type="card" v-loading="this.loadingWatcher.indexOf('transaction_list') > -1">
+        <el-tabs v-model="activeName" type="card" v-loading="loadingWatcher.indexOf('transaction_list') > -1">
             <el-tab-pane  :label="$t('home.block5.tab1')" name="wrap">
                 <wxch-history-tb v-if="table_wrap.list.length > 0" :tableData="table_wrap.list" />
                 <el-skeleton v-if="table_wrap.list.length == 0 && table_wrap.total !== 0" animated />
@@ -52,7 +52,7 @@ import headerHomeBlock from '@/layouts/header/header_home_block.vue'
 
 import {mapGetters} from 'vuex'
 import {cmpl} from '@/utils/floatOperation'
-import {getBalance} from '@/utils/authUtils'
+import {getBalance, getTranscationList, blockViewUpdate} from '@/utils/authUtils'
 export default {
     components: {headerHomeBlock, wxchHistoryTb, noData },
     filters: {
@@ -82,16 +82,12 @@ export default {
             }
         }
     },
-    created() {
-        this.$globalBus.$on('TRANSCATION_TAB', (active) => {
-            this.activeName = active
-        })
-    },
     data(){
         return {
             activeName: 'wrap',
             size: 20,
-            page: 1,
+            currentpage: 1,
+            reflashTag: null,
             table_wrap: {
                 page: 1,
                 size: 10,
@@ -107,7 +103,7 @@ export default {
         }
     },
     watch: {
-        page(){
+        currentpage(){
             this.getTranscationData()
         },
         activeName(){
@@ -127,9 +123,23 @@ export default {
             deep: true
         }
     },
+    created() {
+        this.$globalBus.$on('TRANSCATION_TAB', (active) => {
+            this.activeName = active
+        })
+        this.getTranscationData()
+    },
+    activated(){
+        this.getTranscationData()
+    },
     methods: {
         getTranscationData(){
-            if(!this.account || !this.user) return false
+            if(this.loadingWatcher.indexOf('transaction_list') > -1) return false
+            clearTimeout(this.reflashTag)
+            if(!this.account || !this.user) {
+                setTimeout(this.getTranscationData, 1000)
+                return false
+            }
 
             let type_ = this.activeName
             this['table_'+type_]['list'] = []
@@ -145,7 +155,10 @@ export default {
                     for (let i in data.transactions) {
                         data.transactions[i]['amount'] = cmpl(data.transactions[i]['amount'], 6)
                     }
+
                     this['table_'+type_]['list'] = data.transactions
+                    // list reflash
+                    this.reflashTag = setTimeout(this.getTranscationData, 60000)
                 }
             }).catch(err => {
                 console.log(err)

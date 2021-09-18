@@ -1,6 +1,7 @@
 export default {
     public: {
         fee: 'Fee',
+        feeAmount: 'Fee Amount',
         send: 'send',
         cancel: 'Cancel',
         item1Name: 'Check transaction',
@@ -10,7 +11,8 @@ export default {
         
         nodata: 'No Data',
         check: "Check Details",
-        minimunQuantity: 'Minimum exchange'
+        minimunQuantity: 'Minimum exchange',
+        detail: 'Details'
     },
     msg: {
         require: '{val} is required',
@@ -165,9 +167,8 @@ export default {
         item2Name: 'Receiving address',
         item3Name: 'Quantity',
         item4Name: 'Status',
-        item5Name: 'Transaction Hash',
-        // item5Name: 'Chia transaction',
-        item6Name: 'Ethereum transaction'
+        item5NameChia: 'Chia Transaction Hash',
+        item5NameEth: 'Eth Transaction Hash'
     }
     
 }
