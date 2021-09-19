@@ -135,11 +135,12 @@ export default {
     methods: {
         getTranscationData(){
             if(this.loadingWatcher.indexOf('transaction_list') > -1) return false
-            clearTimeout(this.reflashTag)
             if(!this.account || !this.user) {
-                setTimeout(this.getTranscationData, 1000)
+                setTimeout(this.getTranscationData, 2000)
                 return false
             }
+
+            clearTimeout(this.reflashTag)
 
             let type_ = this.activeName
             this['table_'+type_]['list'] = []
