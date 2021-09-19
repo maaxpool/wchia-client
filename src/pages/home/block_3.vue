@@ -22,10 +22,7 @@ export default {
         ...mapGetters('user', {
             'user': 'user',
             'conf': 'conf'
-        }),
-        ...mapGetters('ethereum', {
-            account: 'account',
-        }),
+        })
     },
     watch: {
         'user': {
@@ -35,13 +32,13 @@ export default {
             immediate: true,
             deep: true
         },
-        'account': {
+        'conf': {
             handler(n, o) {
-                this.linesData[3]['content'][2]['txt'] = n?n:'--'
+                this.linesData[3]['content'][2]['txt'] = n?n.wxch_contract_address:'--'
             },
             immediate: true,
             deep: true
-        },
+        }
     },
     data () {
         return {

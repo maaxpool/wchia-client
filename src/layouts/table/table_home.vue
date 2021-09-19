@@ -14,7 +14,7 @@
             <el-popover
               placement="bottom"
               trigger="hover">
-              <p style="text-align: center">{{scope.row.err_msg}}sladkf</p>
+              <p style="text-align: center">{{scope.row.err_msg}}</p>
               <span style="color:#eb8900;cursor:default;" slot="reference">
                 {{$t('home.block5.status.'+scope.row.status)}}
                 <i class="el-icon-warning"></i>
