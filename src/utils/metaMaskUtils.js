@@ -169,7 +169,7 @@ metamaskUtils.prototype.contractApprove = async function(address, amount) {
     if(!storage.getters['user/conf']) return false
     const web3 = new Web3(window.ethereum)
     // const contract_address = process.env.VUE_APP_CONTRACT
-    const contract_address = storage.getters['user/conf']['eth_address']
+    const contract_address = storage.getters['user/conf']['wxch_contract_address']
     let contract = new web3.eth.Contract(repston_hstAbi, contract_address)
     return contract.methods.approve(
         address,
