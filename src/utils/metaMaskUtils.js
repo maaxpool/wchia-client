@@ -2,8 +2,7 @@ import detectEthereumProvider from '@metamask/detect-provider'
 import storage from '@/store/index'
 import {Message} from 'element-ui'
 // import { resolve } from 'core-js/fn/promise'
-import {repston_hstAbi, repston_hstBytecode} from '@/temp/abi_repsten'
-
+import {repston_hstAbi} from '@/temp/abi_repsten'
 import jsCookie from 'js-cookie'
 
 import Web3 from 'web3'
@@ -15,18 +14,17 @@ function metamaskUtils (options) {
     }
     this.web3Provider
     this.account
-    this.initlization()
-    
-
+    // this.initlization()
     let option = {
-        onChainChanged: () => { 
-            if(document.cookie) {
-                var keys=document.cookie.match(/[^ =;]+(?=\=)/g);
-                keys.forEach(item => {
-                    jsCookie.remove(item)
-                })
-            }
+        onChainChanged: (account) => {
+            this.cacheClear()
             window.location.reload()
+        },
+        onAccountChanged: (account) => {
+            if (!account || account.length == 0) {
+                this.cacheClear()
+                window.location.reload()
+            }
         },
         onDisconnect: (err) => { 
             return
@@ -38,7 +36,7 @@ function metamaskUtils (options) {
 
     if (window.ethereum) {
         ethereum.on('chainChanged', option['onChainChanged'])
-        ethereum.on('accountsChanged', option['onChainChanged'])
+        ethereum.on('accountsChanged', option['onAccountChanged'])
         ethereum.on('disconnect', (err) => {
             option.onDisconnect(err)
             console.error(err)
@@ -51,7 +49,6 @@ function metamaskUtils (options) {
 metamaskUtils.prototype.initlization = async function(){
     /* 检测是否安装钱包 */
     this.web3Provider = await detectEthereumProvider()
-
     // storage.commit('ethereum/provide', this.web3Provider)
     if (this.web3Provider) {
         /* 连接钱包，eth_requestAccounts  */
@@ -62,7 +59,6 @@ metamaskUtils.prototype.initlization = async function(){
         } catch (err) {
             this.showError(err)
         }
-        
     } else {
         console.error('Please install MetaMask!')
         Message({
@@ -71,7 +67,6 @@ metamaskUtils.prototype.initlization = async function(){
             type: 'error'
         })
     }
-    // this.contractApprove('0x2f318C334780961FB129D2a6c30D0763d9a5C970', 7)
 }
 
 metamaskUtils.prototype.getNetworkVersion = async function(){
@@ -177,6 +172,15 @@ metamaskUtils.prototype.contractApprove = async function(address, amount) {
     ).send({
         from: this.account
     })
+}
+
+metamaskUtils.prototype.cacheClear = function() {
+    if(document.cookie) {
+        var keys=document.cookie.match(/[^ =;]+(?=\=)/g);
+        keys.forEach(item => {
+            jsCookie.remove(item)
+        })
+    }
 }
 
 

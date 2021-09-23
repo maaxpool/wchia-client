@@ -121,8 +121,8 @@ export default {
             handler(n, o) {
                 if (o && n.state_init) 
                     this.getTranscationData()
-                else 
-                    getBalance()
+                // else 
+                //     getBalance()
             },
             immediate: true,
             deep: true
@@ -141,6 +141,7 @@ export default {
         getTranscationData(){
             if(this.loadingWatcher.indexOf('transaction_list') > -1) return false
             clearTimeout(this.reflashTag)
+            // console.log(this.account, this.user)
             if(!this.account || !this.user) {
                 setTimeout(this.getTranscationData, 1000)
                 return false

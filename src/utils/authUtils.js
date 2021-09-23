@@ -27,11 +27,8 @@ export const getUserInfo = ($app) => {
             refuse()
         }
         // getBalance()
-
         $app.$metaMaskUtils.ethSign()
             .then(() => {
-                // console.log(storage.getters['user/user'])
-
                 if (authorizationCheck() || !storage.getters['ethereum/account'])
                     return false
                 
@@ -53,9 +50,7 @@ export const getUserInfo = ($app) => {
                         type: 'error'
                     })
                 })
-
             }).catch(err => {
-                // refuse(err)
                 console.error(err)
             })
     })
@@ -63,7 +58,6 @@ export const getUserInfo = ($app) => {
 
 export const getBalance = async () => {
     if(!authorizationCheck() || !storage.getters['ethereum/account']) return false
-
     try {
         let res_balance = await $http('balance', {
                 eth_address: storage.getters['ethereum/account'],

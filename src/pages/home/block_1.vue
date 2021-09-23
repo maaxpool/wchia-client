@@ -3,7 +3,14 @@
         <div class="l-part">
             <h2>{{$t('home.block1.title')}}</h2>
             <article>{{$t('home.block1.content')}}</article>
-            <el-button type="primary" @click="connectWallet" v-if="!user||!eth_sign" > {{$t('home.block1.button')}} </el-button>
+            <el-button 
+                type="primary" 
+                @click="connectWallet" 
+                v-if="!user||!eth_sign" 
+                :disabled="loadingWatcher.indexOf('get_user') > -1"
+            > 
+                {{$t('home.block1.button')}} 
+            </el-button>
         </div>
         <div class="r-part">
             <!-- <div class="illustration"></div> -->
@@ -25,13 +32,15 @@ export default {
         ...mapGetters('user', {
             user: 'user'
         }),
+        ...mapGetters('situation', {
+            loadingWatcher: 'loadingWatcher'
+        })
     },
     methods: {
         async connectWallet(){
             if(!this.account) {
                 await this.$metaMaskUtils.initlization()
             }
-
             getUserInfo(this)
             // this.$metaMaskUtils.ethSign()
         },

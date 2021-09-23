@@ -12,11 +12,15 @@ export default {
         nodata: 'No Data',
         check: "Check Details",
         minimunQuantity: 'Minimum exchange',
-        detail: 'Details'
+        detail: 'Details',
+        number: 'number',
+        address: 'address',
+        this: 'this'
     },
     msg: {
         require: '{val} is required',
-        rational: 'please input the rational'
+        effective: 'please input the effective ',
+        addressIlleagal: 'This Address is illegal'
     },
     navs: {
         item1: 'About Broker',
@@ -33,9 +37,6 @@ export default {
             item1: 'WXCH is the first ERC20 tokenbacked 1:1 with Chia',
             item2: 'If you need help, please contact'
         },
-        rpart: {
-            item1: ''
-        }
     },
     msgs: {
 

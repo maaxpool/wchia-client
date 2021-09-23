@@ -83,18 +83,18 @@ export default {
     data(){
         const wxchAmountVaily = (rule, val, callback) => {
             if(!val > 0) {
-                callback(new Error('Please provide effective options'))
+                callback(new Error(this.$t('msg.require',  {val: this.$t('public.this')})))
             }
 
             if(!rational(val)) {
-                callback(new Error(this.$t('msg.rational')))
+                callback(new Error(this.$t('msg.effective')+this.$t('public.number')))
             }
             callback()
         }
 
         const wxchAdderss = (rule, val, callback) => {
            if(val.indexOf('xch') < 0) {
-               callback(new Error('This Address is illegal'))
+               callback(new Error(this.$t('msg.addressIlleagal')))
            }
            callback()
         }

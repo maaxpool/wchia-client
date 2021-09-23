@@ -67,24 +67,24 @@ export default {
             eth_sign: 'eth_sign',
             auth_msg: 'auth_msg'
         }),
+        ...mapGetters('situation', {
+            loadingWatcher: 'loadingWatcher'
+        }),
         wxchAmount(){
             return mul(1-(this.conf.unwrap_fee_ratio/100 ||0),parseFloat(this.formData.xchAmount)).toFixed(6)
         },
         feeAmount(){
             return mul(this.conf.unwrap_fee_ratio/100, parseFloat(this.formData.xchAmount)).toFixed(6)
         },
-        ...mapGetters('situation', {
-            loadingWatcher: 'loadingWatcher'
-        }),
     },
     data(){
         const xchAmountVaily = (rule, val, callback) => {
             if(!val > 0) {
-                callback(new Error('Please provide effective options'))
+                callback(new Error(this.$t('msg.require',  {val: this.$t('public.this')})))
             }
 
             if(!rational(val)) {
-                callback(new Error(this.$t('msg.rational')))
+                callback(new Error(this.$t('msg.effective')+this.$t('public.number')))
             }
             callback()
         }
