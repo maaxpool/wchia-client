@@ -12,11 +12,15 @@ export default {
         nodata: '没有数据',
         check: "查看交易",
         minimunQuantity: '最小兑换数量',
-        detail: '详情'
+        detail: '详情',
+        number: '数字',
+        address: '地址',
+        this: '这'
     },
     msg: {
-        require: '{val} 是必须的',
-        rational: '请输入合理的'
+        require: '{val}是必须的',
+        effective: '请输入有效的',
+        addressIlleagal: '地址不合法'
     },
     navs: {
         item1: '关于代理商',
@@ -33,9 +37,6 @@ export default {
             item1: 'WXCH 是第一个以奇亚币 1:1背书的ERC20 代币',
             item2: '如需帮助，请联系'
         },
-        rpart: {
-            item1: ''
-        }
     },
     msgs: {
 

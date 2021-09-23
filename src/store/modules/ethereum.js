@@ -9,7 +9,7 @@ export default {
     },
     getters: {
       provide: state => state.provide,
-      account: state => state.account,
+      account: state => state.account||jsCookie.get('ethereum_eth_account'),
       eth_sign: state => {
         return state.eth_sign||jsCookie.get('ethereum_eth_sign')
       },
@@ -20,6 +20,8 @@ export default {
         state.provide = provide
       },
       account (state, account) {
+        if(account)
+          jsCookie.set('ethereum_eth_account', account, {expires: 1})
         state.account = account
       },
       eth_sign (state, eth_sign) {

@@ -37,7 +37,7 @@ export default {
         },
         'account': {
             handler(n, o) {
-                this.linesData[3]['content'][2]['txt'] = n?n:'--'
+                this.linesData[3]['content'][2]['txt'] = n?n.wxch_contract_address:'--'
             },
             immediate: true,
             deep: true

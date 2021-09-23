@@ -150,8 +150,9 @@ export default {
         }
     },
     methods: {
-        connectWalelt() {
+        async connectWalelt() {
             // new metamaskUtils()
+            await this.$metaMaskUtils.initlization()
             this.$metaMaskUtils.ethSign()
         },
         countrySelect(idx) {

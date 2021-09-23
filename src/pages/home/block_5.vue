@@ -82,6 +82,11 @@ export default {
             }
         }
     },
+    created() {
+        this.$globalBus.$on('TRANSCATION_TAB', (active) => {
+            this.activeName = active
+        })
+    },
     data(){
         return {
             activeName: 'wrap',
@@ -116,8 +121,8 @@ export default {
             handler(n, o) {
                 if (o && n.state_init) 
                     this.getTranscationData()
-                else 
-                    getBalance()
+                // else 
+                //     getBalance()
             },
             immediate: true,
             deep: true
@@ -135,6 +140,7 @@ export default {
     methods: {
         getTranscationData(){
             if(this.loadingWatcher.indexOf('transaction_list') > -1) return false
+            clearTimeout(this.reflashTag)
             if(!this.account || !this.user) {
                 setTimeout(this.getTranscationData, 2000)
                 return false
