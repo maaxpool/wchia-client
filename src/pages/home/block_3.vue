@@ -35,8 +35,9 @@ export default {
             immediate: true,
             deep: true
         },
-        'account': {
+        'conf': {
             handler(n, o) {
+                console.log(n)
                 this.linesData[3]['content'][2]['txt'] = n?n.wxch_contract_address:'--'
             },
             immediate: true,
