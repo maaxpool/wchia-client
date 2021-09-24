@@ -71,7 +71,7 @@ export default {
             timelineItem2ctn: 'Fill in the amount of XCH on the webpage and click "Exchange WXCH ".',
             timelineItem3hd: 'Waiting WXCH  transfer to your account',
             timelineItem3ctn: 'To convert from XCH to WXCH, it takes some time to cross the bridge. please wait patiently.',
-            timelineItem4hd: '"WXCH successfully deposited into account',
+            timelineItem4hd: 'WXCH successfully deposited into account',
             timelineItem4ctn1: 'After the transaction is successful, you can check the received WXCH in MetaMask.',
             timelineItem4ctn2: 'To facilitate your viewing of assets, please add WXCH tokens to your MetaMask account. WXCH token address:',
         },
