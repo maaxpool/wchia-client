@@ -71,10 +71,10 @@ export default {
             loadingWatcher: 'loadingWatcher'
         }),
         wxchAmount(){
-            return mul(1-(this.conf.unwrap_fee_ratio/100 ||0),parseFloat(this.formData.xchAmount)).toFixed(6)
+            return mul(1-(this.conf.unwrap_fee_ratio/100||0),parseFloat(this.formData.xchAmount)).toFixed(6)
         },
         feeAmount(){
-            return mul(this.conf.unwrap_fee_ratio/100, parseFloat(this.formData.xchAmount)).toFixed(6)
+            return mul(this.conf.unwrap_fee_ratio/100,parseFloat(this.formData.xchAmount)).toFixed(6)
         },
     },
     data(){
@@ -137,6 +137,7 @@ export default {
                                 this.gotoCheck(res.msg.id)
                             }
                         }).catch(err => {
+                            console.log(123123)
                             if (err && err.response) {
                                 let msg = err.response.data.err_msg
                                 this.$message({

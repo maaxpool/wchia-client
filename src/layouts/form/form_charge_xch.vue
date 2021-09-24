@@ -119,8 +119,6 @@ export default {
             }
         }
     },
-    created() {
-    },
     methods: {
         async submitForm(){
             if (this.isLoading)

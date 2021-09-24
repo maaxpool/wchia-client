@@ -12,8 +12,9 @@ function metamaskUtils (options) {
     this.default = {
         network: process.env.VUE_APP_NETWORK
     }
+
     this.web3Provider
-    this.account
+    this.account = storage.getters["ethereum/account"]
     // this.initlization()
     let option = {
         onChainChanged: (account) => {
@@ -166,9 +167,10 @@ metamaskUtils.prototype.contractApprove = async function(address, amount) {
     // const contract_address = process.env.VUE_APP_CONTRACT
     const contract_address = storage.getters['user/conf']['wxch_contract_address']
     let contract = new web3.eth.Contract(repston_hstAbi, contract_address)
+    let bn_ = web3.utils.toBN(parseInt(amount*1000000000000))
     return contract.methods.approve(
         address,
-        amount*(1000000000000),
+        bn_,
     ).send({
         from: this.account
     })
