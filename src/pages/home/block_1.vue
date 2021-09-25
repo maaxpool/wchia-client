@@ -11,6 +11,14 @@
             > 
                 {{$t('home.block1.button')}} 
             </el-button>
+
+            <el-button
+                type="primary"
+                :disabled="true"
+                v-else
+            >
+                {{account | accountSlice}}
+            </el-button>
         </div>
         <div class="r-part">
             <!-- <div class="illustration"></div> -->
@@ -24,7 +32,10 @@
 import {mapGetters} from 'vuex'
 import {getUserInfo} from '@/utils/authUtils'
 export default {
-     computed: {
+    filters: {
+        accountSlice: str => str.replace(/(?<=(.{4})).*(?=(.{4}))/, "***")
+    },
+    computed: {
         ...mapGetters('ethereum', {
             account: 'account',
             eth_sign: 'eth_sign'

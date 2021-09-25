@@ -7,7 +7,7 @@
                     <li 
                         v-for="(item, index) in navList" 
                         :key="`nav_item_${index}`"
-                        @click="scroll('Block_'+(index+2))"
+                        @click="navHandler('Block_'+(index+2))"
                     >{{$t('navs.item'+(index+1))}}</li>
                 </ul>
 
@@ -42,6 +42,8 @@ export default {
                 index: 3,
             },{
                 index: 4
+            },{
+                index: 5
             }]
         }
     },
@@ -49,7 +51,8 @@ export default {
         goto(pathName){
             this.$router.push({name: pathName})
         },
-        scroll (domID) {
+        navHandler (domID) {
+            if(domID == 5) return false
             domScroll(this, domID)
         }
     }

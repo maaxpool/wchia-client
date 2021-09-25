@@ -15,14 +15,20 @@
                     <img src="/img/block_2_2.png" alt=" " title=" " />
                     <div class="desc">{{$t('home.block2.item2Name')}}</div>
                 </div>
-                <div class="bottom">{{conf.chia_address}}</div>
+                <div class="bottom">
+                    <p>{{conf.chia_address}}</p>
+                    <a :href="envierments.VUE_APP_CHIA_URL+'address/'+conf.chia_address">{{$t('public.check')}}</a>
+                </div>
             </el-col>
             <el-col>
                 <div class="top">
                     <img src="/img/block_2_3.png" alt=" " title=" " />
                     <div class="desc">{{$t('home.block2.item3Name')}}</div>
                 </div>
-                <div class="bottom">{{conf.eth_address}}</div>
+                <div class="bottom">
+                    <p>{{conf.eth_address}}</p>
+                    <a :href="envierments.VUE_APP_ETH_URL+'address/'+conf.eth_address">{{$t('public.check')}}</a>
+                </div>
             </el-col>
         </el-row>
     </div>
@@ -38,6 +44,11 @@ export default {
             conf: 'conf'
         }),
     },
+    data() {
+        return {
+            envierments: process.env
+        }
+    }
 }
 </script>
 
@@ -79,6 +90,15 @@ export default {
     .bottom {
         word-break: break-all;
         color: $--color-black-3;
+        line-height: 150%;
+        p {
+            height: 4.5em;
+        }
+
+        a {
+            cursor: pointer;
+            color: $--color-primary;
+        }
     }
 }
 </style>

@@ -29,18 +29,18 @@
                         </label>
                         <div>
                             <template v-if="idx=='status'">
-                                <p v-if="item.val.toLowerCase!='error'">{{$t('home.block5.status.'+item.val)}}</p>
                                 <el-popover
                                     placement="bottom"
                                     trigger="hover"
-                                    v-else
+                                    v-if="item.val.toLowerCase()=='error'"
                                 >
-                                    <p style="text-align: center">{{item.err_msg}}</p>
+                                    <p style="text-align: center">{{error_msg}}</p>
                                     <span style="color:#eb8900;cursor:default;" slot="reference">
-                                        {{$t('home.block5.status.'+item.val)}}
                                         <i class="el-icon-warning"></i>
+                                        {{$t('home.block5.status.'+item.val)}}
                                     </span>
                                 </el-popover>
+                                <p v-else>{{$t('home.block5.status.'+item.val)}}</p>
                             </template>
                             <template v-else>
                                 <p>{{item.val}}</p>
@@ -95,14 +95,14 @@ export default {
                 receiver_address: {name: 'transDetail.item2Name', val: ""},
                 amount: {name: 'transDetail.item3Name', val:""},
                 status: {name:'transDetail.item4Name', val: ""},
-                chia_transaction_hash: {name:'transDetail.item5NameChia', val: "", handler:{link: process.env.VUE_APP_CHIA_URL, txt: 'public.check'}},
-                eth_transaction_hash: {name:'transDetail.item5NameEth', val: "", handler:{link: process.env.VUE_APP_ETH_URL, txt: 'public.check'}}
+                chia_transaction_hash: {name:'transDetail.item5NameChia', val: "", handler:{link: process.env.VUE_APP_CHIA_URL+'block/', txt: 'public.check'}},
+                eth_transaction_hash: {name:'transDetail.item5NameEth', val: "", handler:{link: process.env.VUE_APP_ETH_URL+'tx/', txt: 'public.check'}}
                 // eth_transaction_hash: {name: this.$t('transDetail.item6Name'), val: ""},
-            }
+            },
+            error_msg: ''
         }
     },
     mounted(){
-        console.log(process.env.VUE_APP_CHIA_URL)
         this.getTransDetail()
     },
     activated(){
@@ -115,6 +115,7 @@ export default {
                 this.$http('transaction_detail', {id: id_})
                     .then(res => {
                         if (res) {
+                            
                             let data = res['msg']
                             let obj = {...this.dataList}
                             this.created_at = data['created_at']
@@ -126,6 +127,7 @@ export default {
                                     obj[keys]['val'] = cmpl(data[keys], 6)
                                 }
                             }
+                            this.error_msg = data['error_msg']
                             this.isLoaded = true
                             this.dataList = {...obj}
 

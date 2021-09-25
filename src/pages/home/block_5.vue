@@ -164,7 +164,6 @@ export default {
                     }
 
                     this['table_'+type_]['list'] = data.transactions
-                    // list reflash
                     this.reflashTag = setTimeout(this.getTranscationData, 60000)
                 }
             }).catch(err => {
