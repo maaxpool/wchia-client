@@ -6,7 +6,9 @@
                 <!-- <img src="/img/block_4_bg.png"  v-if="!user" /> -->
                 <cus-time-line :lines="linesData"></cus-time-line>
             </div>
-            <form-charge-xch class="r-part"></form-charge-xch>
+            <div class="r-part">
+                <form-charge-xch class="r-part-form"></form-charge-xch>
+            </div>
         </div>
     </div>
 </template>
@@ -82,6 +84,9 @@ export default {
 .r-part {
     -webkit-box-flex: 1;
     flex: 1;
+    &-form {
+        max-width: 520px;
+    }
 }
 
 .l-part {

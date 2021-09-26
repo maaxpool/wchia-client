@@ -40,7 +40,7 @@ export default {
 <style scoped lang="scss">
 @import '@/style/custom';
 .inner {
-  max-width: 360px;
+  max-width: 480px;
   word-break: break-all;
 }
 

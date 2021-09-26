@@ -60,6 +60,9 @@ export default {
     border-radius: 18px;
     box-shadow: $--page-item-shodow-1;
     background-color: $--color-white;
+
+    margin-left: auto;
+    margin-right: auto;
 }
 
 ::v-deep .el-from-row {

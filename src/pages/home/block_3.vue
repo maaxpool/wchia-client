@@ -2,7 +2,9 @@
     <div class="container">
         <headerHomeBlock :title="$t('home.block3.title')" :subTitle="$t('home.block3.subTitle')" />
         <div class="inner">
-            <form-charge-wxch class="l-part"></form-charge-wxch>
+            <div class="l-part">
+                <form-charge-wxch class="l-part-form"></form-charge-wxch>
+            </div>
             <div class="r-part">
                 <!-- <img src="/img/block_3_bg.png" v-if="!user" /> -->
                 <cus-time-line :lines="linesData"></cus-time-line>
@@ -114,6 +116,9 @@ export default {
 .l-part {
     -webkit-box-flex: 1;
     flex: 1;
+    &-form {
+        max-width: 520px;
+    }
 }
 
 .r-part {

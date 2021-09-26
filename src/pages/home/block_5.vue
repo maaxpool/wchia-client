@@ -22,7 +22,8 @@
             </div>
         </div>
         <!-- @tab-click="handleClick" -->
-        <el-tabs v-model="activeName" type="card" v-loading="loadingWatcher.indexOf('transaction_list') > -1">
+         <!-- v-loading="loadingWatcher.indexOf('transaction_list') > -1" -->
+        <el-tabs v-model="activeName" type="card">
             <el-tab-pane  :label="$t('home.block5.tab1')" name="wrap">
                 <wxch-history-tb v-if="table_wrap.list.length > 0" :tableData="table_wrap.list" />
                 <el-skeleton v-if="table_wrap.list.length == 0 && table_wrap.total !== 0" animated />
@@ -164,7 +165,7 @@ export default {
                     }
 
                     this['table_'+type_]['list'] = data.transactions
-                    this.reflashTag = setTimeout(this.getTranscationData, 60000)
+                    // this.reflashTag = setTimeout(this.getTranscationData, 60000)
                 }
             }).catch(err => {
                 console.log(err)
