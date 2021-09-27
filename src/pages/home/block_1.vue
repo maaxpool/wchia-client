@@ -3,6 +3,9 @@
         <div class="l-part">
             <h2>{{$t('home.block1.title')}}</h2>
             <article>{{$t('home.block1.content')}}</article>
+            <p class="accountView">{{account | accountSlice}}</p>
+            <!-- !user|| -->
+            <!-- network error: no userinfo but wallet sign, so `!user` have be -->
             <el-button 
                 type="primary" 
                 @click="connectWallet" 
@@ -11,14 +14,11 @@
             > 
                 {{$t('home.block1.button')}} 
             </el-button>
-
-            <el-button
+            <!-- <el-button
                 type="primary"
                 :disabled="true"
                 v-else
-            >
-                {{account | accountSlice}}
-            </el-button>
+            ></el-button> -->
         </div>
         <div class="r-part">
             <!-- <div class="illustration"></div> -->
@@ -81,6 +81,11 @@ export default {
     article {
         font-size: 16px;
         line-height: 150%;
+        margin-bottom: 20px;
+    }
+
+    .accountView {
+        font-size: 22px;
         margin-bottom: 20px;
     }
 

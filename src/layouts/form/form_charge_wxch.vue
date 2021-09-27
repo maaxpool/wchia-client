@@ -13,7 +13,7 @@
                 <span>{{$t('home.block3.item1Name')}}({{$t('public.minimunQuantity')}}: {{conf.minimal_exchange_decimals}}XCH)</span>
                 <div class="top-append">1 XCH= {{1-(conf.unwrap_fee_ratio/100)}} WXCH</div>
             </div>
-            <el-input v-model="formData.xchAmount">
+            <el-input v-model="formData.xchAmount" @input="inputRestrict">
                 <template slot="append">XCH</template>
             </el-input>
                 <!-- <div class="el-form-item__append">XCH</div> -->
@@ -155,6 +155,15 @@ export default {
         },
         gotoCheck(id){
             this.$router.push({name: 'transDetail', params:{id: id}})
+        },
+        inputRestrict(e) {
+            if (!e) return false
+            let demical = this.conf?this.conf.max_decimals:6
+            let match = e.match(/^([1-9]\d*(\.[\d]{0,6})?|0(\.[\d]{0,6})?)[\d.]*/)[1]
+            this.$nextTick(() => {
+                this.formData.xchAmount = match
+            })
+            
         }
     }
 }
