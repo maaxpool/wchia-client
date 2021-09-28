@@ -8,5 +8,6 @@ export default {
     transaction_list: {url: 'transaction/list', methods: 'get'},
     transaction_detail: {url: 'transaction/detail', methods: 'get'},
     wrap: {url: '/wrap', methods: 'post'},
-    unwrap: {url: '/unwrap', methods: 'post'}
+    unwrap: {url: '/unwrap', methods: 'post'},
+    unwrap_check: {url: '/unwrap/check', methods: 'post'}
 }

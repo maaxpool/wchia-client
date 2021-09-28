@@ -131,7 +131,7 @@ export default {
             
             this.$refs['formLayout'].validate()
                 .then(async () => {
-                    let approveRes
+                    let approveRes, unwarpCheck
                     this.isLoading = true
                     const options = {
                         "unwrap_amount": parseFloat(this.formData.wxchAmount),
@@ -152,8 +152,23 @@ export default {
                         console.error(err)
                     }
                     
-                    if(!approveRes) return false
-                    this.step = "Request submitting..."
+                    this.step = "Request submitting..." 
+
+                    this.$http('unwrap_check', options)
+                        .then(res => {
+                            this.isLoading = false
+                            unwarpCheck = true
+                        }).catch(err => {
+                            this.isLoading = false
+                            unwarpCheck = false
+                            let msg = err.response?err.response.data.err_msg:err
+                            console.log(msg)
+                            this.$message({  showClose: true, message: msg, type: 'error'  })
+                        })
+
+                    if(!approveRes || !unwarpCheck) return false
+                    
+
                     this.$http('unwrap', options)
                         .then(res => {
                             if (res && res['success']) {

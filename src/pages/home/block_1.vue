@@ -32,9 +32,9 @@
 import {mapGetters} from 'vuex'
 import {getUserInfo} from '@/utils/authUtils'
 export default {
-    // filters: {
-    //     accountSlice: str => str.replace(/(?<=(.{4})).*(?=(.{4}))/, "***")
-    // },
+    filters: {
+        accountSlice: str => str.replace(/(?<=(.{4})).*(?=(.{4}))/, "***")
+    },
     computed: {
         ...mapGetters('ethereum', {
             account: 'account',

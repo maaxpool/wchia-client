@@ -87,8 +87,7 @@ metamaskUtils.prototype.networkCheck = async function() {
     let usr_options = await this.getNetworkVersion()
     if (usr_options.networkId != this.default.network) {
         let msg_ = `
-            Current network ${usr_options.networkId} not supported, 
-            Please switch to one of the following: Rposten
+            Current network ${usr_options.networkId} is not supported
         `
         Message({
             showClose: true,

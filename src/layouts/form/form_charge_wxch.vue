@@ -137,7 +137,6 @@ export default {
                                 this.gotoCheck(res.msg.id)
                             }
                         }).catch(err => {
-                            console.log(123123)
                             if (err && err.response) {
                                 let msg = err.response.data.err_msg
                                 this.$message({
