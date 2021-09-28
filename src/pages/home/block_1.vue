@@ -14,11 +14,11 @@
             > 
                 {{$t('home.block1.button')}} 
             </el-button>
-            <!-- <el-button
+            <el-button
                 type="primary"
                 :disabled="true"
                 v-else
-            ></el-button> -->
+            >{{account | accountSlice}}</el-button>
         </div>
         <div class="r-part">
             <!-- <div class="illustration"></div> -->
