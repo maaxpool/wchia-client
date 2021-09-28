@@ -3,7 +3,7 @@
         <div class="l-part">
             <h2>{{$t('home.block1.title')}}</h2>
             <article>{{$t('home.block1.content')}}</article>
-            <p class="accountView">{{account | accountSlice}}</p>
+            <!-- <p class="accountView">{{account | accountSlice}}</p> -->
             <!-- !user|| -->
             <!-- network error: no userinfo but wallet sign, so `!user` have be -->
             <el-button 
@@ -32,9 +32,9 @@
 import {mapGetters} from 'vuex'
 import {getUserInfo} from '@/utils/authUtils'
 export default {
-    filters: {
-        accountSlice: str => str.replace(/(?<=(.{4})).*(?=(.{4}))/, "***")
-    },
+    // filters: {
+    //     accountSlice: str => str.replace(/(?<=(.{4})).*(?=(.{4}))/, "***")
+    // },
     computed: {
         ...mapGetters('ethereum', {
             account: 'account',
