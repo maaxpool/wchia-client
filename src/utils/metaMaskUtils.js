@@ -18,10 +18,12 @@ function metamaskUtils (options) {
     // this.initlization()
     let option = {
         onChainChanged: (account) => {
+            console.log(123)
             this.cacheClear()
             window.location.reload()
         },
         onAccountChanged: (account) => {
+            console.log(456)
             if (!account || account.length == 0) {
                 this.cacheClear()
                 window.location.reload()
