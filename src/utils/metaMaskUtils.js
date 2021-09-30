@@ -18,13 +18,11 @@ function metamaskUtils (options) {
     // this.initlization()
     let option = {
         onChainChanged: (account) => {
-            console.log(123)
             this.cacheClear()
             window.location.reload()
         },
         onAccountChanged: (account) => {
-            console.log(456)
-            if (!account || account.length == 0) {
+            if (!account || account.length == 0 || account[0] !== storage.getters['wallet/account']) {
                 this.cacheClear()
                 window.location.reload()
             }
