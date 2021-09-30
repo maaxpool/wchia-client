@@ -46,7 +46,8 @@ export default {
         block1: {
             title: 'Transparency and security ensures trust',
             content: 'The greatest concern of moving assets across a chain via a bridge is trust built on top of security.  In order to establish such trust, we are taking the following measures: 1)to have a public audited smart contract and have the source code open to the public; 2) to be transparent with our services and ourmotivations and 3) to have multisig custodian services. By doing so, when you convert one XCH to WXCH, your proof of reserve is on-chain, there will be only one WXCH to be minted, and the WXCH will be burned when the XCH token is redeemed.',
-            button: 'Connect Wallet'
+            button: 'Connect Wallet',
+            al: 'User Eth Address'
         },
         block2: {
             title: 'About Broker',

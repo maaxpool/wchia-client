@@ -3,8 +3,10 @@
         <div class="l-part">
             <h2>{{$t('home.block1.title')}}</h2>
             <article>{{$t('home.block1.content')}}</article>
-            <p class="accountView">{{account}}</p>
-            <!-- !user|| -->
+            <div class="accountView" v-if="account">
+                <p class="al">{{$t('home.block1.al')}}</p>
+                <p class="ac">{{account}}</p>
+            </div>
             <!-- network error: no userinfo but wallet sign, so `!user` have be -->
             <el-button 
                 type="primary" 
@@ -14,14 +16,8 @@
             > 
                 {{$t('home.block1.button')}} 
             </el-button>
-            <!-- <el-button
-                type="primary"
-                :disabled="true"
-                v-else
-            >{{account | accountSlice}}</el-button> -->
         </div>
         <div class="r-part">
-            <!-- <div class="illustration"></div> -->
             <img src="/img/block_1_bg.png" />
         </div>
     </div>
@@ -85,9 +81,17 @@ export default {
     }
 
     .accountView {
-        font-size: 16px;
         margin-bottom: 20px;
-        font-style: italic;
+        .al {
+            font-size: 16px;
+            margin-bottom: 10px;
+            font-weight: 200;
+        }
+        .ac {
+            font-size: 20px;
+            color: $--color-primary;
+            font-size: 400;
+        }
     }
 
     .el-button {
