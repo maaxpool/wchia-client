@@ -13,7 +13,7 @@
                 <span>{{$t('home.block3.item1Name')}}({{$t('public.minimunQuantity')}}: {{conf.minimal_exchange_decimals}}XCH)</span>
                 <div class="top-append">1 XCH= {{1-(conf.unwrap_fee_ratio/100)}} WXCH</div>
             </div>
-            <el-input v-model="formData.xchAmount">
+            <el-input v-model="formData.xchAmount" @input="inputRestrict">
                 <template slot="append">XCH</template>
             </el-input>
                 <!-- <div class="el-form-item__append">XCH</div> -->
@@ -34,11 +34,14 @@
             {{$t('public.fee')}}: {{conf.unwrap_fee_ratio}} %
         </div>
         <div class="desc">
+           {{$t('public.feeAmount')}}: {{feeAmount}}
+        </div>
+        <div class="desc">
             <div class="name">{{$t('home.block3.item4Name')}}:</div>
             <div class="val">{{account}}</div>
         </div>
 
-        <el-button class="submit" type="primary" @click="submitForm" >{{$t('home.block3.btn1')}}</el-button>
+        <el-button class="submit" type="primary" @click="submitForm" :disabled="!this.account" >{{$t('home.block3.btn1')}}</el-button>
 
         <!-- <div class="extr-btn">{{$t('home.block3.btn2')}}</div> -->
         <!-- <div class="extr-btn">{{$t('public.cancel')}}</div> -->
@@ -52,6 +55,7 @@ import {authorizationCheck, getUserInfo, getBalance} from '@/utils/authUtils'
 import {mul, cmpl} from '@/utils/floatOperation'
 import {mapGetters} from 'vuex'
 
+import domScroll from '@/utils/scroll'
 export default {
     components: {formLayout},
     computed: {
@@ -63,21 +67,24 @@ export default {
             eth_sign: 'eth_sign',
             auth_msg: 'auth_msg'
         }),
-        wxchAmount(){
-            return mul(1-(this.conf.unwrap_fee_ratio/100 ||0),parseFloat(this.formData.xchAmount)).toFixed(6)
-        },
         ...mapGetters('situation', {
             loadingWatcher: 'loadingWatcher'
         }),
+        wxchAmount(){
+            return mul(1-(this.conf.unwrap_fee_ratio/100||0),parseFloat(this.formData.xchAmount)).toFixed(6)
+        },
+        feeAmount(){
+            return mul(this.conf.unwrap_fee_ratio/100,parseFloat(this.formData.xchAmount)).toFixed(6)
+        },
     },
     data(){
         const xchAmountVaily = (rule, val, callback) => {
             if(!val > 0) {
-                callback(new Error('Please provide effective options'))
+                callback(new Error(this.$t('msg.require',  {val: this.$t('public.this')})))
             }
 
             if(!rational(val)) {
-                callback(new Error(this.$t('msg.rational')))
+                callback(new Error(this.$t('msg.effective')+this.$t('public.number')))
             }
             callback()
         }
@@ -116,14 +123,18 @@ export default {
                     this.$http('wrap', options)
                         .then(res => {
                             if (res && res['success']) {
+
+                                // domScroll(this, 'Block_5')
+                                // this.$globalBus.$emit('TRANSCATION_TAB', 'wrap');
                                 getBalance()
 
                                 this.$message({
                                     showClose: true,
-                                    message: "Transform successed",
+                                    message: "Request submitted",
                                     type: 'success'
                                 })
                                 this.fromClean()
+                                this.gotoCheck(res.msg.id)
                             }
                         }).catch(err => {
                             if (err && err.response) {
@@ -140,6 +151,18 @@ export default {
         },
         fromClean() {
             this.formData.xchAmount = 0
+        },
+        gotoCheck(id){
+            this.$router.push({name: 'transDetail', params:{id: id}})
+        },
+        inputRestrict(e) {
+            if (!e) return false
+            let demical = this.conf?this.conf.max_decimals:6
+            let match = e.match(/^([1-9]\d*(\.[\d]{0,6})?|0(\.[\d]{0,6})?)[\d.]*/)[1]
+            this.$nextTick(() => {
+                this.formData.xchAmount = match
+            })
+            
         }
     }
 }

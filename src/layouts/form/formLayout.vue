@@ -37,7 +37,6 @@ export default {
         validate(){
             return new Promise((resolve, refuse) => {
                 this.$refs[this.domRef].validate((vail) => {
-                    console.log(vail)
                     if(vail) {
                         resolve()
                     } else {
@@ -61,6 +60,9 @@ export default {
     border-radius: 18px;
     box-shadow: $--page-item-shodow-1;
     background-color: $--color-white;
+
+    margin-left: auto;
+    margin-right: auto;
 }
 
 ::v-deep .el-from-row {

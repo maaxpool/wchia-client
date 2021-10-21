@@ -3,10 +3,21 @@
         <div class="l-part">
             <h2>{{$t('home.block1.title')}}</h2>
             <article>{{$t('home.block1.content')}}</article>
-            <el-button type="primary" @click="connectWallet" v-if="!user||!eth_sign" > {{$t('home.block1.button')}} </el-button>
+            <div class="accountView" v-if="account">
+                <p class="al">{{$t('home.block1.al')}}</p>
+                <p class="ac">{{account}}</p>
+            </div>
+            <!-- network error: no userinfo but wallet sign, so `!user` have be -->
+            <el-button 
+                type="primary" 
+                @click="connectWallet" 
+                v-if="!user||!eth_sign" 
+                :disabled="loadingWatcher.indexOf('get_user') > -1"
+            > 
+                {{$t('home.block1.button')}} 
+            </el-button>
         </div>
         <div class="r-part">
-            <!-- <div class="illustration"></div> -->
             <img src="/img/block_1_bg.png" />
         </div>
     </div>
@@ -17,7 +28,10 @@
 import {mapGetters} from 'vuex'
 import {getUserInfo} from '@/utils/authUtils'
 export default {
-     computed: {
+    filters: {
+        accountSlice: str => str.replace(/(?<=(.{8})).*(?=(.{8}))/, "***")
+    },
+    computed: {
         ...mapGetters('ethereum', {
             account: 'account',
             eth_sign: 'eth_sign'
@@ -25,13 +39,15 @@ export default {
         ...mapGetters('user', {
             user: 'user'
         }),
+        ...mapGetters('situation', {
+            loadingWatcher: 'loadingWatcher'
+        })
     },
     methods: {
         async connectWallet(){
             if(!this.account) {
                 await this.$metaMaskUtils.initlization()
             }
-
             getUserInfo(this)
             // this.$metaMaskUtils.ethSign()
         },
@@ -62,6 +78,20 @@ export default {
         font-size: 16px;
         line-height: 150%;
         margin-bottom: 20px;
+    }
+
+    .accountView {
+        margin-bottom: 20px;
+        .al {
+            font-size: 16px;
+            margin-bottom: 10px;
+            font-weight: 200;
+        }
+        .ac {
+            font-size: 20px;
+            color: $--color-primary;
+            font-size: 400;
+        }
     }
 
     .el-button {

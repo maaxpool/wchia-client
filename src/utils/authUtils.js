@@ -2,13 +2,14 @@ import storage from '@/store/index'
 import $http from '@/utils/http'
 
 import {Message} from 'element-ui'
+import {cmpl} from '@/utils/floatOperation'
 import store from '@/store'
 
-const authorizationCheck = () => {
+export const authorizationCheck = () => {
   return storage.getters['user/user']
 }
 
-const getConfigure = async () => {
+export const getConfigure = async () => {
     try {
         let res = await $http('get_configure')
         if(res && res['success']) {
@@ -19,18 +20,15 @@ const getConfigure = async () => {
     } 
 }
 
-const getUserInfo = ($app) => {
+export const getUserInfo = ($app) => {
     return new Promise((resolve, refuse) => {
         if(!$app) {
             console.error('Can not catch the $app')
             refuse()
         }
         // getBalance()
-
         $app.$metaMaskUtils.ethSign()
             .then(() => {
-                // console.log(storage.getters['user/user'])
-
                 if (authorizationCheck() || !storage.getters['ethereum/account'])
                     return false
                 
@@ -52,17 +50,14 @@ const getUserInfo = ($app) => {
                         type: 'error'
                     })
                 })
-
             }).catch(err => {
-                // refuse(err)
                 console.error(err)
             })
     })
 }
 
-const getBalance = async () => {
+export const getBalance = async () => {
     if(!authorizationCheck() || !storage.getters['ethereum/account']) return false
-
     try {
         let res_balance = await $http('balance', {
                 eth_address: storage.getters['ethereum/account'],
@@ -84,6 +79,41 @@ const getBalance = async () => {
     }
 }
 
+export const getTranscationList = async (options) => {
+    if(!authorizationCheck() || !storage.getters['ethereum/account']) return false
+
+    if(options && options['type'])
+        storage.commit('transcationList/active', options['type'])
+    if(options && options['page'])
+        storage.commit('transcationList/page', options['page'])
+
+    let defaults = {
+        eth_address: storage.getters['ethereum/account'],
+        type: storage.getters['transcationList/active'],
+        size: 20,
+        page: 1,
+    }
+
+    let params = Object.assign(defaults, options)
+
+    $http('transaction_list',  params)
+        .then(res => {
+            if(res && res['success']) {
+                let data = res['msg']
+                for(let i in data.transactions) {
+                    data.transactions[i]['amount'] = cmpl(data[transactions[i]['amount']], 6)
+                }
+                storage.commit('transcationList/list', data)
+            }     
+        }).catch(err => {
+            console.error(err)
+        })
+}
+
+export const blockViewUpdate = (options) => {
+    getBalance()
+    getTranscationList(options)
+}
 
 
-export {authorizationCheck, getUserInfo, getBalance, getConfigure}
+

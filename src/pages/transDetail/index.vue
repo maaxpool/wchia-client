@@ -1,6 +1,13 @@
 <template>
     <div class="container">
-        <h2 class="page-title">{{$t('transDetail.pageTitle')}}</h2>
+        <h2 class="page-title">
+            <template v-if="type == 'wrap'">
+                {{$t('home.block5.tab1')}} {{$t('public.detail')}}
+            </template>
+            <template v-if="type == 'unwrap'">
+                {{$t('home.block5.tab2')}} {{$t('public.detail')}}
+            </template>
+        </h2>
 
         <page-card class="page-inner">
             <div class="header" slot="header">
@@ -13,15 +20,32 @@
                     <span>{{fee_amount | floatStr}} {{symbol.sender_address}}</span>
                 </div>
             </div>
-            <div class="content" v-loading="loadingWatcher.indexOf('transaction_detail') > -1">
+             <!-- v-loading="loadingWatcher.indexOf('transaction_detail') > -1" -->
+            <div class="content">
                 <template v-if="isLoaded" >
                     <div class="item" :class="{'full': item.full}" v-for="(item, idx) in dataList" :key="`trans_item_${idx}`" v-if="item.val" >
                         <label>
-                            <!-- {{$t(item.name, {symbol: symbol[idx]})}} -->
                             {{$t(item.name)}}
                         </label>
                         <div>
-                            <p>{{item.val}}</p>
+                            <template v-if="idx=='status'">
+                                <el-popover
+                                    placement="bottom"
+                                    trigger="hover"
+                                    v-if="item.val.toLowerCase()=='error'"
+                                >
+                                    <p style="text-align: center">{{error_msg}}</p>
+                                    <span style="color:#eb8900;cursor:default;" slot="reference">
+                                        <i class="el-icon-warning"></i>
+                                        {{$t('home.block5.status.'+item.val)}}
+                                    </span>
+                                </el-popover>
+                                <p v-else>{{$t('home.block5.status.'+item.val)}}</p>
+                            </template>
+                            <template v-else>
+                                <p>{{item.val}}</p>
+                                
+                            </template>
                             <a v-if="item.handler && item.val" :href="item.handler.link+item.val">{{$t(item.handler.txt)}}</a>
                         </div>
                     </div>
@@ -71,13 +95,15 @@ export default {
                 receiver_address: {name: 'transDetail.item2Name', val: ""},
                 amount: {name: 'transDetail.item3Name', val:""},
                 status: {name:'transDetail.item4Name', val: ""},
-                chia_transaction_hash: {name:'transDetail.item5Name', val: "", 
-                    handler:{link: process.env.VUE_APP_CHIA_URL, txt: 'public.check'}},
-                eth_transaction_hash: {name:'transDetail.item5Name', val: "", 
-                    handler:{link: process.env.VUE_APP_ETH_URL, txt: 'public.check'}},
+                chia_transaction_hash: {name:'transDetail.item5NameChia', val: "", handler:{link: process.env.VUE_APP_CHIA_URL+'block/', txt: 'public.check'}},
+                eth_transaction_hash: {name:'transDetail.item5NameEth', val: "", handler:{link: process.env.VUE_APP_ETH_URL+'tx/', txt: 'public.check'}}
                 // eth_transaction_hash: {name: this.$t('transDetail.item6Name'), val: ""},
-            }
+            },
+            error_msg: ''
         }
+    },
+    mounted(){
+        this.getTransDetail()
     },
     activated(){
         this.getTransDetail()
@@ -89,6 +115,7 @@ export default {
                 this.$http('transaction_detail', {id: id_})
                     .then(res => {
                         if (res) {
+                            
                             let data = res['msg']
                             let obj = {...this.dataList}
                             this.created_at = data['created_at']
@@ -100,8 +127,11 @@ export default {
                                     obj[keys]['val'] = cmpl(data[keys], 6)
                                 }
                             }
+                            this.error_msg = data['error_msg']
                             this.isLoaded = true
                             this.dataList = {...obj}
+
+                            setTimeout(this.getTransDetail, 60000)
                         }
                     }).catch(err => {
                         console.log(err)

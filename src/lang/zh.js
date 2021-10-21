@@ -1,6 +1,7 @@
 export default {
     public: {
-        fee: '手续费',
+        fee: '手续费率',
+        feeAmount: '手续费',
         send: '发送',
         cancel: '取消',
         item1Name: '查看交易',
@@ -10,18 +11,24 @@ export default {
         
         nodata: '没有数据',
         check: "查看交易",
-        minimunQuantity: '最小兑换数量'
+        minimunQuantity: '最小兑换数量',
+        detail: '详情',
+        number: '数字',
+        address: '地址',
+        this: '这'
     },
     msg: {
-        require: '{val} 是必须的',
-        rational: '请输入合理的'
+        require: '{val}是必须的',
+        effective: '请输入有效的',
+        addressIlleagal: '地址不合法'
     },
     navs: {
         item1: '关于代理商',
         item2: '兑换WXCH',
         item3: '换回 XCH',
         item4: '历史交易',
-        item5: '联系我们',
+        item5: '新手指南',
+        item6: '联系我们',
         btn1: '注册',
         dropDownItem1: '设置',
         dropDownItem2: '登出',
@@ -31,9 +38,6 @@ export default {
             item1: 'WXCH 是第一个以奇亚币 1:1背书的ERC20 代币',
             item2: '如需帮助，请联系'
         },
-        rpart: {
-            item1: ''
-        }
     },
     msgs: {
 
@@ -42,7 +46,8 @@ export default {
         block1: {
             title: '透明度和安全性确保信任',
             content: '通过桥梁在链上移动资产的最大担心是建立在安全之上的信任。为了建立这种信任，我们采取的措施包括： 1) 公开的经过审计的智能合约，并将源代码公开； 2) 透明的服务和动机，以及 3) 多重签名支持的托管服务。所有的交易记录都是在存储在链上，当你将一个 XCH 转换为 WXCH 时，只有一个 WXCH 被铸造，当 XCH 代币被赎回时，对应的WXCH 将被销毁。',
-            button: '连接钱包'
+            button: '连接钱包',
+            al: '用户 Eth 地址'
         },
         block2: {
             title: '关于代理商',
@@ -62,6 +67,15 @@ export default {
             item3Name: '手续费',
             item4Name: 'WXCH 接收地址',
             btn1: '立即兑换WXCH',
+            timelineItem1hd: '存入 XCH',
+            timelineItem1ctn: '提交兑换申请之前，请存入足够的 XCH 到您的专属 XCH 地址：',
+            timelineItem2hd: '提交兑换申请',
+            timelineItem2ctn: '在网页上填写 XCH 数量，点击“立即兑换 WXCH”。',
+            timelineItem3hd: '等待 WXCH 到账',
+            timelineItem3ctn: '从 XCH 转换为 WXCH，跨链桥需要一些时间，请您耐心等待。',
+            timelineItem4hd: 'WXCH 到账成功',
+            timelineItem4ctn1: '交易成功后，您可在 MetaMask 查看收到的 WXCH',
+            timelineItem4ctn2: '为了方便您查看资产，请在 MetaMask 账户添加 WXCH 代币。WXCH 代币地址:',
         },
         block4: {
             title: '兑换成XCH',
@@ -71,6 +85,15 @@ export default {
             item3Name: 'XCH 接收地址',
             // item4Name: 'Receiving  WXCH address',
             btn1: '换回XCH',
+
+            timelineItem1hd: '提交兑换申请',
+            timelineItem1ctn: '在网页上填写 WXCH 数量，填写接收 XCH 的地址，点击“兑换回 XCH”。',
+            timelineItem2hd: '授权代理商扣取 WXCH',
+            timelineItem2ctn: 'MetaMask 会弹出窗口请求授权代理商扣取 WXCH，请点击“同意”。',
+            timelineItem3hd: '等待 XCH 到账',
+            timelineItem3ctn: '从 WXCH 转换为 XCH，跨链桥需要一些时间，请您耐心等待。',
+            timelineItem4hd: 'XCH 到账成功',
+            timelineItem4ctn: '交易成功后，您可在 Chia 地址查看收到的 XCH。',
         },
         block5: {
             title: '历史交易',
@@ -87,6 +110,8 @@ export default {
             status: {
                 created: '已创建',
                 xch_transferred: 'XCH已接收',
+                xch_transferring: 'XCH发送中',
+                wxch_transferred: 'WXCH已发送',
                 wxch_transferring: 'WXCH发送中',
                 finished: '已完成',
                 closed: '已关闭',
@@ -146,7 +171,8 @@ export default {
         item2Name: '接收地址',
         item3Name: '数量',
         item4Name: '状态',
-        item5Name: '交易哈希',
+        item5NameChia: 'Chia 交易哈希',
+        item5NameEth: 'Eth 交易哈希',
         // item6Name: '以太坊交易'
     }
     

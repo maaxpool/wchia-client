@@ -54,6 +54,7 @@ body {
   font-weight: 400;
   word-wrap: break-word;
   color: $--color-black-1;
+  min-width: $--page-width;
 }
 
 *, *::before, *::after {
@@ -65,11 +66,10 @@ ul, li, dl, dt, dd {
 }
 
 .container {
-  min-width: $--page-width;
   width: $--page-width;
   margin: 0 auto;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 a[href] {
@@ -87,4 +87,9 @@ a[href] {
 
 }
 
+// @media screen and (max-width: $--page-width) {
+//   body {
+    
+//   }
+// }
 </style>

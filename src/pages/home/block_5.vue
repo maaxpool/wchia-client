@@ -22,14 +22,13 @@
             </div>
         </div>
         <!-- @tab-click="handleClick" -->
-        <el-tabs v-model="activeName" type="card" v-loading="this.loadingWatcher.indexOf('transaction_list') > -1">
-            <!-- :class="{'no-data': !(table_wrap.list.length > 0)}" -->
+         <!-- v-loading="loadingWatcher.indexOf('transaction_list') > -1" -->
+        <el-tabs v-model="activeName" type="card">
             <el-tab-pane  :label="$t('home.block5.tab1')" name="wrap">
                 <wxch-history-tb v-if="table_wrap.list.length > 0" :tableData="table_wrap.list" />
                 <el-skeleton v-if="table_wrap.list.length == 0 && table_wrap.total !== 0" animated />
                 <no-data v-if="table_wrap.total === 0" />
             </el-tab-pane>
-            <!-- :class="{'no-data': !(table_wrap.list.length > 0)}"  -->
             <el-tab-pane :label="$t('home.block5.tab2')" name="unwrap">
                 <wxch-history-tb v-if="table_unwrap.list.length > 0" :tableData="table_unwrap.list" />
                 <el-skeleton v-if="table_unwrap.list.length == 0 && table_unwrap.total !== 0" animated />
@@ -54,7 +53,7 @@ import headerHomeBlock from '@/layouts/header/sub_hd_home_block.vue'
 
 import {mapGetters} from 'vuex'
 import {cmpl} from '@/utils/floatOperation'
-import {getBalance} from '@/utils/authUtils'
+import {getBalance, getTranscationList, blockViewUpdate} from '@/utils/authUtils'
 export default {
     components: {headerHomeBlock, wxchHistoryTb, noData },
     filters: {
@@ -84,11 +83,17 @@ export default {
             }
         }
     },
+    created() {
+        this.$globalBus.$on('TRANSCATION_TAB', (active) => {
+            this.activeName = active
+        })
+    },
     data(){
         return {
             activeName: 'wrap',
             size: 20,
-            page: 1,
+            currentpage: 1,
+            reflashTag: null,
             table_wrap: {
                 page: 1,
                 size: 10,
@@ -104,7 +109,7 @@ export default {
         }
     },
     watch: {
-        page(){
+        currentpage(){
             this.getTranscationData()
         },
         activeName(){
@@ -115,22 +120,34 @@ export default {
         },
         balance: {
             handler(n, o) {
-                if (o && n.state_init) this.getTranscationData()
+                if (o && n.state_init) 
+                    this.getTranscationData()
+                // else 
+                //     getBalance()
             },
             immediate: true,
             deep: true
         }
     },
-    async activated(){
-        await this.$metaMaskUtils.initlization()
-        if (!this.balance.state_init)
-            getBalance()
-        else
-            this.getTranscationData()
-    },  
+    created() {
+        this.$globalBus.$on('TRANSCATION_TAB', (active) => {
+            this.activeName = active
+        })
+        this.getTranscationData()
+    },
+    activated(){
+        this.getTranscationData()
+    },
     methods: {
         getTranscationData(){
-            if(!this.account || !this.user) return false
+            if(this.loadingWatcher.indexOf('transaction_list') > -1) return false
+            clearTimeout(this.reflashTag)
+            if(!this.account || !this.user) {
+                setTimeout(this.getTranscationData, 2000)
+                return false
+            }
+
+            clearTimeout(this.reflashTag)
 
             let type_ = this.activeName
             this['table_'+type_]['list'] = []
@@ -146,7 +163,9 @@ export default {
                     for (let i in data.transactions) {
                         data.transactions[i]['amount'] = cmpl(data.transactions[i]['amount'], 6)
                     }
+
                     this['table_'+type_]['list'] = data.transactions
+                    // this.reflashTag = setTimeout(this.getTranscationData, 60000)
                 }
             }).catch(err => {
                 console.log(err)

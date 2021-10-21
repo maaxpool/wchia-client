@@ -6,7 +6,9 @@
     </div>
 </template>
 
-
-<style scoped lang="scss">
-@import '@/style/custom';
-</style>
+<script>
+import headerHome from '@/layouts/header/header_home.vue'
+export default {
+    components: {headerHome}
+}
+</script>

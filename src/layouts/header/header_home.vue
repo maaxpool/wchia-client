@@ -20,7 +20,23 @@
                     <div class="append">
                         <el-button v-if="!user" @click="goto('register')"  >{{$t('navs.btn1')}}</el-button>
                         <router-link v-else class="usrLogo" :to="{name: 'account'}" ></router-link>
-                </div>
+                    </div>
+                    <!--original bak -->
+                    <!-- <a class="logo" @click="goto(home)"></a>
+                    <ul class="navbar">
+                        <li 
+                            v-for="(item, index) in navList" 
+                            :key="`nav_item_${index}`"
+                            @click="navHandler('Block_'+(index+2))"
+                        >{{$t('navs.item'+(index+1))}}</li>
+                    </ul>
+
+                    <div class="append">
+                        <el-button v-if="!user" @click="goto('register')"  >{{$t('navs.btn1')}}</el-button>
+                        <router-link v-else class="usrLogo" :to="{name: 'account'}" ></router-link>
+                    </div> -->
+
+
                 </template>
 
             </div>
@@ -52,6 +68,8 @@ export default {
                 index: 3,
             },{
                 index: 4
+            },{
+                index: 5
             }]
         }
     },
@@ -59,7 +77,8 @@ export default {
         goto(pathName){
             this.$router.push({name: pathName})
         },
-        scroll (domID) {
+        navHandler (domID) {
+            if(domID == 5) return false
             domScroll(this, domID)
         }
     }

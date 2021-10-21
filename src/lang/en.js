@@ -1,6 +1,7 @@
 export default {
     public: {
         fee: 'Fee',
+        feeAmount: 'Fee Amount',
         send: 'send',
         cancel: 'Cancel',
         item1Name: 'Check transaction',
@@ -10,18 +11,24 @@ export default {
         
         nodata: 'No Data',
         check: "Check Details",
-        minimunQuantity: 'Minimum exchange'
+        minimunQuantity: 'Minimum exchange',
+        detail: 'Details',
+        number: 'number',
+        address: 'address',
+        this: 'this'
     },
     msg: {
         require: '{val} is required',
-        rational: 'please input the rational'
+        effective: 'please input the effective ',
+        addressIlleagal: 'This Address is illegal'
     },
     navs: {
         item1: 'About Broker',
         item2: 'Exchange WXCH',
         item3: 'Exchange XCH',
         item4: 'Historical transaction',
-        item5: 'Connect Us',
+        item5: 'Guide',
+        item6: 'Connect Us',
         btn1: 'Sign Up',
         dropDownItem1: 'setting',
         dropDownItem2: 'Sign out',
@@ -31,9 +38,6 @@ export default {
             item1: 'WXCH is the first ERC20 tokenbacked 1:1 with Chia',
             item2: 'If you need help, please contact'
         },
-        rpart: {
-            item1: ''
-        }
     },
     msgs: {
 
@@ -42,7 +46,8 @@ export default {
         block1: {
             title: 'Transparency and security ensures trust',
             content: 'The greatest concern of moving assets across a chain via a bridge is trust built on top of security.  In order to establish such trust, we are taking the following measures: 1)to have a public audited smart contract and have the source code open to the public; 2) to be transparent with our services and ourmotivations and 3) to have multisig custodian services. By doing so, when you convert one XCH to WXCH, your proof of reserve is on-chain, there will be only one WXCH to be minted, and the WXCH will be burned when the XCH token is redeemed.',
-            button: 'Connect Wallet'
+            button: 'Connect Wallet',
+            al: 'User Eth Address'
         },
         block2: {
             title: 'About Broker',
@@ -62,6 +67,15 @@ export default {
             item3Name: 'Fee',
             item4Name: 'Receiving  WXCH address',
             btn1: 'Redeem WXCH now',
+            timelineItem1hd: 'Deposite XCH',
+            timelineItem1ctn: 'Before submitting the exchange request, please deposit enough XCH to your exclusive XCH address provided by broker:',
+            timelineItem2hd: 'Submitting the exchange request',
+            timelineItem2ctn: 'Fill in the amount of XCH on the webpage and click "Exchange WXCH ".',
+            timelineItem3hd: 'Waiting WXCH  transfer to your account',
+            timelineItem3ctn: 'To convert from XCH to WXCH, it takes some time to cross the bridge. please wait patiently.',
+            timelineItem4hd: 'WXCH successfully deposited into account',
+            timelineItem4ctn1: 'After the transaction is successful, you can check the received WXCH in MetaMask.',
+            timelineItem4ctn2: 'To facilitate your viewing of assets, please add WXCH tokens to your MetaMask account. WXCH token address:',
         },
         block4: {
             title: 'EXCHANGE XCH',
@@ -71,6 +85,14 @@ export default {
             item3Name: 'XCH address',
             // item4Name: 'Receiving  WXCH address',
             btn1: 'Exchange back to XCH',
+            timelineItem1hd: 'Submitting the exchange request',
+            timelineItem1ctn: 'Fill in the WXCH quantity on the webpage, fill in the XCH receiving address, and click "Exchange XCH".',
+            timelineItem2hd: 'Approve Broker can deduct WXCH from your account.',
+            timelineItem2ctn: 'MetaMast would pop-up a window for asking approve broker deduct WXCH. Please click "Confirm" here.',
+            timelineItem3hd: 'Waiting XCH  transfer to your account.',
+            timelineItem3ctn: 'To convert from WXCH to XCH, it takes some time to cross the bridge. please wait patiently.',
+            timelineItem4hd: 'XCH successfully deposited into account.',
+            timelineItem4ctn: 'After the transaction is successful, you can check the received XCH at your Chia address.',
         },
         block5: {
             title: 'Historical transaction',
@@ -86,8 +108,10 @@ export default {
             tbHandler: 'Check details',
             status: {
                 created: 'created',
-                xch_transferred: 'xch_transferred',
-                wxch_transferring: 'wxch_transferring',
+                xch_transferred: 'xch transferred',
+                xch_transferring: 'xch transferring',
+                wxch_transferred: 'wxch transferred',
+                wxch_transferring: 'wxch transferring',
                 finished: 'finished',
                 closed: 'closed',
                 error: 'error'
@@ -146,9 +170,8 @@ export default {
         item2Name: 'Receiving address',
         item3Name: 'Quantity',
         item4Name: 'Status',
-        item5Name: 'Transaction Hash',
-        // item5Name: 'Chia transaction',
-        item6Name: 'Ethereum transaction'
+        item5NameChia: 'Chia Transaction Hash',
+        item5NameEth: 'Eth Transaction Hash'
     }
     
 }

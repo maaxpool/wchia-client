@@ -2,23 +2,30 @@ import detectEthereumProvider from '@metamask/detect-provider'
 import storage from '@/store/index'
 import {Message} from 'element-ui'
 // import { resolve } from 'core-js/fn/promise'
+import {repston_hstAbi} from '@/temp/abi_repsten'
 import jsCookie from 'js-cookie'
+
+import Web3 from 'web3'
 
 
 function metamaskUtils (options) {
-    this.web3Provider
-    this.account
-    this.initlization()
+    this.default = {
+        network: process.env.VUE_APP_NETWORK
+    }
 
+    this.web3Provider
+    this.account = storage.getters["ethereum/account"]
+    // this.initlization()
     let option = {
-        onChainChanged: () => { 
-            if(document.cookie) {
-                var keys=document.cookie.match(/[^ =;]+(?=\=)/g);
-                keys.forEach(item => {
-                    jsCookie.remove(item)
-                })
-            }
+        onChainChanged: (account) => {
+            this.cacheClear()
             window.location.reload()
+        },
+        onAccountChanged: (account) => {
+            if (!account || account.length == 0 || account[0] !== storage.getters['wallet/account']) {
+                this.cacheClear()
+                window.location.reload()
+            }
         },
         onDisconnect: (err) => { 
             return
@@ -30,7 +37,7 @@ function metamaskUtils (options) {
 
     if (window.ethereum) {
         ethereum.on('chainChanged', option['onChainChanged'])
-        ethereum.on('accountsChanged', option['onChainChanged'])
+        ethereum.on('accountsChanged', option['onAccountChanged'])
         ethereum.on('disconnect', (err) => {
             option.onDisconnect(err)
             console.error(err)
@@ -41,11 +48,9 @@ function metamaskUtils (options) {
 }
 
 metamaskUtils.prototype.initlization = async function(){
-    
     /* 检测是否安装钱包 */
     this.web3Provider = await detectEthereumProvider()
-    storage.commit('ethereum/provide', this.web3Provider)
-    
+    // storage.commit('ethereum/provide', this.web3Provider)
     if (this.web3Provider) {
         /* 连接钱包，eth_requestAccounts  */
         try {
@@ -55,7 +60,6 @@ metamaskUtils.prototype.initlization = async function(){
         } catch (err) {
             this.showError(err)
         }
-        
     } else {
         console.error('Please install MetaMask!')
         Message({
@@ -64,7 +68,6 @@ metamaskUtils.prototype.initlization = async function(){
             type: 'error'
         })
     }
-
 }
 
 metamaskUtils.prototype.getNetworkVersion = async function(){
@@ -82,10 +85,9 @@ metamaskUtils.prototype.getNetworkVersion = async function(){
 
 metamaskUtils.prototype.networkCheck = async function() {
     let usr_options = await this.getNetworkVersion()
-    if (usr_options.networkId != 3) {
+    if (usr_options.networkId != this.default.network) {
         let msg_ = `
-            Current network ${usr_options.networkId} not supported, 
-            Please switch to one of the following: Rposten
+            Current network ${usr_options.networkId} is not supported
         `
         Message({
             showClose: true,
@@ -108,7 +110,6 @@ metamaskUtils.prototype.signCheck = async function() {
 
 metamaskUtils.prototype.networkChanged = async function(){
     ethereum.on('chainChanged', () => {
-
         ethereum.request({
             method: 'eth_getBlockByNumber',
             params: ['latest', false],
@@ -145,6 +146,7 @@ metamaskUtils.prototype.ethSign = function(){
             refuce(err)
         }
     })
+
 }
 
 
@@ -154,8 +156,32 @@ metamaskUtils.prototype.showError = function(err) {
         message: JSON.stringify(err['message']||err),
         type: 'error'
     })
-    
     console.error(err)
+}
+
+
+metamaskUtils.prototype.contractApprove = async function(address, amount) {
+    if(!storage.getters['user/conf']) return false
+    const web3 = new Web3(window.ethereum)
+    // const contract_address = process.env.VUE_APP_CONTRACT
+    const contract_address = storage.getters['user/conf']['wxch_contract_address']
+    let contract = new web3.eth.Contract(repston_hstAbi, contract_address)
+    let bn_ = web3.utils.toBN(parseInt(amount*1000000000000))
+    return contract.methods.approve(
+        address,
+        bn_,
+    ).send({
+        from: this.account
+    })
+}
+
+metamaskUtils.prototype.cacheClear = function() {
+    if(document.cookie) {
+        var keys=document.cookie.match(/[^ =;]+(?=\=)/g);
+        keys.forEach(item => {
+            jsCookie.remove(item)
+        })
+    }
 }
 
 
