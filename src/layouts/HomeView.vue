@@ -1,7 +1,6 @@
 <template>
     <div class="page">
-        <!-- <header-home v-if="$router.meta.header == 'home'"></header-home>
-        <header-home v-if="$router.meta.header == 'inner'"></header-home> -->
+        <header-home></header-home>
         <router-view></router-view>
     </div>
 </template>
