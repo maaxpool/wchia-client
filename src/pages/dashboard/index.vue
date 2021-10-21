@@ -49,17 +49,37 @@
             </div>
         </div>
 
-        <db-ord-book-tb /> 
+        <template v-if="curIdx == 0">
+          <!-- :tableData="testData" -->
+          <db-orderbook-tb  /> 
+        </template>
 
+        <template v-if="curIdx == 1">
+          <!-- :tableData="testData"  -->
+          <db-proof-tb /> 
+          <cus-pagation from="0" to="10" total="100" page="1" size="10" />
+        </template>
+
+        <template v-if="curIdx == 2">
+           <!-- :tableData="testData" -->
+          <db-partner-tb /> 
+          <cus-pagation from="0" to="10" total="100" page="1" size="10" />
+        </template>
+
+
+        <!-- pagation -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import dbOrdBookTb from '@/layouts/table/table_dashboard_orderbook.vue'
+import dbOrderbookTb from '@/layouts/table/table_dashboard_orderbook.vue'
+import dbProofTb from '@/layouts/table/table_dashboard_proof.vue'
+import dbPartnerTb from '@/layouts/table/table_dashboard_partner.vue'
+import cusPagation from '@/layouts/pagation/page_1.vue'
 export default {
-  components: {dbOrdBookTb},
+  components: {dbOrderbookTb, dbPartnerTb, dbProofTb, cusPagation},
   data() {
     return {
       tabGroup: [{
@@ -74,13 +94,22 @@ export default {
         subTitle: 'WXCH is a community-led project and its partners include merchants, custodians, exchanges, and DAO members.'
       }],
       isCollapse: 0,
-      curIdx: 0
+      curIdx: 0,      // 0:orderbook; 1:proof; 2:partner;
+      testData: [{
+        action: 'mint',
+        date: 'Aug 17 2021 02:30',
+        extend: {
+          merchant: 'Granefrunt Trancing',
+          value: '2997.00000',
+          status: 'Mint Completed'
+        }
+      }]
     }
   },
   methods: {
-    handleSelect(n, idx) {
-      // console.log(n, idx ,'sel')
-    }
+    handleSelect(n) {
+      this.curIdx = n
+    },
   }
 }
 </script>
@@ -161,7 +190,6 @@ export default {
             height: 60px;
             margin-right: 18px;
         }
-
         .count {
             -webkit-box-flex: 1;
             flex: 1;
@@ -175,5 +203,15 @@ export default {
       font-size: 14px;
       margin-top: 20px;
     }
+}
+
+.tl {
+  margin-bottom: 30px;
+  h3 {
+    font-size: 40px;
+    margin-bottom: 10px;
+    font-weight: 800;
+    color: $--color-primary;
+  }
 }
 </style>

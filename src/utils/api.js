@@ -8,5 +8,8 @@ export default {
     transaction_list: {url: 'transaction/list', methods: 'get'},
     transaction_detail: {url: 'transaction/detail', methods: 'get'},
     wrap: {url: '/wrap', methods: 'post'},
-    unwrap: {url: '/unwrap', methods: 'post'}
+    unwrap: {url: '/unwrap', methods: 'post'},
+    orderBook: {url: '/transaction', methods: 'get'},
+    proof: {url: '/proof', methods: 'get'},
+    partner: {url: '/partner', methods: 'get'},
 }

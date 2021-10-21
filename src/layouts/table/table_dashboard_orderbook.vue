@@ -1,52 +1,99 @@
 <template>
-  <el-table>
-    <el-table-column>
-      <template slot-scope="scope" >
-        <i class="icon_db icon_db_db"></i>
-        <i class="icon_db icon_db_fire"></i>
-
-        <span>{{scope.row.action}}</span>
+  <div>
+    <el-table :data="tableData" >
+      <template v-for="(item, idx) in columns " >
+        <el-table-column 
+          v-if="item !== 'extend'"
+          :key="`r_${idx}_${item}`" 
+          :label="item" 
+          :prop="item" 
+        ></el-table-column>
       </template>
-    </el-table-column>
-    <el-table-column prop="date"></el-table-column>
-    <el-table-column prop="merchant"></el-table-column>
-    <el-table-column prop="value" align="center"></el-table-column>
-    <el-table-column prop="status" ></el-table-column>
-    <el-table-column type="expand">
-      
-    </el-table-column>
-  </el-table>
+
+      <el-table-column type="expand">
+        <template slot-scope="props">
+          <ul class="expand__inner">
+            <!-- {{props.row.extend}} -->
+            <li v-for="(item, eidx) in props.row.extend" :key="`extend_${eidx}`">
+              <!-- {{item}} -->
+              <label>{{eidx}}</label>
+              <a>{{item}}</a>
+            </li>
+          </ul>
+        </template>  
+      </el-table-column>
+    </el-table>
+    <cus-pagation from="0" to="10" total="100" page="1" size="10" />
+  </div>
 </template>
 
 <script>
-
+import cusPagation from '@/layouts/pagation/page_1.vue'
 export default {
+  // props:["tableData"],
+  components: {
+    cusPagation
+  },
+  computed: {
+    columns(){
+      if(this.tableData) {
+        return Object.keys(this.tableData[0])
+      }
+    }
+  },
   data(){
     return {
-      testData: [{
-        action: 'mint',
-        date: 'Aug 17 2021 02:30',
-        merchant: 'Granefrunt Trancing',
-        value: '2997.00000',
-        status: 'Mint Completed'
-      }]
+      tableData: []
+    }
+  },
+  created() {
+
+  },
+  methods: {
+    getOrderBookData() {
+      this.$http('orderBook', {
+        page: 1,
+        size: 20,
+        type: 'all'
+      }).then(res => {
+        // console.log(res)
+        
+      })
     }
   }
+  // mounted() {
+  //   console.log(this.tableData)
+  //   console.log(this.columns)
+  // }
 }
 </script>
 
-<style lang="postcss" scoped>
-.icon_db {
-  display: inline-block;
-  width: 24px;
-  height: 27px;
-  vertical-align: middle;
-  background: no-repeat center/cover;
-  &_db {
-    background-image: url(/img/dashboard_ob_icon_1.png);
+<style lang="scss" scoped>
+@import '@/style/custom';
+.el-table {
+  font-size: 16px;
+  ::v-deep &__expanded-cell {
+    padding: 25px 40px;
+
   }
-  &_fire {
-    background-image: url(/img/dashboard_ob_icon_2.png);
+}
+
+.expand__inner {
+  & > li {
+    padding: 15px 0;
+    font-size: 16px;
+    & > * {
+      display: block;
+      line-height: 125%;
+    }
+    label {
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    
+    a {
+      color: $--color-primary;
+    }
   }
 }
 </style>

@@ -20,7 +20,6 @@ function initI18n(locale, fallback) {
   return new VueI18n(i18nOptions)
 }
 
-
 export {
   initI18n,
 }

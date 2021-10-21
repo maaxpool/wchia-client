@@ -33,11 +33,9 @@ import block2 from './block_2'
 import block3 from './block_3'
 import block4 from './block_4'
 import block5 from './block_5'
-
 import {mapGetters} from 'vuex'
 
-import axios from 'axios'
-
+// import axios from 'axios'
 export default {
     name: 'home',
     components: {block1, block2, block3, block4, block5},
@@ -51,10 +49,10 @@ export default {
         }),
         
     },
-    created(){
-        console.log(axios)
-        axios.post('https://maxipool-dashboard.netlify.app/api/farmer/getFarmInfo').then(res => console.log(res))
-    }
+    // created(){
+        // axios.post('https://maxipool-dashboard.netlify.app/api/farmer/getFarmInfo')
+        //      .then(res => console.log(res))
+    // }
 }
 </script>
 
