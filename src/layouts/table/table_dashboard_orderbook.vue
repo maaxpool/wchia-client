@@ -1,29 +1,44 @@
 <template>
   <div>
     <el-table :data="tableData" >
-      <template v-for="(item, idx) in columns " >
-        <el-table-column 
-          v-if="item !== 'extend'"
-          :key="`r_${idx}_${item}`" 
-          :label="item" 
-          :prop="item" 
-        ></el-table-column>
-      </template>
+
+      <el-table-column label="action" prop="type" >
+        <template slot-scope="scope" >
+          <i class="icon" :style="{backgroundImage: `url(/img/dashboard_ob_icon_${scope.row.type}.png)`}"></i>
+          <span style="vertical-align:middle">{{scope.row.type}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="Date & time" align="center" prop="created_at" />
+      <el-table-column label="MERCHANT" align="center" prop="partner_name" />
+      <el-table-column label="VALUE(WXCH)" align="center" prop="amount" />
+        
 
       <el-table-column type="expand">
         <template slot-scope="props">
           <ul class="expand__inner">
-            <!-- {{props.row.extend}} -->
-            <li v-for="(item, eidx) in props.row.extend" :key="`extend_${eidx}`">
-              <!-- {{item}} -->
-              <label>{{eidx}}</label>
-              <a>{{item}}</a>
+            <li>
+              <label>Eth Request Hash</label>
+              <a>{{props.row['eth_request_tx_hash']}}</a>
+            </li>
+            <li>
+              <label>Eth Review Hash</label>
+              <a>{{props.row['eth_review_tx_hash']}}</a>
+            </li>
+            <li>
+              <label>Chia Send Hash</label>
+              <a>{{props.row['chia_send_tx_hash']}}</a>
             </li>
           </ul>
         </template>  
       </el-table-column>
     </el-table>
-    <cus-pagation from="0" to="10" total="100" page="1" size="10" />
+    <cus-pagation 
+        v-if="total > size"
+        :total="total" 
+        :size="size" 
+        :page="curpage"
+        @nextPage="getOrderBookData" 
+        @prevPage="getOrderBookData" />
   </div>
 </template>
 
@@ -31,9 +46,7 @@
 import cusPagation from '@/layouts/pagation/page_1.vue'
 export default {
   // props:["tableData"],
-  components: {
-    cusPagation
-  },
+  components: { cusPagation },
   computed: {
     columns(){
       if(this.tableData) {
@@ -43,28 +56,37 @@ export default {
   },
   data(){
     return {
+      size: 20,
+      curpage: 1,
+      total: 0,
       tableData: []
     }
   },
   created() {
-
+    this.getData()
   },
   methods: {
-    getOrderBookData() {
+    getData(page) {
+      let page_ = this.curpage + (page||0)
       this.$http('orderBook', {
-        page: 1,
-        size: 20,
+        page: page_,
+        size: this.size,
         type: 'all'
-      }).then(res => {
-        // console.log(res)
-        
+      }).then(res => { 
+        this.curpage = page_
+        const orgData = res
+        if (orgData&&orgData.msg) {
+            const data = orgData.msg
+
+            this.total = data.total
+            const dataList = data.transactions
+
+            this.tableData = [...dataList]
+        }
       })
-    }
+      
+    },
   }
-  // mounted() {
-  //   console.log(this.tableData)
-  //   console.log(this.columns)
-  // }
 }
 </script>
 
@@ -73,9 +95,36 @@ export default {
 .el-table {
   font-size: 16px;
   ::v-deep &__expanded-cell {
-    padding: 25px 40px;
-
+    padding: 15px 40px;
   }
+
+  ::v-deep &__body {
+    td:first-child .cell{
+      padding-left: 40px;
+    }
+  }
+
+  ::v-deep th.is-leaf:first-child .cell {
+      padding-left: 40px;
+  }
+
+  ::v-deep &__expanded-cell {
+    background-color: #F8FAFB;
+    &:hover {
+      background-color: #F5F7FA !important;
+
+    }
+  }
+
+  .icon {
+    height: 27px;
+    width: 24px;
+    vertical-align: middle;
+    background: no-repeat center/cover;
+    display: inline-block;
+    margin-right: 10px;
+  }
+
 }
 
 .expand__inner {

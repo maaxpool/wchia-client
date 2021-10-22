@@ -2,8 +2,8 @@
   <!-- v-if="pagation.total > 10" -->
   <div class="pagation">
       <span>{{from}} ~ {{to}} of {{total}}</span>
-      <a class="prev" :class="{disabled:(page==1)}" @click="nextPage(-1)"></a>
-      <a class="next" :class="{disabled:(page >= lastPage)}" @click="prevPage(1)"></a>
+      <a class="prev" :class="{disabled:(page==1)}" @click="prevPage(-1)"></a>
+      <a class="next" :class="{disabled:(page >= lastPage)}" @click="nextPage(1)"></a>
   </div>
 </template>
 
@@ -14,21 +14,36 @@
 // total = cur['total'],
 // last = cur['total']%cur['size']
 export default {
-  props:['from', 'to', 'total', 'page', 'size'],
+  props:['total','page','size'],
   computed: {
     lastPage(){
       if (this.total && this.size) {
-        return this.total%this.size
+        return Math.ceil(this.total/this.size)
       }
       return 0
-    }
+    },
+    from(){
+      if(this.page && this.size) {
+        return (this.page-1)*this.size+1
+      }
+      return 0
+    },
+    to(){
+      if(this.page && this.size) {
+        return this.page*this.size
+      }
+      return 0
+    },
   },
   methods: {
-    nextPage(params) {
-      this.$emit('nextPage', params)
-    },
     prevPage(params) {
+      if(this.page == 1) return false 
       this.$emit('prevPage', params)
+    },
+    nextPage(params) {
+      console.log(this.lastPage)
+      if(this.page >= this.lastPage) return false
+      this.$emit('nextPage', params)
     },
   }
 }

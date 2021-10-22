@@ -4,7 +4,8 @@ import apis from './api'
 import store from '@/store'
 
 var http = axios.create({
-  baseURL: '/rpc',
+  // baseURL: '/rpc',
+  baseURL: '/',
   timeout: 60000
 })
 

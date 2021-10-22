@@ -10,6 +10,7 @@ import c_http from '@/utils/http'
 // import getLangOptions from '@/lang'
 import metamaskUtils from '@/utils/metaMaskUtils'
 
+// import '@/mock/index'
 
 import bootstrap from '@/bootstrap'
 import App from './App.vue'

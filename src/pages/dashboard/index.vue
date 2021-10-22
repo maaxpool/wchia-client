@@ -32,7 +32,7 @@
                 <div class="ctn">
                     <img src="/img/block_5_wxch.png" />
                     <div class="count">
-                        0.000021215121212000 WXCH
+                        {{amount.network}} WXCH
                     </div>
                 </div>
                 <div class="desc">ERC20 Token Contract</div>
@@ -42,28 +42,23 @@
                 <div class="ctn">
                     <img src="/img/block_5_xch.png" />
                     <div class="count">
-                        0.000000 XCH
+                        {{amount.custody}} XCH
                     </div>
                 </div>
-                <div class="desc">ERC20 Token Contract</div>
+                <div class="desc">On-chain Validation</div>
             </div>
         </div>
 
         <template v-if="curIdx == 0">
-          <!-- :tableData="testData" -->
           <db-orderbook-tb  /> 
         </template>
 
-        <template v-if="curIdx == 1">
-          <!-- :tableData="testData"  -->
+         <template v-if="curIdx == 1">
           <db-proof-tb /> 
-          <cus-pagation from="0" to="10" total="100" page="1" size="10" />
         </template>
 
         <template v-if="curIdx == 2">
-           <!-- :tableData="testData" -->
           <db-partner-tb /> 
-          <cus-pagation from="0" to="10" total="100" page="1" size="10" />
         </template>
 
 
@@ -77,9 +72,9 @@
 import dbOrderbookTb from '@/layouts/table/table_dashboard_orderbook.vue'
 import dbProofTb from '@/layouts/table/table_dashboard_proof.vue'
 import dbPartnerTb from '@/layouts/table/table_dashboard_partner.vue'
-import cusPagation from '@/layouts/pagation/page_1.vue'
+// import cusPagation from '@/layouts/pagation/page_1.vue'
 export default {
-  components: {dbOrderbookTb, dbPartnerTb, dbProofTb, cusPagation},
+  components: {dbOrderbookTb, dbPartnerTb, dbProofTb },  //cusPagation
   data() {
     return {
       tabGroup: [{
@@ -95,21 +90,33 @@ export default {
       }],
       isCollapse: 0,
       curIdx: 0,      // 0:orderbook; 1:proof; 2:partner;
-      testData: [{
-        action: 'mint',
-        date: 'Aug 17 2021 02:30',
-        extend: {
-          merchant: 'Granefrunt Trancing',
-          value: '2997.00000',
-          status: 'Mint Completed'
-        }
-      }]
+      amount: {
+        network: 0,
+        custody: 0
+      }
     }
+  },
+  created() {
+    this.getData()
   },
   methods: {
     handleSelect(n) {
       this.curIdx = n
     },
+    getData() {
+      // console.log(123)
+      this.$http('dashBoardStat')
+        .then(res => {
+          // console.log(res)
+          if (res && res.msg) {
+            const data = res.msg
+            this.amount.network = data['network_amount']
+            this.amount.custody = data['custody_amount']
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+    }
   }
 }
 </script>

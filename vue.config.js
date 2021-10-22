@@ -25,7 +25,15 @@ module.exports = {
             '/rpc': {
                 target: process.env.VUE_APP_URL,
                 changeOrigin: true,         // 是否改变域名
+            },
+            '/ccc_rpc': {
+                target: process.env.VUE_APP_URL_EXR,
+                changeOrigin: true,         // 是否改变域名
+                pathRewrite: {
+                    '/ccc_rpc': '/rpc'
+                }
             }
         }
     }   
+
 }
